@@ -1,0 +1,13 @@
+.NavBar-container {
+    background-color: bisque;
+    padding: 15px 20px; 
+    text-align: left;
+}
+
+.NavBar-item {
+    border: 1px solid blue;
+    color: black;
+    font-size: 25px;
+    padding: 0px 23px;
+    text-decoration: none;
+}
