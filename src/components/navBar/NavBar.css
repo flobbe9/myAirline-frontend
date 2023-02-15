@@ -5,23 +5,38 @@
 }
 
 .NavBar-item {
-    border: 1px solid blue;
-    border-radius: 5px;
-    color: black;
-    font-size: 25px;
-    padding: 0px 23px;
-    text-decoration: none;
-    -webkit-transition: background-color 0.2s;
-    transition: background-color 0.2s;
+    display: inline-block;
 }
 
 .NavBar-item:hover {
     background-color: white;
+    border-radius: 5px;
 }
 
-.NavBar-dropDown {
-	border: 1px solid blue;
+.NavBar-item-heading {
+    /* border: 1px solid blue; */
+    color: black;
+    font-size: 25px;
+    padding: 0px 23px;
+    text-decoration: none;
+}
+
+.NavBar-item-dropDown {
+    background-color: white;
+	border: 1px solid black;
+    border-radius: 5px;
     display: none;
-    left: 225px;
+    font-size: 20px;
+    padding: 5px 15px;
     position: absolute;
+}
+
+
+#myAirline-logo {
+	/* border: 1px solid blue; */
+	color: red;
+	font-size: 25px;
+	margin-right: 80px;
+	padding: 0px;
+	text-decoration: none;
 }

@@ -28,15 +28,6 @@
   color: #61dafb;
 }
 
-#myAirline-logo {
-	/* border: 1px solid blue; */
-	color: red;
-	font-size: 25px;
-	margin-right: 80px;
-	padding: 0px;
-	text-decoration: none;
-}
-
 @keyframes App-logo-spin {
   	from {
     	transform: rotate(0deg);

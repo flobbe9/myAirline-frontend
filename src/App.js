@@ -8,6 +8,7 @@ import Service from "./components/service/Service.tsx";
 import Jobs from "./components/jobs/Jobs.tsx";
 import Contact from "./components/contact/Contact.tsx";
 import About from "./components/about/About.tsx";
+import Test from "./components/test/Test.tsx";
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
 					<Route path="/jobs" element={<Jobs />} />
 					<Route path="/contact" element={<Contact />} />
 					<Route path="/about" element={<About />} />
+					<Route path="/test" element={<Test />} />
 				</Routes>
 
 				<Footer />
