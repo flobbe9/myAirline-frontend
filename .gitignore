@@ -21,11 +21,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# VSCode
-/.vscode
-
-# Docker
-Dockerfile
-.dockerignore
-docker-compose.yml
