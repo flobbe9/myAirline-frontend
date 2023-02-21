@@ -14,7 +14,6 @@
 }
 
 .NavBar-item-heading {
-    /* border: 1px solid blue; */
     color: black;
     font-size: 25px;
     padding: 0px 23px;
@@ -33,7 +32,6 @@
 
 
 #myAirline-logo {
-	/* border: 1px solid blue; */
 	color: red;
 	font-size: 25px;
 	margin-right: 80px;

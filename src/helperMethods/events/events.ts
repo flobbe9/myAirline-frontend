@@ -1,21 +1,12 @@
 // TODO: add docs
 
 
-export function setDisplayOfClass(classForEvent: HTMLCollectionOf<Element>, 
-                                  event: string, 
-                                  display: string,
-                                  classForEffect?: HTMLCollectionOf<Element>) {
+export function addEventListenerForClass(eventTargetClass: HTMLCollectionOf<Element>, 
+                                         event: string, 
+                                         eventFunc: (i: number) => void) {
 
-    Array.from(classForEvent).forEach((elementForEvent, i) => {
-        elementForEvent.addEventListener(event, () => {
-
-        // case: use effect on different element
-        if (classForEffect) {
-            (classForEffect[i] as HTMLElement).style.display = display;
-
-        // case: use effect on same element
-        } else 
-            (elementForEvent as HTMLElement).style.display = display;
-        }
-    )})
+    Array.from(eventTargetClass).forEach((eventTargetElement, i) => {
+        eventTargetElement.addEventListener(event, () => 
+            eventFunc(i));
+    })
 }

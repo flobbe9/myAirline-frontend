@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./NavBar.css";
 import { Link } from "react-router-dom";
-import { setDisplayOfClass } from "../../helperMethods/events/events.ts"
+import { addEventListenerForClass } from "../../helperMethods/events/events.ts"
 import DropDown from "./dropDown/DropDown.tsx";
 
 
@@ -12,9 +12,9 @@ export default function NavBar(props) {
     
     return (
         <div className="NavBar-container">
-           <Link id="myAirline-logo" to="/">
+            <Link id="myAirline-logo" to="/">
                 myAirline
-             </Link>
+            </Link>
 
             <div className="NavBar-item">
                 <Link className="NavBar-item-heading" to="/">
@@ -62,8 +62,13 @@ const navBarDropDowns = document.getElementsByClassName("NavBar-item-dropDown");
 function addEventListeners() {
 
     // show NavBar-dropDown on hover
-    setDisplayOfClass(navBarItems, "mouseover", "block", navBarDropDowns);
-    setDisplayOfClass(navBarItems, "mouseout", "none", navBarDropDowns);
+    addEventListenerForClass(navBarItems, "mouseover", (i: number) => {
+        (navBarDropDowns[i] as HTMLElement).style.display = "block";
+    })
+
+    addEventListenerForClass(navBarItems, "mouseout", (i: number) => {
+        (navBarDropDowns[i] as HTMLElement).style.display = "none";
+    })
 }
 
 
