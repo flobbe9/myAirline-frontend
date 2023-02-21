@@ -1,0 +1,9 @@
+.DropDown-item {
+    color: black;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.DropDown-item:hover {
+    color: grey;
+}

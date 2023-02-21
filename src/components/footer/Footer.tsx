@@ -5,8 +5,10 @@ import "./Footer.css";
 export default function Footer(props) {
 
     return (
-        <div>
-            Footer
+        <div className="Footer-container">
+            <div className="Footer-item">
+                Footer
+            </div>
         </div>
     )
 }

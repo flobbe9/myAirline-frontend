@@ -1,0 +1,9 @@
+.Footer-container {
+    bottom: 0px;
+    position: fixed;
+    width: 100%;
+}
+
+.Footer-item {
+    border: 1px solid blue;
+}

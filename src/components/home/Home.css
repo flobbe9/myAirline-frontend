@@ -1,0 +1,48 @@
+.searchFlight-container {
+    background-color: rgba(0, 0, 255, 0.685);
+    border: 1px solid red;
+    padding: 20px 0px 30px 0px;
+}
+
+.searchFlight-item {
+    display: inline-block;
+    font-size: 20px;
+    padding-right: 30px;
+}
+
+.searchFlight-item-label {
+    color: white;
+    display: inline-block;
+    font-size: 20px;
+    padding-right: 5px;
+}
+
+.searchFlight-item-input {
+    /* border-radius: 3px; */
+}
+
+.searchFlight-item-dropDown {
+    background-color: white;
+    border-radius: 3px;
+    display: none;
+    padding: 5px;
+    position: absolute;
+    text-align: left;
+}
+
+.someOtherContent {
+    background-color: rgba(0, 0, 255, 0.685);
+    border: 1px solid red;
+    height: 1000px;
+    padding: 50px;
+}
+
+.DropDown-item {
+    color: black;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.DropDown-item:hover {
+    color: grey;
+}
