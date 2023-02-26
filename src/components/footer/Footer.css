@@ -1,9 +1,19 @@
 .Footer-container {
-    bottom: 0px;
-    position: fixed;
+    background-color: bisque;
+    padding: 10px 0px;
+    position: absolute;
+    font-size: 20px;
     width: 100%;
 }
 
 .Footer-item {
-    border: 1px solid blue;
+    color: black;
+    display: inline;
+    margin: 2px 20px;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.Footer-item:hover {
+    color: gray;
 }
