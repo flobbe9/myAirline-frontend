@@ -7,52 +7,29 @@ import { Airport } from "../../mockdata/Airport";
 import { mockAirports } from "../../mockdata/MockData";
 import { Link } from "react-router-dom";
 
-/**
- * 
- */
+
 export default function Home(props) {
 
-    // state
-    const [searchFlightItemDropDown, setSearchFlightItemDropDown] = useState([<div style={{color:"grey"}}>Searching...</div>]);
-    
-    // add eventListeners
-    useEffect(() => addEventListeners());
-    
     return (
         <div className="Home">
             <div className="searchFlight-container">
                 <h1 id="heading">Find your flight</h1><br />
 
-                {/* Departure city */}
-                <SearchFlightInput name="From"
-                                   className="searchFlight-item" 
-                                   dropDown={searchFlightItemDropDown} 
-                                   dropDownSetter={setSearchFlightItemDropDown} />
+                <SearchFlightInput name="From" className="searchFlight-item" />
 
-                {/* Destination city */}
-                <SearchFlightInput name="To"
-                                   className="searchFlight-item" 
-                                   dropDown={searchFlightItemDropDown} 
-                                   dropDownSetter={setSearchFlightItemDropDown} />
+                <SearchFlightInput name="To" className="searchFlight-item" />
 
-                {/* Departure date */}
                 <label className="searchFlight-item-label" htmlFor="Date">Date</label>
                 <div className="searchFlight-item">
-                    <input className="searchFlight-item-input" name="Date" type="date" value={moment().format('YYYY-MM-DD')} />
+                    <input className="searchFlight-item-input" name="Date" type="date" defaultValue={moment().format("YYYY-MM-DD")} />
                 </div>
 
-                {/* Departure time */}
                 <label className="searchFlight-item-label" htmlFor="Time">Time</label>
                 <div className="searchFlight-item">
-                    <input className="searchFlight-item-input" name="Time" type="time" value={getTimeNowFormatted()}/>
+                    <input className="searchFlight-item-input" name="Time" type="time" defaultValue={getTimeNowFormatted()}/>
                 </div>
 
-                {/* Search button */}
-                <div className="searchFlight-item">
-                    <Link to="/service">
-                        <button id="searchFlight-item-submit">Search</button>
-                    </Link>
-                </div>
+                <SubmitLink className="searchFlight-item" to="/service" />
             </div>
 
             <div className="someOtherContent">
@@ -64,9 +41,33 @@ export default function Home(props) {
 
 
 function SearchFlightInput(props) {
-
     // state
-    const [searchFlightItemDropDown, setSearchFlightItemDropDown] = [props.dropDown, props.dropDownSetter];
+    const [searchFlightItemDropDown, setSearchFlightItemDropDown] = useState([<div></div>]);
+
+    useEffect(() => {
+        // hide dropDown onclick outside
+        addEventListenerForDocumentExcludeClass(searchFlightItems, "mousedown", (i: number) => {
+            (searchFlightItemDropDowns[i] as HTMLElement).style.display = "none";
+        });
+
+        // hide dropDown onclick on search result also
+        addEventListenerForClass(searchFlightItemDropDowns, "click", (i: number) => {
+            (searchFlightItemDropDowns[i] as HTMLElement).style.display = "none";
+        })
+    });
+    
+    // show matching results
+    function handleKeyUp() {
+        const inputField = document.getElementById(props.name + "-input");
+        const dropDown = document.getElementById(props.name + "-dropDown");
+        if (inputField && dropDown) {
+            if (getAirportMatchesAsDiv(inputField).length !== 0) {
+                dropDown.style.display = "block";
+                setSearchFlightItemDropDown(getAirportMatchesAsDiv(inputField));
+            } else 
+            dropDown.style.display = "none";
+        }
+    }
 
     return (
         <>
@@ -78,9 +79,8 @@ function SearchFlightInput(props) {
                     className={props.className + "-input"}
                     type="text" 
                     name={props.name} 
-                    onKeyUp={() => setSearchFlightItemDropDown(getAirportMatchesAsDiv(document.getElementById(props.name + "-input")))} 
-                    autoComplete="off"
-                    />
+                    onKeyUp={() => handleKeyUp()}
+                    autoComplete="off" />
 
                 <div id={props.name + "-dropDown"} className={props.className + "-dropDown"}>
                     {searchFlightItemDropDown}
@@ -91,60 +91,67 @@ function SearchFlightInput(props) {
 }
 
 
+function SubmitLink(props) {
+    // states
+    const [isValid, setIsValid] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("Something went wrong.");
+
+    useEffect(() => {
+        // submit button changes color
+        toggleColorOnclick(document.getElementById("searchFlight-item-submit"), "rgb(177, 177, 177)");
+    })
+
+    // show error message
+    function handleClick() {
+        try {
+            isSearchFlightFormValid();
+        } catch (error) {
+            setErrorMessage(handleFalsyInput(error));
+        }
+        const errorDiv = document.getElementById("searchFlight-item-submit-errorMessage");
+        if (errorDiv) errorDiv.style.display = "block";
+    }
+
+    // submit don't redirect if error
+    const button = isValid? (<Link to={props.to}><button id="searchFlight-item-submit">Search</button></Link>) : 
+                            (<button id="searchFlight-item-submit">Search</button>);
+    
+    return (
+        <div className={props.className} onMouseOver={() => {setIsValid(isSearchFlightFormValid())}} onClick={() => handleClick()}>
+            {button}
+            <div id="searchFlight-item-submit-errorMessage">{errorMessage}</div>       
+        </div>
+    );
+}
+
+
 const searchFlightItems = document.getElementsByClassName("searchFlight-item");
 const searchFlightItemInputs = document.getElementsByClassName("searchFlight-item-input");
 const searchFlightItemDropDowns = document.getElementsByClassName("searchFlight-item-dropDown");
 
-const dropDownTemplate = [<div style={{color:"grey"}}>Searching...</div>];
-
-
-function addEventListeners() {
-
-    // show dropDown onclick
-    addEventListenerForClass(searchFlightItemInputs, "mousedown", (i: number) => {
-        (searchFlightItemDropDowns[i] as HTMLElement).style.display = "block";
-    });
-
-    // hide dropDown onclick outside
-    addEventListenerForDocumentExcludeClass(searchFlightItems, "mousedown", (i: number) => {
-        (searchFlightItemDropDowns[i] as HTMLElement).style.display = "none";
-    });
-
-    // hide dropDown onclick on search result also
-    addEventListenerForClass(searchFlightItemDropDowns, "click", (i: number) => {
-        (searchFlightItemDropDowns[i] as HTMLElement).style.display = "none";
-    })
-
-    // make submit button change color
-    toggleColorOnclick(document.getElementById("searchFlight-item-submit"), "rgb(177, 177, 177)");
+    
+function getAirportMatches(inputText: string): Airport[] {
+        
+    // filter airports
+    return mockAirports.filter(airport => airport.name.toLowerCase().includes(inputText.toLowerCase()));
 }
 
 
-function getAirportMatches(subString: string): Airport[] {
+function getAirportMatchesAsDiv(inputElement: HTMLElement | null): JSX.Element[] {
 
-    // iterate airports
-    return mockAirports.filter(airport => airport.name.toLowerCase()
-                                                      .includes(subString.toLowerCase()));
-}
-
-
-function getAirportMatchesAsDiv(input: HTMLElement | null): JSX.Element[] {
-
-    if (!input) 
-        return dropDownTemplate;
-
-    let inputText = (input as HTMLInputElement).value;
+    if (!inputElement) 
+        return [];
+    
+    let inputText = (inputElement as HTMLInputElement).value;
     if (!inputText) 
-        return dropDownTemplate;
-
-    // wrap search result in div tag
-    const matches = getAirportMatches(inputText).map(airport => 
-        (<div className="searchResult" onClick={() => {(input as HTMLInputElement).value = airport.name;}}>
+        return [];
+    
+    // wrap search results in div tags
+    return getAirportMatches(inputText).map(airport => 
+        (<div className="searchResult" onClick={() => {(inputElement as HTMLInputElement).value = airport.name;}}>
             {airport.name}
         </div>)
     );
-
-    return (matches.length === 0) ? dropDownTemplate : matches;
 }
 
 
@@ -154,18 +161,76 @@ function getTimeNowFormatted(): string {
     let hours = today.getHours().toString();
     let minutes = today.getMinutes().toString();
 
-    hours = hours.length === 1 ?
-        "0" + hours : hours.toString();
+    hours = hours.length === 1 ? "0" + hours : hours.toString();
 
-    minutes = minutes.length === 1 ?
-        "0" + minutes : minutes.toString();
+    minutes = minutes.length === 1 ?"0" + minutes : minutes.toString();
 
     return hours + ":" + minutes;
 }
 
 
+function isSearchFlightFormValid(): boolean {
+
+    // iterate all inputs
+    Array.from(searchFlightItemInputs).forEach((inputElement) => {
+        // parse to HTMLInputElement
+        const input = (inputElement as HTMLInputElement);
+        const inputType = input.type;
+        const inputValue = input.value;
+
+        // text input
+        if (inputType === "text") {
+            // only alphabetical chars
+            if (!(/^[A-Za-z ]+$/.test(inputValue.trim()))) 
+                throw Error("text");
+            
+        // date input
+        } else if (inputType === "date") {
+            if (!isDateInputValid(inputValue)) 
+                throw Error("date");
+        }
+    });
+
+    return true;
+}
+
+
+function isDateInputValid(input: string): boolean {
+
+    // convert to Date
+    let dateInput: Date;
+    try {
+        dateInput = new Date(input);
+    } catch (error) {
+        alert(error);
+        return false;
+    }
+
+    // get today without time
+    const today = new Date();
+    today.setSeconds(0);
+    today.setMinutes(0);
+    today.setHours(0);
+
+    // should not be in the past
+    return dateInput >= today;
+}
+
+
+function handleFalsyInput(error: Error): string {
+
+    // text input
+    if (error.message === "text")
+        return "Only alphabetical characters can be used for the cities!";
+
+    if (error.message ===  "date")
+        return "Date cannot be in the past!";
+
+    return "Something wrong with the input!";
+}
+
+
 /**
- * TODO
- * Remove "Searching..." box
+ * TODO:
  * Replace submit link
  */

@@ -61,6 +61,14 @@
     padding: 7.2px 10px;
 }
 
+#searchFlight-item-submit-errorMessage {
+    color: red;
+    display: none;
+    position: absolute;
+    text-align: left
+}
+
+
 .someOtherContent {
     background-color: rgba(0, 0, 255, 0.685);
     height: 1000px;
