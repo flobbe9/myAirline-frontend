@@ -1,6 +1,9 @@
+#heading {
+    color: black;
+}
+
 .searchFlight-container {
     background-color: rgba(0, 0, 255, 0.685);
-    border: 1px solid red;
     padding: 20px 0px 30px 0px;
 }
 
@@ -10,39 +13,56 @@
     padding-right: 30px;
 }
 
+.searchFlight-item-input {
+    border: 0;
+    border-radius: 3px;
+    font-size: 20px;
+    padding: 5px 10px;
+}
+
+.searchFlight-item-input:focus {
+    border: 0;
+    box-shadow: 1px 1px 10px gray inset;
+    outline: none;
+}
+
 .searchFlight-item-label {
     color: white;
     display: inline-block;
     font-size: 20px;
-    padding-right: 5px;
-}
-
-.searchFlight-item-input {
-    /* border-radius: 3px; */
+    padding-right: 10px;
 }
 
 .searchFlight-item-dropDown {
     background-color: white;
     border-radius: 3px;
     display: none;
-    padding: 5px;
+    margin-top: 2px;
+    padding: 5px 10px;
     position: absolute;
     text-align: left;
 }
 
+.searchResult {
+    border-radius: 3px;
+    padding: 5px;
+}
+
+.searchResult:hover {
+    background-color: bisque;
+    cursor: pointer;
+}
+
+#searchFlight-item-submit {
+    background-color: white;
+    border: 0;
+    border-radius: 3px;
+    font-size: 20px;
+    padding: 7.2px 10px;
+}
+
 .someOtherContent {
     background-color: rgba(0, 0, 255, 0.685);
-    border: 1px solid red;
     height: 1000px;
     padding: 50px;
-}
-
-.DropDown-item {
-    color: black;
-    text-decoration: none;
-    transition: color 0.2s;
-}
-
-.DropDown-item:hover {
-    color: grey;
 }

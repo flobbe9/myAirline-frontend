@@ -2,47 +2,38 @@ import React, { useEffect, useState } from "react";
 
 import "./Home.css";
 import moment from "moment";
-import { addEventListenerForClass } from "../../helperMethods/events/events";
-import { Airport } from "../../airport/Airport";
-import { mockAirports } from "../../airport/MockData";
+import { addEventListenerForClass, addEventListenerForDocumentExcludeClass, toggleColorOnclick } from "../../helperMethods/events/events";
+import { Airport } from "../../mockdata/Airport";
+import { mockAirports } from "../../mockdata/MockData";
+import { Link } from "react-router-dom";
 
-
+/**
+ * 
+ */
 export default function Home(props) {
 
     // state
-    const [searchFlightItemDropDown, setSearchFlightItemDropDown] = useState([<div style={{color:"grey"}}>search...</div>]);
-    
-    const fromInput = document.getElementById("From-input");
-    const toInput = document.getElementById("To-input");
+    const [searchFlightItemDropDown, setSearchFlightItemDropDown] = useState([<div style={{color:"grey"}}>Searching...</div>]);
     
     // add eventListeners
     useEffect(() => addEventListeners());
     
     return (
         <div className="Home">
-            <h1 id="heading">Find your flight</h1>
-
-
             <div className="searchFlight-container">
-                {/* Departure city */}
-                <label className="searchFlight-item-label" htmlFor="From">From</label>
-                <div className="searchFlight-item">
-                    <input id="From-input" className="searchFlight-item-input" onKeyUp={() => setSearchFlightItemDropDown(getAirportMatchesAsDiv(fromInput))} name="From" type="text" /> 
+                <h1 id="heading">Find your flight</h1><br />
 
-                    <div id="From-dropDown" className="searchFlight-item-dropDown">
-                        {searchFlightItemDropDown}
-                    </div>
-                </div>
+                {/* Departure city */}
+                <SearchFlightInput name="From"
+                                   className="searchFlight-item" 
+                                   dropDown={searchFlightItemDropDown} 
+                                   dropDownSetter={setSearchFlightItemDropDown} />
 
                 {/* Destination city */}
-                <label className="searchFlight-item-label" htmlFor="To">To</label>
-                <div className="searchFlight-item">
-                    <input id="To-input" className="searchFlight-item-input" onKeyUp={() => setSearchFlightItemDropDown(getAirportMatchesAsDiv(toInput))} type="text" />
-
-                    <div className="searchFlight-item-dropDown">
-                        {searchFlightItemDropDown}
-                    </div>
-                </div>
+                <SearchFlightInput name="To"
+                                   className="searchFlight-item" 
+                                   dropDown={searchFlightItemDropDown} 
+                                   dropDownSetter={setSearchFlightItemDropDown} />
 
                 {/* Departure date */}
                 <label className="searchFlight-item-label" htmlFor="Date">Date</label>
@@ -56,12 +47,13 @@ export default function Home(props) {
                     <input className="searchFlight-item-input" name="Time" type="time" value={getTimeNowFormatted()}/>
                 </div>
 
-                {/* Search */}
+                {/* Search button */}
                 <div className="searchFlight-item">
-                    <button>Search</button>
+                    <Link to="/service">
+                        <button id="searchFlight-item-submit">Search</button>
+                    </Link>
                 </div>
             </div>
-
 
             <div className="someOtherContent">
                 <h2>Other content</h2>
@@ -71,11 +63,39 @@ export default function Home(props) {
 };
 
 
-const dropDownTemplate = [<div style={{color:"grey"}}>search...</div>];
+function SearchFlightInput(props) {
 
-const searchFlightItemDropDowns = document.getElementsByClassName("searchFlight-item-dropDown");
-const searchFlightItemInputs = document.getElementsByClassName("searchFlight-item-input");
+    // state
+    const [searchFlightItemDropDown, setSearchFlightItemDropDown] = [props.dropDown, props.dropDownSetter];
+
+    return (
+        <>
+            <label className={props.className + "-label"} htmlFor={props.name}>{props.name}</label>
+            <div className={props.className}>
+                
+                <input 
+                    id={props.name + "-input"}
+                    className={props.className + "-input"}
+                    type="text" 
+                    name={props.name} 
+                    onKeyUp={() => setSearchFlightItemDropDown(getAirportMatchesAsDiv(document.getElementById(props.name + "-input")))} 
+                    autoComplete="off"
+                    />
+
+                <div id={props.name + "-dropDown"} className={props.className + "-dropDown"}>
+                    {searchFlightItemDropDown}
+                </div>
+            </div>
+        </>
+    )
+}
+
+
 const searchFlightItems = document.getElementsByClassName("searchFlight-item");
+const searchFlightItemInputs = document.getElementsByClassName("searchFlight-item-input");
+const searchFlightItemDropDowns = document.getElementsByClassName("searchFlight-item-dropDown");
+
+const dropDownTemplate = [<div style={{color:"grey"}}>Searching...</div>];
 
 
 function addEventListeners() {
@@ -86,38 +106,17 @@ function addEventListeners() {
     });
 
     // hide dropDown onclick outside
-    document.addEventListener("mousedown", event => {
-        hideDropDownOnClickOutside(event);
+    addEventListenerForDocumentExcludeClass(searchFlightItems, "mousedown", (i: number) => {
+        (searchFlightItemDropDowns[i] as HTMLElement).style.display = "none";
     });
-}
 
+    // hide dropDown onclick on search result also
+    addEventListenerForClass(searchFlightItemDropDowns, "click", (i: number) => {
+        (searchFlightItemDropDowns[i] as HTMLElement).style.display = "none";
+    })
 
-// TODO: make universal method for adding event listener to document in events.ts?
-function hideDropDownOnClickOutside(event: Event) {
-
-    Array.from(searchFlightItems).forEach((item, i) => {
-        if (!item.contains(event.target as Element))
-            (searchFlightItemDropDowns[i] as HTMLElement).style.display = "none";
-    });
-}
-
-
-function getAirportMatchesAsDiv(input: HTMLElement | null): JSX.Element[] {
-
-    if (!input) 
-        return dropDownTemplate;
-
-    const inputText = (input as HTMLInputElement).value;
-    if (!inputText) 
-        return dropDownTemplate;
-
-    const matches = getAirportMatches(inputText).map(airport => 
-        (<div>
-            {airport.name}
-        </div>)
-    );
-
-    return (matches.length === 0) ? dropDownTemplate : matches;
+    // make submit button change color
+    toggleColorOnclick(document.getElementById("searchFlight-item-submit"), "rgb(177, 177, 177)");
 }
 
 
@@ -126,6 +125,26 @@ function getAirportMatches(subString: string): Airport[] {
     // iterate airports
     return mockAirports.filter(airport => airport.name.toLowerCase()
                                                       .includes(subString.toLowerCase()));
+}
+
+
+function getAirportMatchesAsDiv(input: HTMLElement | null): JSX.Element[] {
+
+    if (!input) 
+        return dropDownTemplate;
+
+    let inputText = (input as HTMLInputElement).value;
+    if (!inputText) 
+        return dropDownTemplate;
+
+    // wrap search result in div tag
+    const matches = getAirportMatches(inputText).map(airport => 
+        (<div className="searchResult" onClick={() => {(input as HTMLInputElement).value = airport.name;}}>
+            {airport.name}
+        </div>)
+    );
+
+    return (matches.length === 0) ? dropDownTemplate : matches;
 }
 
 
@@ -143,3 +162,10 @@ function getTimeNowFormatted(): string {
 
     return hours + ":" + minutes;
 }
+
+
+/**
+ * TODO
+ * Remove "Searching..." box
+ * Replace submit link
+ */
