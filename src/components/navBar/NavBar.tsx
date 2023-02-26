@@ -20,35 +20,35 @@ export default function NavBar(props) {
                 <Link className="NavBar-item-heading" to="/">
                     Home
                 </Link>
-                <DropDown links="Home" className="NavBar-item-dropDown" />
+                <DropDown links="TestPage" className="NavBar-item-dropDown" />
             </div>
             
             <div className="NavBar-item">
                 <Link className="NavBar-item-heading" to="/service">
                     Service
                 </Link>
-                <DropDown links="Service" className="NavBar-item-dropDown" />
+                <DropDown links="TestPage" className="NavBar-item-dropDown" />
             </div>
             
             <div className="NavBar-item">
                 <Link className="NavBar-item-heading" to="/jobs">
                     Jobs
                 </Link>
-                <DropDown links="Jobs" className="NavBar-item-dropDown" />
+                <DropDown links="TestPage" className="NavBar-item-dropDown" />
             </div>
 
             <div className="NavBar-item">
                 <Link className="NavBar-item-heading" to="/contact">
                     Contact
                 </Link>
-                <DropDown links="Contact" className="NavBar-item-dropDown" />
+                <DropDown links="TestPage" className="NavBar-item-dropDown" />
             </div>
 
             <div className="NavBar-item">
                 <Link className="NavBar-item-heading" to="/about">
                     About
                 </Link>
-                <DropDown links="About" className="NavBar-item-dropDown" />
+                <DropDown links="TestPage" className="NavBar-item-dropDown" />
             </div>
         </div>
     )
@@ -64,6 +64,7 @@ function addEventListeners() {
     // show NavBar-dropDown on hover
     addEventListenerForClass(navBarItems, "mouseover", (i: number) => {
         (navBarDropDowns[i] as HTMLElement).style.display = "block";
+        
     })
 
     addEventListenerForClass(navBarItems, "mouseout", (i: number) => {
