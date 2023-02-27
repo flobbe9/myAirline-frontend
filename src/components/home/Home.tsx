@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 
 
 export default function Home(props) {
-
     return (
         <div className="Home">
             <div className="searchFlight-container">
@@ -21,12 +20,22 @@ export default function Home(props) {
 
                 <label className="searchFlight-item-label" htmlFor="Date">Date</label>
                 <div className="searchFlight-item">
-                    <input className="searchFlight-item-input" name="Date" type="date" defaultValue={moment().format("YYYY-MM-DD")} />
+                    <input 
+                        data-testid="Date-input" 
+                        className="searchFlight-item-input"
+                        name="Date" 
+                        type="date" 
+                        defaultValue={moment().format("YYYY-MM-DD")} />
                 </div>
 
                 <label className="searchFlight-item-label" htmlFor="Time">Time</label>
                 <div className="searchFlight-item">
-                    <input className="searchFlight-item-input" name="Time" type="time" defaultValue={getTimeNowFormatted()}/>
+                    <input 
+                        data-testid="Time-input"
+                        className="searchFlight-item-input" 
+                        name="Time" 
+                        type="time" 
+                        defaultValue={getTimeNowFormatted()}/>
                 </div>
 
                 <SubmitLink className="searchFlight-item" to="/service" />
@@ -42,7 +51,7 @@ export default function Home(props) {
 
 function SearchFlightInput(props) {
     // state
-    const [searchFlightItemDropDown, setSearchFlightItemDropDown] = useState([<div></div>]);
+    const [searchFlightItemDropDown, setSearchFlightItemDropDown]: [JSX.Element[], (dropDowns) => void] = useState();
 
     useEffect(() => {
         // hide dropDown onclick outside
@@ -60,12 +69,14 @@ function SearchFlightInput(props) {
     function handleKeyUp() {
         const inputField = document.getElementById(props.name + "-input");
         const dropDown = document.getElementById(props.name + "-dropDown");
+
         if (inputField && dropDown) {
             if (getAirportMatchesAsDiv(inputField).length !== 0) {
                 dropDown.style.display = "block";
                 setSearchFlightItemDropDown(getAirportMatchesAsDiv(inputField));
+
             } else 
-            dropDown.style.display = "none";
+                dropDown.style.display = "none";
         }
     }
 
@@ -76,13 +87,17 @@ function SearchFlightInput(props) {
                 
                 <input 
                     id={props.name + "-input"}
+                    data-testid={props.name + "-input"} 
                     className={props.className + "-input"}
                     type="text" 
                     name={props.name} 
                     onKeyUp={() => handleKeyUp()}
                     autoComplete="off" />
 
-                <div id={props.name + "-dropDown"} className={props.className + "-dropDown"}>
+                <div 
+                    id={props.name + "-dropDown"} 
+                    data-testid={props.name + "-dropDown"} 
+                    className={props.className + "-dropDown"}>
                     {searchFlightItemDropDown}
                 </div>
             </div>
@@ -131,14 +146,12 @@ const searchFlightItemDropDowns = document.getElementsByClassName("searchFlight-
 
     
 function getAirportMatches(inputText: string): Airport[] {
-        
     // filter airports
     return mockAirports.filter(airport => airport.name.toLowerCase().includes(inputText.toLowerCase()));
 }
 
 
 function getAirportMatchesAsDiv(inputElement: HTMLElement | null): JSX.Element[] {
-
     if (!inputElement) 
         return [];
     
@@ -156,7 +169,6 @@ function getAirportMatchesAsDiv(inputElement: HTMLElement | null): JSX.Element[]
 
 
 function getTimeNowFormatted(): string {
-    
     const today = new Date();
     let hours = today.getHours().toString();
     let minutes = today.getMinutes().toString();
@@ -170,7 +182,6 @@ function getTimeNowFormatted(): string {
 
 
 function isSearchFlightFormValid(): boolean {
-
     // iterate all inputs
     Array.from(searchFlightItemInputs).forEach((inputElement) => {
         // parse to HTMLInputElement
@@ -196,7 +207,6 @@ function isSearchFlightFormValid(): boolean {
 
 
 function isDateInputValid(input: string): boolean {
-
     // convert to Date
     let dateInput: Date;
     try {
@@ -218,7 +228,6 @@ function isDateInputValid(input: string): boolean {
 
 
 function handleFalsyInput(error: Error): string {
-
     // text input
     if (error.message === "text")
         return "Only alphabetical characters can be used for the cities!";
