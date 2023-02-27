@@ -1,5 +1,6 @@
 import { Airport } from "./Airport"
 import { City } from "./City"
+import Flight from "./Flight";
 
 
 const mockCities: City[] = [
@@ -62,3 +63,33 @@ export const mockAirports: Airport[] = [
         zipCode: 12345
     }
 ];
+
+
+export const mockFlights: Flight[] = [
+    {
+        airline: "RayanAir",
+        departureCity: {
+            name: "Hamburg",
+            country: "Germany"
+        },
+        destinationCity: {
+            name: "München",
+            country: "Germany"
+        },
+        departureTime: "10:00",
+        arrivalTime: "12:45",
+        price: 34.00
+    }
+]
+
+export function isValid(obj): boolean {
+
+    let isValid = true;
+
+    Object.entries(obj).forEach(([key, value]) => {
+        if (!key || !value)
+            isValid = false;
+    });
+
+    return isValid;
+}
