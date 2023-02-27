@@ -3,7 +3,6 @@
 }
 
 .SearchFlight-container {
-    background-color: rgba(0, 0, 255, 0.685);
     padding: 20px 0px 30px 0px;
 }
 
@@ -70,7 +69,6 @@
 
 
 .someOtherContent {
-    background-color: rgba(0, 0, 255, 0.685);
     height: 1000px;
     padding: 50px;
 }

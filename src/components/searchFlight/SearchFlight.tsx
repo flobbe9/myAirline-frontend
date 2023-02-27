@@ -90,7 +90,7 @@ function SearchFlightInput(props) {
                     className={props.className + "-input"}
                     type="text" 
                     name={props.name} 
-                    onKeyUp={() => handleKeyUp()}
+                    onKeyUp={handleKeyUp}
                     autoComplete="off" />
 
                 <div 
@@ -131,7 +131,7 @@ function SubmitLink(props) {
                             (<button id="SearchFlight-item-submit">Search</button>);
     
     return (
-        <div className={props.className} onMouseOver={() => {setIsValid(isSearchFlightFormValid())}} onClick={() => handleClick()}>
+        <div className={props.className} onMouseOver={() => {setIsValid(isSearchFlightFormValid())}} onClick={handleClick}>
             {button}
             <div id="SearchFlight-item-submit-errorMessage">{errorMessage}</div>       
         </div>
