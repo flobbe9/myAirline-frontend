@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Home from '../../../components/home/Home';
-import "../../../components/home/Home.css";
+import Home from '../../../components/searchFlight/SearchFlight';
+import "../../../components/searchFlight/Home.css";
 
 
 test("Check that components exist.", () => {

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-
-import "./Home.css";
+import "./SearchFlight.css";
 import moment from "moment";
 import { addEventListenerForClass, addEventListenerForDocumentExcludeClass, toggleColorOnclick } from "../../helperMethods/events/events";
 import { Airport } from "../../mockdata/Airport";
@@ -8,37 +7,37 @@ import { mockAirports } from "../../mockdata/MockData";
 import { Link } from "react-router-dom";
 
 
-export default function Home(props) {
+export default function SearchFlight(props) {
     return (
-        <div className="Home">
-            <div className="searchFlight-container">
+        <div className="SearchFlight">
+            <div className="SearchFlight-container">
                 <h1 id="heading">Find your flight</h1><br />
 
-                <SearchFlightInput name="From" className="searchFlight-item" />
+                <SearchFlightInput name="From" className="SearchFlight-item" />
 
-                <SearchFlightInput name="To" className="searchFlight-item" />
+                <SearchFlightInput name="To" className="SearchFlight-item" />
 
-                <label className="searchFlight-item-label" htmlFor="Date">Date</label>
-                <div className="searchFlight-item">
+                <label className="SearchFlight-item-label" htmlFor="Date">Date</label>
+                <div className="SearchFlight-item">
                     <input 
                         data-testid="Date-input" 
-                        className="searchFlight-item-input"
+                        className="SearchFlight-item-input"
                         name="Date" 
                         type="date" 
                         defaultValue={moment().format("YYYY-MM-DD")} />
                 </div>
 
-                <label className="searchFlight-item-label" htmlFor="Time">Time</label>
-                <div className="searchFlight-item">
+                <label className="SearchFlight-item-label" htmlFor="Time">Time</label>
+                <div className="SearchFlight-item">
                     <input 
                         data-testid="Time-input"
-                        className="searchFlight-item-input" 
+                        className="SearchFlight-item-input" 
                         name="Time" 
                         type="time" 
                         defaultValue={getTimeNowFormatted()}/>
                 </div>
 
-                <SubmitLink className="searchFlight-item" to="/service" />
+                <SubmitLink className="SearchFlight-item" to="/searchFlights" />
             </div>
 
             <div className="someOtherContent">
@@ -113,7 +112,7 @@ function SubmitLink(props) {
 
     useEffect(() => {
         // submit button changes color
-        toggleColorOnclick(document.getElementById("searchFlight-item-submit"), "rgb(177, 177, 177)");
+        toggleColorOnclick(document.getElementById("SearchFlight-item-submit"), "rgb(177, 177, 177)");
     })
 
     // show error message
@@ -123,26 +122,26 @@ function SubmitLink(props) {
         } catch (error) {
             setErrorMessage(handleFalsyInput(error));
         }
-        const errorDiv = document.getElementById("searchFlight-item-submit-errorMessage");
+        const errorDiv = document.getElementById("SearchFlight-item-submit-errorMessage");
         if (errorDiv) errorDiv.style.display = "block";
     }
 
     // submit don't redirect if error
-    const button = isValid? (<Link to={props.to}><button id="searchFlight-item-submit">Search</button></Link>) : 
-                            (<button id="searchFlight-item-submit">Search</button>);
+    const button = isValid? (<Link to={props.to}><button id="SearchFlight-item-submit">Search</button></Link>) : 
+                            (<button id="SearchFlight-item-submit">Search</button>);
     
     return (
         <div className={props.className} onMouseOver={() => {setIsValid(isSearchFlightFormValid())}} onClick={() => handleClick()}>
             {button}
-            <div id="searchFlight-item-submit-errorMessage">{errorMessage}</div>       
+            <div id="SearchFlight-item-submit-errorMessage">{errorMessage}</div>       
         </div>
     );
 }
 
 
-const searchFlightItems = document.getElementsByClassName("searchFlight-item");
-const searchFlightItemInputs = document.getElementsByClassName("searchFlight-item-input");
-const searchFlightItemDropDowns = document.getElementsByClassName("searchFlight-item-dropDown");
+const searchFlightItems = document.getElementsByClassName("SearchFlight-item");
+const searchFlightItemInputs = document.getElementsByClassName("SearchFlight-item-input");
+const searchFlightItemDropDowns = document.getElementsByClassName("SearchFlight-item-dropDown");
 
     
 function getAirportMatches(inputText: string): Airport[] {
@@ -161,7 +160,7 @@ function getAirportMatchesAsDiv(inputElement: HTMLElement | null): JSX.Element[]
     
     // wrap search results in div tags
     return getAirportMatches(inputText).map(airport => 
-        (<div className="searchResult" onClick={() => {(inputElement as HTMLInputElement).value = airport.name;}}>
+        (<div className="SearchFlight-item-dropDown-item" onClick={() => {(inputElement as HTMLInputElement).value = airport.name;}}>
             {airport.name}
         </div>)
     );
