@@ -18,7 +18,7 @@ export default function NavBar(props) {
 
             <div className="NavBar-item">
                 <Link className="NavBar-item-heading" to="/">
-                    Home
+                    Search
                 </Link>
                 <DropDown links="TestPage" className="NavBar-item-dropDown" />
             </div>

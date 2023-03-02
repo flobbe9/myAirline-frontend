@@ -74,13 +74,3 @@ function FlightDetails(props) {
         </div>
     )
 }
-
-
-interface FlightDetailsWrapper {
-    departureCity: string
-    arrivalCity: string
-    departureTime: string
-    arrivalTime: string
-    departureDate: string
-    arrivalDate: string // calculate this one in the backend
-}
