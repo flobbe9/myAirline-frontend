@@ -1,0 +1,48 @@
+.BookFlight {
+    height: 1000px;
+}
+
+.FlightDetails-container {
+    border: 1px solid white;
+    border-radius: 3px;
+    color: rgb(153, 153, 153);
+    font-size: 23px;
+    margin: 0px 10px;
+    padding: 10px 10px;
+    position: fixed;
+    right: 0;
+}
+
+.FlightDetails-container-heading {
+    color: black;
+    padding-bottom: 0px;
+}
+
+.FlightDetails-container-item-departure {
+    /* border: 1px solid white; */
+    display: inline-block;
+    text-align: left;
+}
+
+.FlightDetails-container-item-arrival {
+    /* border: 1px solid white; */
+    display: inline-block;
+    text-align: right;
+}
+
+.FlightDetails-container-item-arrow {
+    display: inline;
+    padding: 0px 30px;
+}
+
+.FlightDetails-container-item-details {
+    font-size: 20px;
+}
+
+.FlightDetails-container-item-airline {
+    color: pink;
+}
+
+.FlightDetails-container-item-price {
+    color: rgb(85, 252, 85);
+}

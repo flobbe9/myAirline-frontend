@@ -59,15 +59,16 @@ function TextInput(props) {
         }
     }
 
+    const className = props.className;
     return (
         <>
-            <label className={props.className + "-label"} htmlFor={props.name}>{props.name}</label>
-            <div className={props.className}>
+            <label className={className + "-label"} htmlFor={props.name}>{props.name}</label>
+            <div className={className}>
                 {/* Text input */}
                 <input 
                     id={props.name + "-input"}
                     data-testid={props.name + "-input"} 
-                    className={props.className + "-input"}
+                    className={className + "-input"}
                     type="text" 
                     name={props.name} 
                     onKeyUp={handleKeyUp}
@@ -77,7 +78,7 @@ function TextInput(props) {
                 <div 
                     id={props.name + "-dropDown"} 
                     data-testid={props.name + "-dropDown"} 
-                    className={props.className + "-dropDown"}>
+                    className={className + "-dropDown"}>
                     {searchFlightItemDropDown}
                 </div>
             </div>
@@ -87,13 +88,14 @@ function TextInput(props) {
 
 
 function OtherInput(props) {
+    const className = props.className;
     return (
         <>
-            <label className={props.className + "-label"} htmlFor={props.name}>{props.name}</label>
-            <div className={props.className}>
+            <label className={className + "-label"} htmlFor={props.name}>{props.name}</label>
+            <div className={className}>
                 <input 
                     data-testid={props.name + "-input"}
-                    className={props.className + "-input"}
+                    className={className + "-input"}
                     name={props.name} 
                     type={props.name} 
                     defaultValue={props.defaultValue} />
