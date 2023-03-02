@@ -1,32 +1,30 @@
-.SearchResult {
-    height: 1000px;
-}
-
 .SearchResult-item {
     background-color: white;
-    border: 1px solid white;
+    border: 5px solid white;
     border-radius: 10px;
     font-size: 25px;
     margin-left: 200px;
+    margin-bottom: 40px;
     padding: 10px;
     text-align: left;
     width: fit-content;
 }
 
 .SearchResult-item:hover {
-    box-shadow: 0px 0px 3px 5px gray;
     cursor: pointer;
-    transition: box-shadow 0.05s;
+    border: 5px solid bisque;
+    transition: border 0.1s;
 }
 
 .SearchResult-item-departure {
     border: 1px solid white;
+    color: black;
     display: inline-block;
-    /* padding-right: 20px; */
 }
 
 .SearchResult-item-destination {
     border: 1px solid white;
+    color: black;
     display: inline-block;
     text-align: right;
 }
@@ -45,12 +43,13 @@
 
 .SearchResult-item-airline {
     border: 1px solid white;
-    color: red;
+    color: pink;
     display: inline-block;
     text-align: center;
 }
 
 .SearchResult-item-price {
     border: 1px solid white;
+    color: rgba(22, 22, 252, 0.685);
     display: inline-block;
 }
