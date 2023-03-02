@@ -6,19 +6,19 @@ import sendHttpRequest from "../../helperMethods/fetch/fetch.ts";
 
 export default function SearchResult (props) {
     // state
-    const [flightDetailsArr, setFlightDetailsArr] = useState(null);
+    const [flights, setflights] = useState(null);
     const params = useParams();
 
     useEffect(() => {
-        // fetch flight details
-        async function fetchFlightDetails() {
+        // fetch flight
+        async function fetchFlight() {
             await sendHttpRequest("http://localhost:4001/flight/search", "post", "application/json", params)
-                .then(jsonResponse => setFlightDetailsArr(jsonResponse));
+                .then(jsonResponse => setflights(jsonResponse));
         }
 
         // prevent infinite loop
-        if (flightDetailsArr === null) 
-            fetchFlightDetails();
+        if (flights === null) 
+            fetchFlight();
     })
 
     return (
@@ -27,11 +27,20 @@ export default function SearchResult (props) {
 
             <div className="SearchResult-container">
                 {
-                    flightDetailsArr?
-                    (flightDetailsArr as []).map(flightDetails => (
-                        <FlightDetails className="SearchResult-item" flightDetails={flightDetails} />
-                    )):
-                    (<div style={{height:"1000px"}}></div>)
+                    // [{
+                    //     departureAirport: "Hamburg",
+                    //     arrivalAirport: "München",
+                    //     departureDate: "2023-03.02",
+                    //     arrivalDate: "2023-03-02",
+                    //     departureTime: "20:00",
+                    //     arrivalTime: "23:00",
+                    //     id: 1
+                    // }]
+                    flights?
+                    Array.from(flights).map(flight => (
+                        <Flight className="SearchResult-item" flight={flight} />
+                    )) : 
+                        (<div style={{height:"1000px"}}></div>)
                 }
             </div>
         </div>
@@ -39,36 +48,31 @@ export default function SearchResult (props) {
 }
 
 
-function FlightDetails(props) {
-
-    function handleClick() {
-        
-    }
-
-    const flightDetails = props.flightDetails;
-
+function Flight(props) {
+    const flight = props.flight;
+    const className = props.className;
     return (
-        <div className={props.className} onClick={handleClick}>
-            <Link to="/searchResult/flightDetails">
-                <div className={props.className + "-departure"}>
+        <div className={className} >
+            <Link to={"/searchResult/flightDetails/" + flight.id}>
+                <div className={className + "-departure"}>
                     <div>
-                        {flightDetails.departureCity}
-                        <div className={props.className + "-arrow"}>
+                        {flight.departureAirport}
+                        <div className={className + "-arrow"}>
                             {"->"}
                         </div>
                     </div>
-                    <div>{flightDetails.departureTime} </div >
-                    <div className={props.className + "-details"}>27.02.23</div>
+                    <div>{flight.departureTime} </div >
+                    <div className={className + "-details"}>27.02.23</div>
                     <br />
-                    <div className={props.className + "-airline"}>RaynAir</div>
+                    <div className={className + "-airline"}>RaynAir</div>
                 </div>
 
-                <div className={props.className + "-destination"}>
-                    <div>{flightDetails.arrivalCity}</div>
-                    <div>{flightDetails.arrivalTime}</div>
-                    <div className={props.className + "-details"}>27.02.23</div>
+                <div className={className + "-destination"}>
+                    <div>{flight.arrivalAirport}</div>
+                    <div>{flight.arrivalTime}</div>
+                    <div className={className + "-details"}>27.02.23</div>
                     <br />
-                    <div className={props.className + "-price"}>34,00€</div>
+                    <div className={className + "-price"}>34,00€</div>
                 </div>
             </Link>
         </div>
