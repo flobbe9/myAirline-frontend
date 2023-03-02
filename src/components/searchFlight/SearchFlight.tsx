@@ -1,54 +1,34 @@
 import React, { useEffect, useState } from "react";
 import "./SearchFlight.css";
 import moment from "moment";
-import { addEventListenerForClass, addEventListenerForDocumentExcludeClass, toggleColorOnclick } from "../../helperMethods/events/events";
-import { Airport } from "../../mockdata/Airport";
-import { mockAirports } from "../../mockdata/MockData";
+import { addEventListenerForClass, addEventListenerForDocumentExcludeClass, toggleColorOnclick } from "../../helperMethods/events/events.ts";
+import { Airport } from "../../mockdata/Airport.ts";
+import { mockAirports } from "../../mockdata/MockData.ts";
 import { Link } from "react-router-dom";
 
 
 export default function SearchFlight(props) {
     return (
         <div className="SearchFlight">
-            <div className="SearchFlight-container">
+            <div className="SearchFlight-container" >
                 <h1 id="heading">Find your flight</h1><br />
 
-                <SearchFlightInput name="From" className="SearchFlight-item" />
+                <TextInput name="From" className="SearchFlight-item" />
 
-                <SearchFlightInput name="To" className="SearchFlight-item" />
+                <TextInput name="To" className="SearchFlight-item" />
 
-                <label className="SearchFlight-item-label" htmlFor="Date">Date</label>
-                <div className="SearchFlight-item">
-                    <input 
-                        data-testid="Date-input" 
-                        className="SearchFlight-item-input"
-                        name="Date" 
-                        type="date" 
-                        defaultValue={moment().format("YYYY-MM-DD")} />
-                </div>
+                <OtherInput name="Date" className="SearchFlight-item" defaultValue={moment().format("YYYY-MM-DD")} />
 
-                <label className="SearchFlight-item-label" htmlFor="Time">Time</label>
-                <div className="SearchFlight-item">
-                    <input 
-                        data-testid="Time-input"
-                        className="SearchFlight-item-input" 
-                        name="Time" 
-                        type="time" 
-                        defaultValue={getTimeNowFormatted()}/>
-                </div>
+                <OtherInput name="Time" className="SearchFlight-item" defaultValue={getTimeNowFormatted()} />
 
-                <SubmitLink className="SearchFlight-item" to="/searchFlights" />
-            </div>
-
-            <div className="someOtherContent">
-                <h2>Other content</h2>
+                <Submit className="SearchFlight-item" to="/searchResult" />
             </div>
         </div>
     )
 };
 
 
-function SearchFlightInput(props) {
+function TextInput(props) {
     // state
     const [searchFlightItemDropDown, setSearchFlightItemDropDown]: [JSX.Element[], (dropDowns) => void] = useState();
 
@@ -83,7 +63,7 @@ function SearchFlightInput(props) {
         <>
             <label className={props.className + "-label"} htmlFor={props.name}>{props.name}</label>
             <div className={props.className}>
-                
+                {/* Text input */}
                 <input 
                     id={props.name + "-input"}
                     data-testid={props.name + "-input"} 
@@ -93,6 +73,7 @@ function SearchFlightInput(props) {
                     onKeyUp={handleKeyUp}
                     autoComplete="off" />
 
+                {/* DropDown */}
                 <div 
                     id={props.name + "-dropDown"} 
                     data-testid={props.name + "-dropDown"} 
@@ -105,10 +86,27 @@ function SearchFlightInput(props) {
 }
 
 
-function SubmitLink(props) {
+function OtherInput(props) {
+    return (
+        <>
+            <label className={props.className + "-label"} htmlFor={props.name}>{props.name}</label>
+            <div className={props.className}>
+                <input 
+                    data-testid={props.name + "-input"}
+                    className={props.className + "-input"}
+                    name={props.name} 
+                    type={props.name} 
+                    defaultValue={props.defaultValue} />
+            </div>
+        </>
+    )
+}
+
+
+function Submit(props) {
     // states
-    const [isValid, setIsValid] = useState(false);
     const [errorMessage, setErrorMessage] = useState("Something went wrong.");
+    const [isFormValid, setIsFormValid] = useState(false);
 
     useEffect(() => {
         // submit button changes color
@@ -122,21 +120,32 @@ function SubmitLink(props) {
         } catch (error) {
             setErrorMessage(handleFalsyInput(error));
         }
+
         const errorDiv = document.getElementById("SearchFlight-item-submit-errorMessage");
         if (errorDiv) errorDiv.style.display = "block";
     }
 
-    // submit don't redirect if error
-    const button = isValid? (<Link to={props.to}><button id="SearchFlight-item-submit">Search</button></Link>) : 
-                            (<button id="SearchFlight-item-submit">Search</button>);
+    // join input values to url params
+    const urlParams: string = Array.from(searchFlightItemInputs).map(inputElement => (inputElement as HTMLInputElement).value)
+                                                                .join("/");
     
     return (
-        <div className={props.className} onMouseOver={() => {setIsValid(isSearchFlightFormValid())}} onClick={handleClick}>
-            {button}
+        <div className={props.className} onMouseOver={() => {setIsFormValid(isSearchFlightFormValid())}} onClick={handleClick}>
+            {/* Search button */}
+            {isFormValid ? 
+                <Link to={props.to + "/" + urlParams}>
+                    <button id="SearchFlight-item-submit">Search</button>
+                </Link> :
+                <button id="SearchFlight-item-submit" type="submit">Search</button>}
+
+            {/* Error message */}
             <div id="SearchFlight-item-submit-errorMessage">{errorMessage}</div>       
         </div>
     );
 }
+
+
+/////// HELPERS:
 
 
 const searchFlightItems = document.getElementsByClassName("SearchFlight-item");
@@ -167,6 +176,12 @@ function getAirportMatchesAsDiv(inputElement: HTMLElement | null): JSX.Element[]
 }
 
 
+/**
+ * Formates the current time using only houres and minutes. 
+ * Ensures that both have two digets (e.g 09:23 instead of 9:23 or 23:04 instead of 23:4).
+ * 
+ * @returns a string with the current time.
+ */
 function getTimeNowFormatted(): string {
     const today = new Date();
     let hours = today.getHours().toString();
@@ -191,7 +206,7 @@ function isSearchFlightFormValid(): boolean {
         // text input
         if (inputType === "text") {
             // only alphabetical chars
-            if (!(/^[A-Za-z ]+$/.test(inputValue.trim()))) 
+            if (!(/^[A-Za-züäö ]+$/.test(inputValue.trim()))) 
                 throw Error("text");
             
         // date input
@@ -236,9 +251,3 @@ function handleFalsyInput(error: Error): string {
 
     return "Something wrong with the input!";
 }
-
-
-/**
- * TODO:
- * Replace submit link
- */
