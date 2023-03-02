@@ -1,6 +1,6 @@
 export interface FetchHeader {
     method: string,
-    header: {
+    headers: {
         "Content-Type": string,
     },
     body?: any

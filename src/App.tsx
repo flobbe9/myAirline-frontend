@@ -1,4 +1,5 @@
 import './App.css';
+import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./components/navBar/NavBar.tsx";
 import Footer from "./components/footer/Footer.tsx";
@@ -11,7 +12,7 @@ import About from "./components/about/About.tsx";
 import Test from "./components/test/Test.tsx";
 
 
-function App() {
+export default function App() {
 
  	return (
 		<div className="App">
@@ -19,13 +20,15 @@ function App() {
 				<NavBar />
 
 				<Routes>
-					<Route path="/" element={<SearchFlight />}/>
-					<Route path="/searchFlights" element={<SearchResult />} />
+					<Route path="/" element={<SearchFlight />} />
+					<Route path="/searchResult/:from/:to/:date/:time" element={<SearchResult />} />
+					<Route path="/searchResult/flightDetails" element={<h1>Flight details</h1>} />
 					<Route path="/service" element={<Service />}/>
 					<Route path="/jobs" element={<Jobs />} />
 					<Route path="/contact" element={<Contact />} />
 					<Route path="/about" element={<About />} />
 					<Route path="/test" element={<Test />} />
+					<Route path="*" element={<h1>Oops, page NOT FOUND</h1>} />
 				</Routes>
 
 				<Footer />
@@ -33,6 +36,3 @@ function App() {
 		</div>
  	);
 }
-
-
-export default App;
