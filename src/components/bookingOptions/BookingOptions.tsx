@@ -29,56 +29,20 @@ export default function BookingOptions(props) {
 
 // TODO: rename this shit
 function Submit(props) {
-
-    // state
+    
     const [isBookingValid, setIsBookingValid] = useState(false);
     const [isSeatValid, setIsSeatValid] = useState(false);
     const [isSecurityConsent, setIsSecurityConsent] = useState(false);
     
     const className = props.className;
-
-    // useEffect
+    
     useEffect(() => {
+        // toggle button color
         const submitButton = document.getElementById("Submit-button");
-
         toggleColorOnclick(submitButton, "gray");
     }, [])
 
-    // validate form
-    function handleMouseOver() {
-
-        setIsBookingValid(isFlightDetailsValid() && isSelectLuggageValid());
-
-        setIsSeatValid(isSelectSeatValid());
-
-        setIsSecurityConsent(isSecurityReferenceValid());
-    }
-
-    // show error message
-    function showErrorMsg() {
-
-        const securityErrorMessage = document.getElementById("SelectLuggage-error-message");
-        const seatErrorMessge = document.getElementById("SelectSeat-errorMessage");
-        const generalErrorMessge = document.getElementById("Submit-error-message");
-
-        // null check
-        if (!securityErrorMessage || !seatErrorMessge || !generalErrorMessge) 
-            return;
-
-        // general error messge
-        if (!isBookingValid)
-            generalErrorMessge.style.display = "block";
-
-        // seat error messgae
-        if (!isSeatValid) 
-            seatErrorMessge.style.display = "block";
-
-        // security error message
-        if (!isSecurityConsent)
-            securityErrorMessage.style.display = "block";
-    }
-
-    const submitButton = <button id={className + "-button"} onMouseOver={() => handleMouseOver()} onClick={() => showErrorMsg()}>Continue</button>
+    const submitButton = <button id={className + "-button"} onMouseOver={() => handleMouseOver(setIsBookingValid, setIsSeatValid, setIsSecurityConsent)} onClick={() => showErrorMsg(isBookingValid, isSeatValid, isSecurityConsent)}>Continue</button>
 
     return (
         <div className={className + "-container"}>
@@ -91,4 +55,38 @@ function Submit(props) {
 
             <div id={className + "-error-message"}>We're sorry, something went wrong. Please reload the page and try again.</div>
         </div>)
+}
+
+
+function handleMouseOver(setIsBookingValid, setIsSeatValid, setIsSecurityConsent) {
+
+    setIsBookingValid(isFlightDetailsValid() && isSelectLuggageValid());
+
+    setIsSeatValid(isSelectSeatValid());
+
+    setIsSecurityConsent(isSecurityReferenceValid());
+}
+
+
+function showErrorMsg(isBookingValid, isSeatValid, isSecurityConsent) {
+
+    const securityErrorMessage = document.getElementById("SelectLuggage-error-message");
+    const seatErrorMessge = document.getElementById("SelectSeat-errorMessage");
+    const generalErrorMessge = document.getElementById("Submit-error-message");
+
+    // null check
+    if (!securityErrorMessage || !seatErrorMessge || !generalErrorMessge) 
+        return;
+
+    // general error messge
+    if (!isBookingValid)
+        generalErrorMessge.style.display = "block";
+
+    // seat error messgae
+    if (!isSeatValid) 
+        seatErrorMessge.style.display = "block";
+
+    // security error message
+    if (!isSecurityConsent)
+        securityErrorMessage.style.display = "block";
 }

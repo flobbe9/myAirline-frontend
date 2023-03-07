@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 
 
 export default function SearchFlight(props) {
+
     return (
         <div className="SearchFlight">
             <h1 id="heading">Find your flight</h1><br />
@@ -27,7 +28,7 @@ export default function SearchFlight(props) {
 
 
 function TextInput(props) {
-    // state
+
     const [searchFlightItemDropDown, setSearchFlightItemDropDown]: [JSX.Element[], (dropDowns) => void] = useState();
 
     const className = "SearchFlight";
@@ -36,29 +37,12 @@ function TextInput(props) {
     useEffect(() => {
         // hide dropDown onclick outside
         addEventListenerForDocumentExcludeClass(searchFlightItems, "mousedown", (i: number) => {
-            (searchFlightItemDropDowns[i] as HTMLElement).style.display = "none";
-        });
+            (searchFlightItemDropDowns[i] as HTMLElement).style.display = "none";});
 
         // hide dropDown onclick on search result also
         addEventListenerForClass(searchFlightItemDropDowns, "click", (i: number) => {
-            (searchFlightItemDropDowns[i] as HTMLElement).style.display = "none";
-        })
+            (searchFlightItemDropDowns[i] as HTMLElement).style.display = "none";});
     });
-    
-    // show matching results
-    function handleKeyUp() {
-        const inputField = document.getElementById(name + "-input");
-        const dropDown = document.getElementById(name + "-dropDown");
-
-        if (inputField && dropDown) {
-            if (getAirportMatchesAsDiv(inputField).length !== 0) {
-                dropDown.style.display = "block";
-                setSearchFlightItemDropDown(getAirportMatchesAsDiv(inputField));
-
-            } else 
-                dropDown.style.display = "none";
-        }
-    }
 
     return (
         <>
@@ -71,7 +55,7 @@ function TextInput(props) {
                     className={className + "-input"}
                     type="text" 
                     name={name} 
-                    onKeyUp={handleKeyUp}
+                    onKeyUp={() => handleKeyUp(name, setSearchFlightItemDropDown)}
                     autoComplete="off" />
 
                 {/* DropDown */}
@@ -177,6 +161,21 @@ function getAirportMatchesAsDiv(inputElement: HTMLElement | null): JSX.Element[]
             {airport.name}
         </div>)
     );
+}
+
+
+function handleKeyUp(name, setSearchFlightItemDropDown) {
+    const inputField = document.getElementById(name + "-input");
+    const dropDown = document.getElementById(name + "-dropDown");
+
+    if (inputField && dropDown) {
+        if (getAirportMatchesAsDiv(inputField).length !== 0) {
+            dropDown.style.display = "block";
+            setSearchFlightItemDropDown(getAirportMatchesAsDiv(inputField));
+
+        } else 
+            dropDown.style.display = "none";
+    }
 }
 
 

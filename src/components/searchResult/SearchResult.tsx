@@ -5,20 +5,14 @@ import sendHttpRequest from "../../helperMethods/fetch/fetch.ts";
 
 
 export default function SearchResult (props) {
-    // state
-    const [flights, setflights] = useState(null);
+
+    const [flights, setFlights] = useState(null);
     const params = useParams();
 
     useEffect(() => {
-        // fetch flight
-        async function fetchFlight() {
-            await sendHttpRequest("http://localhost:4001/flight/search", "post", "application/json", params)
-                .then(jsonResponse => setflights(jsonResponse));
-        }
-
-        // prevent infinite loop
+        // fetch and set flight
         if (flights === null) 
-            fetchFlight();
+            fetchFlight(setFlights, params);
     })
 
     return (
@@ -69,4 +63,12 @@ function Flight(props) {
             </Link>
         </div>
     )
+}
+
+
+async function fetchFlight(setFlights, params) {
+
+    // set flights state
+    await sendHttpRequest("http://localhost:4001/flight/search", "post", "application/json", params)
+        .then(jsonResponse => setFlights(jsonResponse));
 }

@@ -6,7 +6,8 @@ import { addEventListenerForClass } from "../../helperMethods/events/events";
 
 
 // TODO: clean this up
-// move most functions out of component
+// reconsider naming
+// try to reduce number of states
 export function FlightDetails(props) {
 
     // state
@@ -24,78 +25,17 @@ export function FlightDetails(props) {
 
     const className = props.className;
 
-    // fetch flight details
     useEffect(() => {
-        async function fetchFlightDetails() {
-            await sendHttpRequest("http://localhost:4001/flight/details/" + flightId, "post", "application/json")
-                .then(jsonResponse => setFlightDetails(jsonResponse));
-        }
-
-        if (flightDetails === initialFlightDetails)
-            fetchFlightDetails();
-
-        }, []);
+        // fetch flight details
+        if (flightDetails === initialFlightDetails) 
+            fetchFlightDetails(flightId, setFlightDetails);
+    }, []);
         
-    // toggle price
     useEffect(() => {
-        handleClickSeat();
-        handleClickLuggage();
+        // toggle price
+        handleClickSeat(setSeatType, setSeatFee, setTotalPrice, totalPrice, seatPrice);
+        handleClickLuggage(setLuggageFee, setTotalPrice, setLuggageElements, totalPrice, luggagePrice, className);
     }, [totalPrice, seatType]);
-        
-    function handleClickSeat() {
-        
-        const radioButtons = document.getElementsByClassName("SelectSeat-radioButton");
-        const randomSeat = radioButtons[0];
-
-        // set seat fee
-        addEventListenerForClass(radioButtons, "mousedown", (i: number, event) => {
-            if (event && event.target) {
-                const seatType = getSeatTypeByNumber(((event.target as HTMLElement).id));
-
-                if (event.target === randomSeat) {
-                    if (!(randomSeat as HTMLInputElement).checked) {
-                        setSeatType(seatType);
-                        setSeatFee("");
-                        setTotalPrice(totalPrice - seatPrice);
-                    }
-                    
-                } else if ((randomSeat as HTMLInputElement).checked) {
-                    setSeatType(seatType);
-                    setSeatFee("+ " + seatPrice + "€");
-                    setTotalPrice(totalPrice + seatPrice);
-                }
-                setSeatType(seatType);
-            }
-        });
-    }
-
-    function handleClickLuggage() {
-
-        const checkBoxes = document.getElementsByClassName("SelectLuggage-luggageType-checkBox");
-
-        // set luggage fee 
-        addEventListenerForClass(checkBoxes, "click", (i: number, event) => {
-            if (!event) return;
-            
-            if (event.target !== checkBoxes[0]) {
-                if (!(event.target as HTMLInputElement).checked) {
-                    setLuggageFee("");
-                    setTotalPrice(totalPrice - luggagePrice);
-
-                } else {
-                    setLuggageFee("+ " + luggagePrice + "€");
-                    setTotalPrice(totalPrice + luggagePrice)
-                }
-            }
-        });
-
-        addEventListenerForClass(checkBoxes, "click", (i: number, event) => {
-            setLuggageElements(Array.from(checkBoxes).map(checkBox => {
-                if ((checkBox as HTMLInputElement).checked)
-                    return <div id={className + "-luggageType"} className={className + "-details"}>{(checkBox as HTMLInputElement).name}</div>
-            }));
-        })
-    }
         
 
     return (
@@ -178,6 +118,80 @@ export function isFlightDetailsValid(): boolean {
     // check price
 
     return true;
+}
+
+
+async function fetchFlightDetails(flightId, setFlightDetails) {
+
+    // set flight details on resolve
+    await sendHttpRequest("http://localhost:4001/flight/details/" + flightId, "post", "application/json")
+         .then(jsonResponse => setFlightDetails(jsonResponse));
+}
+
+
+function handleClickSeat(setSeatType, setSeatFee, setTotalPrice, totalPrice, seatPrice) {
+        
+    const radioButtons = document.getElementsByClassName("SelectSeat-radioButton");
+    const randomSeat = radioButtons[0];
+
+    // seat fee and seat type
+    addEventListenerForClass(radioButtons, "mousedown", (i: number, event) => {
+        if (!event) return;
+
+        const seatType = getSeatTypeByNumber(((event.target as HTMLElement).id));
+
+        // hide seat fee and seat type
+        if (event.target === randomSeat) {
+            if (!(randomSeat as HTMLInputElement).checked) {
+                setSeatType(seatType);
+                setSeatFee("");
+                setTotalPrice(totalPrice - seatPrice);
+            }
+        
+        // show seat fee and seat type
+        } else if ((randomSeat as HTMLInputElement).checked) {
+            setSeatType(seatType);
+            setSeatFee("+ " + seatPrice + "€");
+            setTotalPrice(totalPrice + seatPrice);
+        }
+
+        // set selected seat type
+        setSeatType(seatType);
+    });
+}
+
+
+function handleClickLuggage(setLuggageFee, setTotalPrice, setLuggageElements, totalPrice, luggagePrice, className) {
+
+    const checkBoxes = document.getElementsByClassName("SelectLuggage-luggageType-checkBox");
+
+    // luggage fee
+    addEventListenerForClass(checkBoxes, "click", (i: number, event) => {
+        if (!event) return;
+        
+        // hide luggage fee 
+        if (event.target !== checkBoxes[0]) {
+            if (!(event.target as HTMLInputElement).checked) {
+                setLuggageFee("");
+                setTotalPrice(totalPrice - luggagePrice);
+            
+            // show luggage fee 
+            } else {
+                setLuggageFee("+ " + luggagePrice + "€");
+                setTotalPrice(totalPrice + luggagePrice)
+            }
+        }
+    });
+
+    // luggage type
+    addEventListenerForClass(checkBoxes, "click", (i: number, event) => {
+        // iterate luggage elements
+        setLuggageElements(Array.from(checkBoxes).map(checkBox => {
+            // show checked luggage elements
+            if ((checkBox as HTMLInputElement).checked)
+                return <div id={className + "-luggageType"} className={className + "-details"}>{(checkBox as HTMLInputElement).name}</div>
+        }));
+    })
 }
 
 
