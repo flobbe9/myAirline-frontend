@@ -1,0 +1,36 @@
+.SelectLuggage {
+    border: 1px solid white;
+    margin-bottom: 30px;
+    margin-left: 200px;
+    padding: 0px 10px;
+    text-align: left;
+    top: 520px;
+    width: fit-content;
+}
+
+.SelectLuggage-container {
+    font-size: 23px;
+    text-align: left;
+}
+
+.SelectLuggage-item {
+    margin-bottom: 10px;
+}
+
+.SelectLuggage-luggageType-checkBox, #SelectLuggage-security-checkBox {
+    height: 20px;
+    margin: 0px 10px;
+    width: 20px;
+}
+
+.SelectLuggage-luggageType-infoText {
+    font-size:18px; 
+    margin-left:50px;
+}
+
+#SelectLuggage-error-message {
+    color: red;
+    display: none;
+    font-size: 20px;
+    margin-left: 40px;
+}

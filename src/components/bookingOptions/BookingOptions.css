@@ -1,0 +1,28 @@
+.BookingOptions {
+    height: fit-content;
+    margin-bottom: 30px;
+}
+
+.BookingOptions-container {
+    text-align: left;
+}
+
+.Submit-container {
+    margin-left: 200px;
+    text-align: left;
+    top: 1000px;
+}
+
+#Submit-button {
+    border: 0px;
+    border-radius: 5px;
+    font-size: 25px;
+    padding: 8px 15px;
+}
+
+#Submit-error-message {
+    color: red;
+    display: none;
+    font-size: 20px;
+    margin-top: 5px;
+}

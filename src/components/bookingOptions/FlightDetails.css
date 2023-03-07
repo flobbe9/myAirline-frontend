@@ -1,0 +1,45 @@
+.FlightDetails {
+    border: 1px solid white;
+    border-radius: 3px;
+    color: rgb(153, 153, 153);
+    font-size: 23px;
+    margin: 0px 10px;
+    padding: 10px 10px;
+    position: fixed;
+    top: 147px;
+    right: 0;
+    text-align: center;
+}
+
+.FlightDetails-heading {
+    color: black;
+    padding-bottom: 0px;
+}
+
+.FlightDetails-departure {
+    display: inline-block;
+    text-align: left;
+}
+
+.FlightDetails-arrival {
+    display: inline-block;
+    text-align: right;
+}
+
+.FlightDetails-arrow {
+    display: inline;
+    padding: 0px 30px;
+}
+
+.FlightDetails-details {
+    font-size: 20px;
+}
+
+.FlightDetails-airline {
+    color: pink;
+}
+
+.FlightDetails-price {
+    color: rgb(85, 252, 85);
+    text-align: right;
+}
