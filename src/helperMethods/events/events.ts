@@ -1,10 +1,10 @@
 export function addEventListenerForClass(eventTargetClass: HTMLCollectionOf<Element>, 
-                                         event: string, 
-                                         eventFunc: (i: number) => void) {
+                                         eventAction: string, 
+                                         eventFunc: (i: number, event?: Event) => void) {
 
     Array.from(eventTargetClass).forEach((eventTargetElement, i) => {
-        eventTargetElement.addEventListener(event, () => 
-            eventFunc(i));
+        eventTargetElement.addEventListener(eventAction, (event) => 
+            eventFunc(i, event));
     })
 }
 

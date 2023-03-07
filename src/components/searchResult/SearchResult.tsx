@@ -26,21 +26,11 @@ export default function SearchResult (props) {
             <h1>Search results</h1>
 
             <div className="SearchResult-container">
-                {
-                    // [{
-                    //     departureAirport: "Hamburg",
-                    //     arrivalAirport: "München",
-                    //     departureDate: "2023-03.02",
-                    //     arrivalDate: "2023-03-02",
-                    //     departureTime: "20:00",
-                    //     arrivalTime: "23:00",
-                    //     id: 1
-                    // }]
-                    flights?
+                {flights?
                     Array.from(flights).map(flight => (
-                        <Flight className="SearchResult-item" flight={flight} />
+                        <Flight flight={flight} />
                     )) : 
-                        (<div style={{height:"1000px"}}></div>)
+                        (<div style={{height:"fit-content"}}></div>)
                 }
             </div>
         </div>
@@ -49,11 +39,13 @@ export default function SearchResult (props) {
 
 
 function Flight(props) {
+
+    const className = "SearchResult";
     const flight = props.flight;
-    const className = props.className;
+
     return (
-        <div className={className} >
-            <Link to={"/searchResult/flightDetails/" + flight.id}>
+        <div className={className + "-item"} >
+            <Link to={"/searchResult/bookingOptions/" + flight.id}>
                 <div className={className + "-departure"}>
                     <div>
                         {flight.departureAirport}

@@ -10,7 +10,7 @@ import Jobs from "./components/jobs/Jobs.tsx";
 import Contact from "./components/contact/Contact.tsx";
 import About from "./components/about/About.tsx";
 import Test from "./components/test/Test.tsx";
-import BookFlight from './components/flightDetails/FlightDetails.tsx';
+import BookingOptions from './components/bookingOptions/BookingOptions.tsx';
 
 
 export default function App() {
@@ -22,7 +22,8 @@ export default function App() {
 				<Routes>
 					<Route path="/" element={<SearchFlight />} />
 					<Route path="/searchResult/:from/:to/:date/:time" element={<SearchResult />} />
-					<Route path="/searchResult/flightDetails/:id" element={<BookFlight />} />
+					<Route path="/searchResult/bookingOptions/:id" element={<BookingOptions />} />
+					<Route path="/searchResult/userDetails" element={<h1>User details</h1>} />
 					<Route path="/service" element={<Service />}/>
 					<Route path="/jobs" element={<Jobs />} />
 					<Route path="/contact" element={<Contact />} />
