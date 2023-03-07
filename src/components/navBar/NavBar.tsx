@@ -9,46 +9,48 @@ export default function NavBar(props) {
 
     // add eventListeners
     useEffect(() => addEventListeners());
+
+    const className = "NavBar";
     
     return (
-        <div className="NavBar-container">
+        <div className={className}>
             <Link id="myAirline-logo" to="/">
                 myAirline
             </Link>
 
-            <div className="NavBar-item">
-                <Link className="NavBar-item-heading" to="/">
+            <div className={className + "-item"}>
+                <Link className={className + "-heading"} to="/">
                     Search
                 </Link>
-                <DropDown links="TestPage" className="NavBar-item-dropDown" />
+                <DropDown links="TestPage" className={className + "-dropDown"} />
             </div>
             
-            <div className="NavBar-item">
-                <Link className="NavBar-item-heading" to="/service">
+            <div className={className + "-item"}>
+                <Link className={className + "-heading"} to="/service">
                     Service
                 </Link>
-                <DropDown links="TestPage" className="NavBar-item-dropDown" />
+                <DropDown links="TestPage" className={className + "-dropDown"} />
             </div>
             
-            <div className="NavBar-item">
-                <Link className="NavBar-item-heading" to="/jobs">
+            <div className={className + "-item"}>
+                <Link className={className + "-heading"} to="/jobs">
                     Jobs
                 </Link>
-                <DropDown links="TestPage" className="NavBar-item-dropDown" />
+                <DropDown links="TestPage" className={className + "-dropDown"} />
             </div>
 
-            <div className="NavBar-item">
-                <Link className="NavBar-item-heading" to="/contact">
+            <div className={className + "-item"}>
+                <Link className={className + "-heading"} to="/contact">
                     Contact
                 </Link>
-                <DropDown links="TestPage" className="NavBar-item-dropDown" />
+                <DropDown links="TestPage" className={className + "-dropDown"} />
             </div>
 
-            <div className="NavBar-item">
-                <Link className="NavBar-item-heading" to="/about">
+            <div className={className + "-item"}>
+                <Link className={className + "-heading"} to="/about">
                     About
                 </Link>
-                <DropDown links="TestPage" className="NavBar-item-dropDown" />
+                <DropDown links="TestPage" className={className + "-dropDown"} />
             </div>
         </div>
     )
@@ -56,7 +58,7 @@ export default function NavBar(props) {
 
 
 const navBarItems = document.getElementsByClassName("NavBar-item");
-const navBarDropDowns = document.getElementsByClassName("NavBar-item-dropDown");
+const navBarDropDowns = document.getElementsByClassName("NavBar-dropDown");
 
 
 function addEventListeners() {

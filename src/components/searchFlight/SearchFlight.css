@@ -2,38 +2,38 @@
     color: black;
 }
 
-.SearchFlight-container {
-    height: 1000px;
+.SearchFlight {
+    height: fit-content;
     padding: 20px 0px 30px 0px;
 }
 
-.SearchFlight-item {
+.SearchFlight {
     display: inline-block;
     font-size: 20px;
     padding-right: 30px;
 }
 
-.SearchFlight-item-input {
+.SearchFlight-input {
     border: 0;
     border-radius: 3px;
     font-size: 20px;
     padding: 5px 10px;
 }
 
-.SearchFlight-item-input:focus {
+.SearchFlight-input:focus {
     border: 0;
     box-shadow: 1px 1px 10px gray inset;
     outline: none;
 }
 
-.SearchFlight-item-label {
+.SearchFlight-label {
     color: white;
     display: inline-block;
     font-size: 20px;
     padding-right: 10px;
 }
 
-.SearchFlight-item-dropDown {
+.SearchFlight-dropDown {
     background-color: white;
     border-radius: 3px;
     display: none;
@@ -43,17 +43,17 @@
     text-align: left;
 }
 
-.SearchFlight-item-dropDown-item {
+.SearchFlight-dropDown-item {
     border-radius: 3px;
     padding: 5px;
 }
 
-.SearchFlight-item-dropDown-item:hover {
+.SearchFlight-dropDown-item:hover {
     background-color: bisque;
     cursor: pointer;
 }
 
-#SearchFlight-item-submit {
+#SearchFlight-submit {
     background-color: white;
     border: 0;
     border-radius: 3px;
@@ -61,7 +61,7 @@
     padding: 7.2px 10px;
 }
 
-#SearchFlight-item-submit-errorMessage {
+#SearchFlight-errorMessage {
     color: red;
     display: none;
     position: absolute;

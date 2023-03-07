@@ -5,19 +5,21 @@ import { Link } from "react-router-dom";
 
 export default function Footer(props) {
 
+    const className = "Footer";
+
     return (
-        <div className="Footer-container">
+        <div className={className}>
             <div style={{display: "inline"}}>&copy;</div>
             <div style={{display: "inline", paddingRight: "200px"}}>
                 myAirline
             </div>
-            <Link to="/contact" className="Footer-item">
+            <Link to="/contact" className={className + "-item"}>
                 Contact
             </Link>
-            <Link to="/service" className="Footer-item">
+            <Link to="/service" className={className + "-item"}>
                 Service
             </Link>
-            <Link to="/about" className="Footer-item">
+            <Link to="/about" className={className + "-item"}>
                 About
             </Link>
         </div>
