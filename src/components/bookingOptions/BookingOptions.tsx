@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./BookingOptions.css";
 import { SelectSeat, isSelectSeatValid } from "./SelectSeat";
-import { FlightDetails, isFlightDetailsValid } from "./FlightDetails";
+import { FlightDetails } from "./FlightDetails";
 import SelectLuggage, { isSecurityReferenceValid, isSelectLuggageValid } from "./SelectLuggage";
 import { addEventListenerForClass, toggleColorOnclick } from "../../helperMethods/events/events";
 import { Link } from "react-router-dom";
@@ -60,7 +60,7 @@ function Submit(props) {
 
 function handleMouseOver(setIsBookingValid, setIsSeatValid, setIsSecurityConsent) {
 
-    setIsBookingValid(isFlightDetailsValid() && isSelectLuggageValid());
+    setIsBookingValid(isSelectLuggageValid());
 
     setIsSeatValid(isSelectSeatValid());
 

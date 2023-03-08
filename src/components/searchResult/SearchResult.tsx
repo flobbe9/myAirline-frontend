@@ -13,7 +13,7 @@ export default function SearchResult (props) {
         // fetch and set flight
         if (flights === null) 
             fetchFlight(setFlights, params);
-    })
+    }, [])
 
     return (
         <div className="SearchResult">

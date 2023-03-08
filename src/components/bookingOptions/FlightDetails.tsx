@@ -5,24 +5,23 @@ import sendHttpRequest from "../../helperMethods/fetch/fetch";
 import { addEventListenerForClass } from "../../helperMethods/events/events";
 
 
-// TODO: clean this up
-// reconsider naming
-// try to reduce number of states
 export function FlightDetails(props) {
 
-    // state
     const [flightDetails, setFlightDetails] = useState(initialFlightDetails);
+
     const [seatFee, setSeatFee] = useState("");
-    const [seatType, setSeatType] = useState(getSeatTypeByNumber("0"));
-    const [luggageElements, setLuggageElements]: [JSX.Element[], (dropDowns) => void] = useState();
     const [luggageFee, setLuggageFee] = useState("");
-    const basePrice = 34;
-    const [totalPrice, setTotalPrice] = useState(basePrice);
-    const seatPrice = 5;
-    const luggagePrice = 35;
+    const [totalPrice, setTotalPrice] = useState(34);
+    
+    const [seatType, setSeatType] = useState("Random seat");
+    const [luggageTypes, setLuggageTypes]: [JSX.Element[], (dropDowns) => void] = useState();
+    const [breaks, setBreaks]: [JSX.Element[], (dropDowns) => void] = useState()
+    
+    const basePrice = 34; // replace with flightDetails...
+    const seatPrice = 5; // replace with flightDetails...
+    const luggagePrice = 35; // replace with flightDetails...
 
     const flightId = useParams().id;
-
     const className = props.className;
 
     useEffect(() => {
@@ -32,51 +31,44 @@ export function FlightDetails(props) {
     }, []);
         
     useEffect(() => {
-        // toggle price
+        // toggle seat and luggage details
         handleClickSeat(setSeatType, setSeatFee, setTotalPrice, totalPrice, seatPrice);
-        handleClickLuggage(setLuggageFee, setTotalPrice, setLuggageElements, totalPrice, luggagePrice, className);
-    }, [totalPrice, seatType]);
-        
+        handleClickLuggage(setLuggageFee, setTotalPrice, setLuggageTypes, totalPrice, luggagePrice, className, setBreaks);
+    }, [totalPrice]);
+
 
     return (
         <div className={className}>
-            <div className={className + "-heading"}>Details</div>
+            <div id={className + "-heading"}>Details</div>
             <hr />
 
             {/* Departure */}
-            <FlightDetailsItem 
-                className={className}
+            <FlightDetailsItem className={className}
                 flightDetails={flightDetails} 
                 name="departure" 
-                child={<div className={className + "-airline"}>WizzAir</div>}/>
+                textAlign="left"
+                other="WizzAir"/>
 
             {/* Arrival */} 
-            <FlightDetailsItem 
-                className={className}
+            <FlightDetailsItem className={className}
                 flightDetails={flightDetails} 
                 name="arrival" 
-                child={<div className={className + "-price"}>{basePrice}€</div>} />
+                textAlign="right"
+                other={basePrice + "€"} />
+
+            {/* Airline + base price */}
+            <br /><hr />
+
+            {/* Seat */}
+            <PrefereceDetailsItem className={className} name="Seat" type={seatType} fee={seatFee} />
             <hr />
 
-            {/* TODO: make sections a component */}
-            Seat
-            <section style={{textAlign:"left"}}>
-                <div id={className + "-seatType"} className={className + "-details"}>{seatType}</div>
-                <div id={className + "-seatFee"} className={className + "-price"}>{seatFee}</div>
-            </section>
+            {/* Luggage */}
+            <PrefereceDetailsItem className={className} name="Luggage" type={luggageTypes} fee={luggageFee} breaks={breaks} />
             <hr />
 
-            Luggage
-            <section style={{textAlign:"left"}}>
-                {luggageElements}
-                <div id={className + "-luggageFee"} className={className + "-price"}>{luggageFee}</div>
-            </section>
-            <hr />
-
-            <section>
-                Total
-                <div id={className + "-totalPrice"} className={className + "-price"}>{totalPrice}€</div>
-            </section>
+            {/* Total */}
+            <PrefereceDetailsItem className={className} name="Total" fee={totalPrice + "€"}/>
         </div>
     )
 }
@@ -87,95 +79,111 @@ function FlightDetailsItem(props) {
     const className = props.className;
     const flightDetails = props.flightDetails;
     const name = props.name;
+    const otherColor = name === "departure" ? "pink" : "greenyellow";
 
     return (
-        <section className={className + "-" + name}>
-            <div>
-                {/* City */}
+        <div className={className + "-" + props.textAlign}>
+            {/* City */}
+            <div style={{fontSize:"23px"}}>
                 {flightDetails[name + "Airport"]}
-                {/* Arrow (?) */}
+
                 {(name === "departure") ? 
                     <div className={className + "-arrow"}>{" -> "}</div> : 
                     <></>}
             </div>
-            <br />
+            <br /><br />
 
             {/* Time */}
-            <div className={className + "-details"}>{flightDetails[name + "Time"]}</div>
+            <div>{flightDetails[name + "Time"]}</div>
+            
             {/* Date */}
-            <div className={className + "-details"}>{flightDetails[name + "Date"]}</div>
+            <div>{flightDetails[name + "Date"]}</div>
             <br />
 
-            {/* Child */}
-            {props.child}
-        </section>
+            {/* Other */}
+            <div style={{color:otherColor}}>{props.other}</div>
+        </div>
     )
 }
 
 
-export function isFlightDetailsValid(): boolean {
+function PrefereceDetailsItem(props) {
 
-    // check price
+    const className = props.className;
+    const name = props.name;
 
-    return true;
+    return (
+        <div className={className + "-container"}>
+            <div className={className + "-center"}>{name}</div>
+
+            <div className={className + "-left"}>{props.type}</div>
+            {props.breaks}
+            <div className={className + "-right"} style={{color:"greenyellow"}}>{props.fee}</div>
+            <br />
+        </div>)
 }
 
 
 async function fetchFlightDetails(flightId, setFlightDetails) {
 
-    // set flight details on resolve
-    await sendHttpRequest("http://localhost:4001/flight/details/" + flightId, "post", "application/json")
-         .then(jsonResponse => setFlightDetails(jsonResponse));
+    // set flightDetails on resolve
+    return await sendHttpRequest("http://localhost:4001/flight/details/" + flightId, "post", "application/json")
+                .then(jsonResponse => setFlightDetails(jsonResponse));
 }
 
 
 function handleClickSeat(setSeatType, setSeatFee, setTotalPrice, totalPrice, seatPrice) {
         
     const radioButtons = document.getElementsByClassName("SelectSeat-radioButton");
-    const randomSeat = radioButtons[0];
-
-    // seat fee and seat type
+    
+    // toggle seat fee and seat type
     addEventListenerForClass(radioButtons, "mousedown", (i: number, event) => {
+        // null check
         if (!event) return;
+        
+        const seatType = (event.target as HTMLInputElement).value;
+        const randomSeatElement = radioButtons[0];
+        const isRandomSeatChecked = (randomSeatElement as HTMLInputElement).checked;
 
-        const seatType = getSeatTypeByNumber(((event.target as HTMLElement).id));
-
-        // hide seat fee and seat type
-        if (event.target === randomSeat) {
-            if (!(randomSeat as HTMLInputElement).checked) {
-                setSeatType(seatType);
+        // hide fee and type
+        if (event.target === randomSeatElement) {
+            if (!isRandomSeatChecked) {
                 setSeatFee("");
                 setTotalPrice(totalPrice - seatPrice);
             }
         
-        // show seat fee and seat type
-        } else if ((randomSeat as HTMLInputElement).checked) {
-            setSeatType(seatType);
-            setSeatFee("+ " + seatPrice + "€");
-            setTotalPrice(totalPrice + seatPrice);
+        // show fee and type
+        } else {
+            if (isRandomSeatChecked) {
+                setSeatFee("+ " + seatPrice + "€");
+                setTotalPrice(totalPrice + seatPrice);
+            }
         }
 
-        // set selected seat type
+        // set type
         setSeatType(seatType);
     });
 }
 
 
-function handleClickLuggage(setLuggageFee, setTotalPrice, setLuggageElements, totalPrice, luggagePrice, className) {
+function handleClickLuggage(setLuggageFee, setTotalPrice, setLuggageTypes, totalPrice, luggagePrice, className, setBreaks) {
 
     const checkBoxes = document.getElementsByClassName("SelectLuggage-luggageType-checkBox");
-
-    // luggage fee
+    
+    // toggle luggage fee
     addEventListenerForClass(checkBoxes, "click", (i: number, event) => {
+        // null check
         if (!event) return;
+
+        const cabbinLuggageElement = checkBoxes[0];
         
-        // hide luggage fee 
-        if (event.target !== checkBoxes[0]) {
+        // hide fee 
+        if (event.target !== cabbinLuggageElement) {
             if (!(event.target as HTMLInputElement).checked) {
                 setLuggageFee("");
                 setTotalPrice(totalPrice - luggagePrice);
             
-            // show luggage fee 
+            // show fee 
             } else {
                 setLuggageFee("+ " + luggagePrice + "€");
                 setTotalPrice(totalPrice + luggagePrice)
@@ -183,32 +191,26 @@ function handleClickLuggage(setLuggageFee, setTotalPrice, setLuggageElements, to
         }
     });
 
-    // luggage type
-    addEventListenerForClass(checkBoxes, "click", (i: number, event) => {
+    // toggle luggage type
+    addEventListenerForClass(checkBoxes, "click", (i: number) => {
         // iterate luggage elements
-        setLuggageElements(Array.from(checkBoxes).map(checkBox => {
+        setLuggageTypes(Array.from(checkBoxes).map(box => {
+            // parse
+            const checkBox = (box as HTMLInputElement);
+
             // show checked luggage elements
-            if ((checkBox as HTMLInputElement).checked)
-                return <div id={className + "-luggageType"} className={className + "-details"}>{(checkBox as HTMLInputElement).name}</div>
+            return checkBox.checked ? 
+                <div id={className + "-luggageType"} className={className + "-details"}>{checkBox.name}</div> :
+                <></>
         }));
+
+        // itarate luggage elements
+        setBreaks(Array.from(checkBoxes).map(checkBox => 
+                                            // add a break for every element 
+                                            (checkBox as HTMLInputElement).checked? <br/> : <></>)
+                                        // remove one break
+                                        .pop())
     })
-}
-
-
-function getSeatTypeByNumber(num: string): string {
-
-    switch(num) {
-        case "0": 
-            return "Random seat";
-        case "1": 
-            return "Window seat";
-        case "2":
-            return "Corridor seat";
-        case "3": 
-            return "FootRoom seat";
-        default:
-            return "No seat selected"
-    }
 }
 
 

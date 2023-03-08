@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./BookingOptions.css";
 import "./SelectSeat.css";
 
@@ -13,26 +13,26 @@ export function SelectSeat(props) {
             <div className={className + "-container"}>
                 <SeatRadioButton 
                     className={className}
-                    id="0"
+                    type="Random seat"
                     labelText="Random seat (free)"
                     infoText="You will be assigned a random seat. No additional cost will be added."
                     defaultChecked="true"/>
 
                 <SeatRadioButton 
                     className={className}
-                    id="1"
+                    type="Window seat"
                     labelText="Window seat (+ 5€)"
                     infoText="A seat next to a window. If available, a 5€ fee will be added to your ticket price."/>
 
                 <SeatRadioButton 
                     className={className}
-                    id="2"
+                    type="Corridor seat"
                     labelText="Corridor seat (+ 5€)"
                     infoText="A seat beside the corridor. If available, a 5€ fee will be added to your ticket price."/>
 
                 <SeatRadioButton 
                     className={className}
-                    id="3"
+                    type="Foot room"
                     labelText="Foot room (+ 5€)"
                     infoText="A seat with more space to the front seat. If available, a 5€ fee will be added to your ticket price."/>
             </div>
@@ -49,8 +49,8 @@ function SeatRadioButton(props) {
 
     return (
         <div className={className + "-item"}>
-            <input id={props.id} className={className + "-radioButton"} type="radio" name="Seat" defaultChecked={props.defaultChecked} />
-            <label htmlFor="Seat">{props.labelText}</label>
+            <input className={className + "-radioButton"} type="radio" value={props.type} name="seatType" defaultChecked={props.defaultChecked} />
+            <label htmlFor="seatType">{props.labelText}</label>
             <br />
             
             <section className={className + "-infoText"}>{props.infoText}</section>

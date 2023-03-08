@@ -14,13 +14,13 @@ export default function SelectLuggage(props) {
            <div className={className + "-container"}>
                 <LuggageCheckBox
                     className={className}
-                    name="Cabbin luggage"
+                    type="Cabbin luggage"
                     labelText="Cabbin luggage (free)"
                     infoText="A single bag weighing not more than 8kg and not beeing larger than 55 x 35 x 25 cm." />
 
                 <LuggageCheckBox
                     className={className}
-                    name="Additional luggage"
+                    type="Additional luggage"
                     labelText={"Additional luggage (+ " + price + "€)"}
                     infoText="A single trunk weighing not more than 32kg and not beeing larger than 149 x 119 x 171 cm." />
 
@@ -33,11 +33,12 @@ export default function SelectLuggage(props) {
 function LuggageCheckBox(props) {
 
     const className = props.className;
+    const type = props.type;
 
     return (
         <div className={className + "-item"}>
-            <input className={className + "-luggageType-checkBox"} type="checkbox" name={props.name}/>
-            <label htmlFor={props.name}>{props.labelText}</label>
+            <input className={className + "-luggageType-checkBox"} type="checkbox" value={type} name={type}/>
+            <label htmlFor={type}>{props.labelText}</label>
             <br />
             <section className={className + "-luggageType-infoText"}>{props.infoText}</section>
         </div>)
