@@ -11,6 +11,8 @@ import Contact from "./components/contact/Contact.tsx";
 import About from "./components/about/About.tsx";
 import Test from "./components/test/Test.tsx";
 import BookingOptions from './components/bookingOptions/BookingOptions.tsx';
+import Register from './components/userDetails/Register.tsx';
+import Login from './components/userDetails/Login.tsx';
 
 
 export default function App() {
@@ -23,7 +25,8 @@ export default function App() {
 					<Route path="/" element={<SearchFlight />} />
 					<Route path="/searchResult/:from/:to/:date/:time" element={<SearchResult />} />
 					<Route path="/searchResult/bookingOptions/:id" element={<BookingOptions />} />
-					<Route path="/searchResult/userDetails" element={<h1>User details</h1>} />
+					<Route path="/register" element={<Register />} />
+					<Route path="/login" element={<Login />} />
 					<Route path="/service" element={<Service />}/>
 					<Route path="/jobs" element={<Jobs />} />
 					<Route path="/contact" element={<Contact />} />

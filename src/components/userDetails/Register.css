@@ -1,0 +1,50 @@
+.Register {
+    height: 1000px;
+}
+
+.Register-container {
+    /* border: 1px solid red; */
+    display: inline-block;
+    font-size: 23px;
+    margin-top: 60px;
+    text-align: left;
+}
+
+.Register-item {
+    margin: 40px 0px;
+}
+
+.Register-input {
+    border: 0;
+    border-radius: 3px;
+    font-size: 23px;
+    margin-top: 3px;
+    padding: 5px 10px;
+}
+
+.Register-input:focus {
+    border: 0;
+    box-shadow: 1px 1px 10px gray inset;
+    outline: none;
+}
+
+.Register-container-submit {
+    /* border: 1px solid red; */
+    display: inline-block;
+    font-size: 23px;
+    text-align: center;
+}
+
+.Register-submit {
+    border: 0;
+    border-radius: 3px;
+    font-size: 23px;
+    padding: 5px 15px;
+    text-align: center;
+}
+
+#Register-errorMessage {
+    /* border: 1px solid white; */
+    color: red;
+    font-size: 20px;
+}
