@@ -39,7 +39,7 @@ function LuggageCheckBox(props) {
         <div className={className + "-item"}>
             <input className={className + "-luggageType-checkBox"} type="checkbox" value={type} name={type}/>
             <label htmlFor={type}>{props.labelText}</label>
-            <br />
+            
             <section className={className + "-luggageType-infoText"}>{props.infoText}</section>
         </div>)
 }

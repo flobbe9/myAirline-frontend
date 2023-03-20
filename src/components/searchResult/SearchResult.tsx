@@ -69,6 +69,6 @@ function Flight(props) {
 async function fetchFlight(setFlights, params) {
 
     // set flights state
-    await sendHttpRequest("http://localhost:4001/flight/search", "post", "application/json", params)
+    await sendHttpRequest("http://localhost:4001/flight/search", "post", params, "application/json")
         .then(jsonResponse => setFlights(jsonResponse));
 }

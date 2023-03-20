@@ -15,7 +15,7 @@ export function FlightDetails(props) {
     
     const [seatType, setSeatType] = useState("Random seat");
     const [luggageTypes, setLuggageTypes]: [JSX.Element[], (dropDowns) => void] = useState();
-    const [breaks, setBreaks]: [JSX.Element[], (dropDowns) => void] = useState()
+    const [breaks, setBreaks]: [JSX.Element[], (dropDowns) => void] = useState([])
     
     const basePrice = 34; // replace with flightDetails...
     const seatPrice = 5; // replace with flightDetails...
@@ -34,8 +34,8 @@ export function FlightDetails(props) {
         // toggle seat and luggage details
         handleClickSeat(setSeatType, setSeatFee, setTotalPrice, totalPrice, seatPrice);
         handleClickLuggage(setLuggageFee, setTotalPrice, setLuggageTypes, totalPrice, luggagePrice, className, setBreaks);
-    }, [totalPrice]);
 
+    }, [totalPrice]);
 
     return (
         <div className={className}>
@@ -209,7 +209,7 @@ function handleClickLuggage(setLuggageFee, setTotalPrice, setLuggageTypes, total
                                             // add a break for every element 
                                             (checkBox as HTMLInputElement).checked? <br/> : <></>)
                                         // remove one break
-                                        .pop())
+                                        .pop());
     })
 }
 

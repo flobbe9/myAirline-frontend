@@ -2,7 +2,7 @@ import { FetchHeader, isFetchHeaderValid } from "./FetchHeader.ts";
 
 
 // TODO: replace alerts
-export default async function sendHttpRequest(url: string, method: string, contentType: string, body?) {
+export default async function sendHttpRequest(url: string, method: string, body?, contentType: string = "application/json") {
     // set headers
     const fetchHeader: FetchHeader = {
         method: method,
@@ -21,12 +21,6 @@ export default async function sendHttpRequest(url: string, method: string, conte
     try {
         // send request
         const response = await fetch(url, fetchHeader);
-
-        // case: request unsuccessful
-        if (!response.ok) {
-            alert("Request failed: " + response.status);
-            return;
-        }
 
         // return response as json
         return await response.json();

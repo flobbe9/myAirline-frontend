@@ -3,7 +3,7 @@ import "./BookingOptions.css";
 import { SelectSeat, isSelectSeatValid } from "./SelectSeat";
 import { FlightDetails } from "./FlightDetails";
 import SelectLuggage, { isSecurityReferenceValid, isSelectLuggageValid } from "./SelectLuggage";
-import { addEventListenerForClass, toggleColorOnclick } from "../../helperMethods/events/events";
+import { toggleColorOnclick } from "../../helperMethods/events/events";
 import { Link } from "react-router-dom";
 
 
@@ -47,7 +47,7 @@ function Submit(props) {
     return (
         <div className={className + "-container"}>
             {isBookingValid && isSecurityConsent && isSeatValid ?
-                <Link to="/searchResult/userDetails">
+                <Link to="/register">
                     {submitButton}
                 </Link> :
                 <>{submitButton}</>
