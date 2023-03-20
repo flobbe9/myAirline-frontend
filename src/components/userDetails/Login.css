@@ -1,0 +1,36 @@
+.Login {
+    height: 1000px;
+}
+
+.Login-container {
+    display: inline-block;
+    font-size: 23px;
+    margin-top: 150px;
+    text-align: left;
+}
+
+.Login-input {
+    border: 0;
+    border-radius: 3px;
+    font-size: 23px;
+    margin-top: 3px;
+    padding: 5px 10px;
+}
+
+.Login-input:focus {
+    border: 0;
+    box-shadow: 1px 1px 10px gray inset;
+    outline: none;
+}
+
+#Login-submit {
+    border: 0;
+    border-radius: 3px;
+    font-size: 23px;
+    padding: 5px 15px;
+    text-align: center;
+}
+
+#Login-errorMessage {
+    color: red;
+}
