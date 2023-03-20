@@ -6,8 +6,6 @@ import { mockAirports } from "../../mockdata/MockData.ts";
 import { Link } from "react-router-dom";
 
 
-// helpers out of component
-// functionality
 export default function SearchFlight(props) {
 
     const className = "SearchFlight";
@@ -138,7 +136,7 @@ function getAirportMatches(inputText: string): string[] {
     // filter airport names by first char
     return  mockAirports.map(airport => airport.name)
                         .filter(airportName => airportName.toLowerCase()
-                                                          .startsWith(inputText.charAt(0)));
+                                                          .startsWith(inputText.charAt(0).toLowerCase()));
 }
 
 
@@ -199,35 +197,66 @@ function isSearchFlightFormValid(searchFlightInputs): boolean {
         const inputValue = input.value;
 
         // text input
-        if (inputType === "text") {
-            // should not be empty
-            if (inputValue.length === 0)
-                throw Error("textEmpty");
-
-            // only alphabetical chars
-            if (!(/^[A-Za-züäö ]+$/.test(inputValue.trim()))) 
-                throw Error("text");
+        if (inputType === "text" && !isTextInputValid(inputValue)) {
+            throw Error("text");
             
         // date input
-        } else if (inputType === "date") {
-            if (!isDateInputValid(inputValue)) 
-                throw Error("date");
-        }
+        } else if (inputType === "date" && !isDateInputValid(inputValue)) 
+            throw Error("date");
     });
 
     return true;
 }
 
 
-function getErrorMessage(error: Error): string {
+export function isTextInputValid(input: string): boolean {
+
+    // should not be empty
+    if (input.length === 0)
+        return false;
+
+    // only alphabetical chars
+    if (!(/^[A-Za-züäö ]+$/.test(input.trim()))) 
+        return false;
+
+    return true;
+}
+
+
+export function isEmailValid(email: string): boolean {
+
+    return /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(email);
+}
+
+
+function isDateInputValid(input: string): boolean {
+
+    // convert to Date
+    let dateInput: Date;
+
+    try {
+        dateInput = new Date(input);
+    } catch (error) {
+        return false;
+    }
+
+    // get today without time
+    const today = new Date();
+    today.setSeconds(0);
+    today.setMinutes(0);
+    today.setHours(0);
+
+    // should not be in the past
+    return dateInput >= today;
+}
+
+
+export function getErrorMessage(error: Error): string {
 
     const errorMessage = error.message;
 
     if (errorMessage === "text")
-        return "Only alphabetical characters can be used for the cities!";
-
-    if (errorMessage === "textEmpty")
-        return "Please enter departure and destination city!"
+        return "Form is emtpy or non-alphabetical characters have been used!";
 
     if (errorMessage ===  "date")
         return "Date cannot be in the past!";
@@ -253,27 +282,4 @@ function getTimeNowFormatted(): string {
     minutes = minutes.length === 1 ?"0" + minutes : minutes.toString();
 
     return hours + ":" + minutes;
-}
-
-
-function isDateInputValid(input: string): boolean {
-
-    // convert to Date
-    let dateInput: Date;
-
-    try {
-        dateInput = new Date(input);
-    } catch (error) {
-        alert(error);
-        return false;
-    }
-
-    // get today without time
-    const today = new Date();
-    today.setSeconds(0);
-    today.setMinutes(0);
-    today.setHours(0);
-
-    // should not be in the past
-    return dateInput >= today;
 }
