@@ -13,6 +13,7 @@ import Test from "./components/test/Test.tsx";
 import BookingOptions from './components/bookingOptions/BookingOptions.tsx';
 import Register from './components/userDetails/Register.tsx';
 import Login from './components/userDetails/Login.tsx';
+import ConfirmEmail from './components/userDetails/ConfirmEmail.tsx';
 
 
 export default function App() {
@@ -25,6 +26,7 @@ export default function App() {
 					<Route path="/" element={<SearchFlight />} />
 					<Route path="/searchResult/:from/:to/:date/:time" element={<SearchResult />} />
 					<Route path="/searchResult/bookingOptions/:id" element={<BookingOptions />} />
+					<Route path="/register/confirmEmail" element={<ConfirmEmail />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/service" element={<Service />}/>
