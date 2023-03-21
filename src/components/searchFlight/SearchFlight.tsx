@@ -3,26 +3,54 @@ import "./SearchFlight.css";
 import moment from "moment";
 import { addEventListenerForClass, addEventListenerForDocumentExcludeClass, toggleColorOnclick } from "../../helperMethods/events/events.ts";
 import { mockAirports } from "../../mockdata/MockData.ts";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 export default function SearchFlight(props) {
 
+    const navigate = useNavigate();
     const className = "SearchFlight";
+    const todayFormatted = moment().format("YYYY-MM-DD");
+
+    useEffect(() => {
+        const submitButton = document.getElementById("SearchFlight-submit");
+        
+        // submit button changes color
+        toggleColorOnclick(submitButton, "rgb(177, 177, 177)");
+    })
+
+    function handleSubmit(event) {
+        
+        event.preventDefault();
+        
+        // redirect if valid
+        const form = document.getElementById(className + "-container");
+
+        if ((form as HTMLFormElement).checkValidity)
+            navigate("/searchResult/" + inputValuesToParams());
+    }
 
     return (
         <div className={className}>
             <h1 id="heading">Find your flight</h1><br />
 
-            <TextInput className={className} name="From" />
+            <form id={className + "-container"} onSubmit={handleSubmit}>
+                <TextInput id="From" className={className} />
 
-            <TextInput className={className} name="To" />
+                <TextInput id="To" className={className} />
 
-            <OtherInput className={className} name="Date" defaultValue={moment().format("YYYY-MM-DD")} />
+                <OtherInput id="Date" 
+                    className={className} 
+                    defaultValue={todayFormatted} 
+                    min={todayFormatted}
+                    errorMessage="Date cannot be in the past." />
 
-            <OtherInput className={className} name="Time" defaultValue={getTimeNowFormatted()} />
+                <OtherInput id="Time" className={className} defaultValue={getTimeNowFormatted()} />
 
-            <Submit to="/searchResult" />
+                <div className={className}>
+                    <button id="SearchFlight-submit" type="submit">Search</button>
+                </div>
+            </form>
         </div>
     )
 };
@@ -33,7 +61,7 @@ function TextInput(props) {
     const [searchFlightDropDown, setSearchFlightDropDown]: [JSX.Element[], (dropDowns) => void] = useState();
 
     const className = props.className;
-    const name = props.name;
+    const id = props.id;
 
     useEffect(() => {
         const searchFlightItems = document.getElementsByClassName("SearchFlight");
@@ -50,21 +78,23 @@ function TextInput(props) {
 
     return (
         <div className={className}>
-            <label className={className + "-label"} htmlFor={name}>{name}</label>
-            <div className={className + "-container"}>
+            <label className={className + "-label"}>{id}</label>
+            <div className={className + "-item"}>
                 {/* Text input */}
-                <input id={name + "-input"}
-                    data-testid={name + "-input"} 
+                <input id={id + "-input"}
+                    data-testid={id + "-input"} 
                     className={className + "-input"}
                     type="text" 
-                    name={name} 
-                    onKeyUp={() => handleKeyUp(name, setSearchFlightDropDown)}
-                    autoComplete="off" />
+                    onKeyUp={() => handleKeyUp(id, setSearchFlightDropDown)}
+                    autoComplete="off" 
+                    onInvalid={event => handleInvalid(event, id + "-input")}
+                    onInput={event => (event.target as HTMLSelectElement).setCustomValidity("")}
+                    required />
 
                 {/* DropDown */}
-                <div id={name + "-dropDown"} 
+                <div id={id + "-dropDown"} 
                     className={className + "-dropDown"}
-                    data-testid={name + "-dropDown"}>
+                    data-testid={id + "-dropDown"}>
 
                     {searchFlightDropDown}
                 </div>
@@ -76,61 +106,38 @@ function TextInput(props) {
 function OtherInput(props) {
     
     const className = props.className;
-    const name = props.name;
+    const id = props.id;
 
     return (
         <div className={className}>
-            <label className={className + "-label"} htmlFor={name}>{name}</label>
-            <div className={className + "-container"}>
-                <input className={className + "-input"}
-                    data-testid={name + "-input"}
-                    name={name} 
-                    type={name} 
-                    defaultValue={props.defaultValue} />
+            <label className={className + "-label"}>{id}</label>
+            <div className={className + "-item"}>
+                <input id={id + "-input"}
+                    className={className + "-input"}
+                    data-testid={id + "-input"} // TODO: remove tests since unneccessary
+                    type={id} 
+                    defaultValue={props.defaultValue}
+                    onInvalid={event => handleInvalid(event, id + "-input", props.errorMessage)}
+                    onInput={event => (event.target as HTMLSelectElement).setCustomValidity("")}
+                    min={props.min}
+                    required />
             </div>
         </div>)
 }
 
 
-function Submit(props) {
-    
-    const [errorMessage, setErrorMessage] = useState("Something went wrong.");
-    const [isFormValid, setIsFormValid] = useState(false);
+function handleInvalid(event, id, message?) {
 
-    const className = "SearchFlight";
-    const searchFlightInputs = document.getElementsByClassName("SearchFlight-input");
-    
-    useEffect(() => {
-        const submitButton = document.getElementById("SearchFlight-submit");
-        
-        // submit button changes color
-        toggleColorOnclick(submitButton, "rgb(177, 177, 177)");
-    })
+    const element = document.getElementById(id);
 
-    // join input values to url params
-    const urlParams: string = Array.from(searchFlightInputs)
-                                   .map(inputElement => (inputElement as HTMLInputElement).value)
-                                   .join("/");
-    
-    return (
-        <div className={className} 
-            onMouseOver={() => {setIsFormValid(isSearchFlightFormValid(searchFlightInputs))}} 
-            onClick={() => handleSubmit(searchFlightInputs, setErrorMessage)}>
-
-            {/* Search button */}
-            {isFormValid ? 
-                <Link to={props.to + "/" + urlParams}>
-                    <button id="SearchFlight-submit">Search</button>
-                </Link> :
-                <button id="SearchFlight-submit" type="submit">Search</button>}
-
-            {/* Error message */}
-            <div id="SearchFlight-errorMessage">{errorMessage}</div>       
-        </div>
-    );
+    ((element as HTMLInputElement).value === "") ?
+        // emtpy input
+        event.target.setCustomValidity("Please fill out this field.") :
+        // any other case
+        event.target.setCustomValidity(message);
 }
 
-    
+
 function getAirportMatches(inputText: string): string[] {
 
     // filter airport names by first char
@@ -158,19 +165,6 @@ function getAirportMatchesAsDiv(inputElement: HTMLElement | null): JSX.Element[]
 }
 
 
-function handleSubmit(searchFlightInputs, setErrorMessage) {
-
-    try {
-        isSearchFlightFormValid(searchFlightInputs);
-    } catch (error) {
-        setErrorMessage(getErrorMessage(error));
-    }
-
-    const errorDiv = document.getElementById("SearchFlight-errorMessage");
-    if (errorDiv) errorDiv.style.display = "block";
-}
-
-
 function handleKeyUp(name, setSearchFlightItemDropDown) {
 
     const inputElement = document.getElementById(name + "-input");
@@ -187,81 +181,14 @@ function handleKeyUp(name, setSearchFlightItemDropDown) {
 }
 
 
-function isSearchFlightFormValid(searchFlightInputs): boolean {
+function inputValuesToParams(): string {
 
-    // iterate all inputs
-    Array.from(searchFlightInputs).forEach((inputElement) => {
-        // parse to HTMLInputElement
-        const input = (inputElement as HTMLInputElement);
-        const inputType = input.type;
-        const inputValue = input.value;
+    const searchFlightInputs = document.getElementsByClassName("SearchFlight-input");
 
-        // text input
-        if (inputType === "text" && !isTextInputValid(inputValue)) {
-            throw Error("text");
-            
-        // date input
-        } else if (inputType === "date" && !isDateInputValid(inputValue)) 
-            throw Error("date");
-    });
-
-    return true;
-}
-
-
-export function isTextInputValid(input: string): boolean {
-
-    // should not be empty
-    if (input.length === 0)
-        return false;
-
-    // only alphabetical chars
-    if (!(/^[A-Za-züäö ]+$/.test(input.trim()))) 
-        return false;
-
-    return true;
-}
-
-
-export function isEmailValid(email: string): boolean {
-
-    return /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(email);
-}
-
-
-function isDateInputValid(input: string): boolean {
-
-    // convert to Date
-    let dateInput: Date;
-
-    try {
-        dateInput = new Date(input);
-    } catch (error) {
-        return false;
-    }
-
-    // get today without time
-    const today = new Date();
-    today.setSeconds(0);
-    today.setMinutes(0);
-    today.setHours(0);
-
-    // should not be in the past
-    return dateInput >= today;
-}
-
-
-export function getErrorMessage(error: Error): string {
-
-    const errorMessage = error.message;
-
-    if (errorMessage === "text")
-        return "Form is emtpy or non-alphabetical characters have been used!";
-
-    if (errorMessage ===  "date")
-        return "Date cannot be in the past!";
-
-    return "Something wrong with the input!";
+    // join input values to url params
+    return Array.from(searchFlightInputs)
+                .map(inputElement => (inputElement as HTMLInputElement).value)
+                .join("/");
 }
 
 
