@@ -19,6 +19,8 @@ export default function Login(props) {
         const submitButton = document.getElementById(className + "-submit");
 
         toggleColorOnclick((submitButton as HTMLElement), "gray");
+
+        window.scroll(0, 0);
     }, [])
 
     return (
