@@ -26,7 +26,7 @@ export default function SearchFlight(props) {
         // redirect if valid
         const form = document.getElementById(className + "-container");
 
-        if ((form as HTMLFormElement).checkValidity)
+        if ((form as HTMLFormElement).checkValidity())
             navigate("/searchResult/" + inputValuesToParams());
     }
 
@@ -87,9 +87,9 @@ function TextInput(props) {
                     type="text" 
                     onKeyUp={() => handleKeyUp(id, setSearchFlightDropDown)}
                     autoComplete="off" 
+                    required 
                     onInvalid={event => handleInvalid(event, id + "-input")}
-                    onInput={event => (event.target as HTMLSelectElement).setCustomValidity("")}
-                    required />
+                    onInput={event => (event.target as HTMLSelectElement).setCustomValidity("")} />
 
                 {/* DropDown */}
                 <div id={id + "-dropDown"} 
@@ -128,9 +128,9 @@ function OtherInput(props) {
 
 function handleInvalid(event, id, message?) {
 
-    const element = document.getElementById(id);
+    const inputElement = document.getElementById(id);
 
-    ((element as HTMLInputElement).value === "") ?
+    ((inputElement as HTMLInputElement).value === "") ?
         // emtpy input
         event.target.setCustomValidity("Please fill out this field.") :
         // any other case
