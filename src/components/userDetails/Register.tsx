@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./Register.css";
-import { addEventListenerForClass, toggleColorOnclick } from "../../helperMethods/events/events";
-import { Link } from "react-router-dom";
-import { getErrorMessage, isEmailValid, isTextInputValid } from "../searchFlight/SearchFlight";
+import { toggleColorOnclick } from "../../helperMethods/events/events";
+import { Link, useNavigate } from "react-router-dom";
 import sendHttpRequest from "../../helperMethods/fetch/fetch";
 
 
 export default function Register(props) {
 
-    const [isFormValid, setIsFormValid] = useState(false);
     const [errorMessage, setErrorMessage] = useState(<br />);
-    
+    const navigate = useNavigate();
 
     const className = "Register";
-
-    const submitButton = <input className={className + "-submit"} type="submit" value="Submit" onClick={handleSubmit}/>;
 
     useEffect(() => {
         // toggle color of buttons
@@ -27,42 +23,38 @@ export default function Register(props) {
     function handleSubmit(event) {
 
         event.preventDefault();
-        
-        // fetch validation
-        fetchRegister("http://localhost:4001/register", setErrorMessage, setIsFormValid);
 
-        // alert(isFormValid);
+        // fetch validation
+        fetchRegister("http://localhost:4001/register", setErrorMessage, navigate);
     }
 
     return (
         <div className={className}>
-            <h1>Register</h1>
+            <h1 onClick={event => {
+                const inputElement = document.getElementById("Mail");
 
-            <form>
+                alert((inputElement as HTMLSelectElement).checkValidity())
+
+            }}>Register</h1>
+
+            <form id={className + "-container"} onSubmit={handleSubmit}>
                 {/* Input fields */}
                 <div className={className + "-container"}>
-                    <TextInput className={className} name="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"/>
+                    <TextInput id="Mail" className={className} pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"/>
 
-                    <TextInput className={className} name="First name" pattern="[A-Za-z]{1,100}"/>
+                    <TextInput id="First name" className={className} pattern="[A-Za-z]{1,100}"/>
 
-                    <TextInput className={className} name="Surname" pattern="[A-Za-z]{1,100}"/>
+                    <TextInput id="Surname" className={className} pattern="[A-Za-z]{1,100}"/>
                 </div>
                 <br />
 
                 {/* Buttons */}
                 <div className={className + "-container-submit"}>
-                    {/* TODO: does not work */}
-                    {isFormValid?
-                        <Link to={props.params + "/confirmEmail"} >
-                            {submitButton}  
-                        </Link> :
-                        <div>{submitButton}</div>}
-                    
+                    <input className={className + "-submit"} type="submit" value="Submit" />
                     <div id={className + "-errorMessage"}>{errorMessage}</div>
                     <hr />
 
                     <p>Already have an account?</p>
-
                     {/* TODO: add some redirect information in params */}
                     <Link to="/login">
                         <button className={className + "-submit"}>Login</button>
@@ -77,36 +69,52 @@ export default function Register(props) {
 function TextInput(props) {
 
     const className = props.className;
-    const name = props.name;
+    const id = props.id;
+    const inputElement = document.getElementById(id);
+    
+    function handleInvalid(event) {
+
+        const message = (id === "Mail") ?
+                        "Please enter a valid email." :
+                        "Please use only alphabetical characters.";  
+
+        ((inputElement as HTMLInputElement).value === "") ?
+            // emtpy input
+            event.target.setCustomValidity("Please fill out this field.") :
+            // any other case
+            event.target.setCustomValidity(message);
+    }
 
     return (
         <div className={className + "-item"}>
-            <label htmlFor={name}>{name}</label>
+            <label>{id}</label>
             <br />
+            
             <input className={className + "-input"} 
                 type="text" 
-                name={name} 
+                id={id}
+                autoComplete="off"
                 pattern={props.pattern} 
-                required/>
+                onInvalid={handleInvalid}
+                onInput={event => (event.target as HTMLSelectElement).setCustomValidity("")}
+                required />
         </div>)
 }
 
 
-async function fetchRegister(url, setErrorMessage, setIsFormValid) {
-
-    // const email = "florin735@live.com";
-    const emailInput = document.getElementsByName("Email");
-    const email = (emailInput[0] as HTMLInputElement).value;
-    const firstName = "Florin";
-    const surName = "Schikarski";
-
+async function fetchRegister(url, setErrorMessage, navigate) {
+    
+    const emailInput = document.getElementById("Mail");
+    const firstNameInput = document.getElementById("First name");
+    const surNameInput = document.getElementById("Surname");
+    
     const body = {
-        email: email,
-        firstName: firstName,
-        surName: surName
+        email: (emailInput as HTMLInputElement).value,
+        firstName: (firstNameInput as HTMLInputElement).value,
+        surName: (surNameInput as HTMLInputElement).value
     };
-
+    
     const response = await sendHttpRequest(url, "post", body);
 
-    (response.status === 200)? setIsFormValid(true) : setErrorMessage(response.message);
+    (response.status === 200)? navigate("/register/confirmEmail") : setErrorMessage(response.message);
 }
