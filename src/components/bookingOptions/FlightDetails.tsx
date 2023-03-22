@@ -28,13 +28,10 @@ export function FlightDetails(props) {
         // fetch flight details
         if (flightDetails === initialFlightDetails) 
             fetchFlightDetails(flightId, setFlightDetails);
-    }, []);
-        
-    useEffect(() => {
-        // toggle seat and luggage details
-        handleClickSeat(setSeatType, setSeatFee, setTotalPrice, totalPrice, seatPrice);
-        handleClickLuggage(setLuggageFee, setTotalPrice, setLuggageTypes, totalPrice, luggagePrice, className, setBreaks);
-
+            
+            // toggle seat and luggage details
+            handleClickSeat(setSeatType, setSeatFee, setTotalPrice, totalPrice, seatPrice);
+            handleClickLuggage(setLuggageFee, setTotalPrice, setLuggageTypes, totalPrice, luggagePrice, className, setBreaks);
     }, [totalPrice]);
 
     return (
@@ -55,9 +52,6 @@ export function FlightDetails(props) {
                 name="arrival" 
                 textAlign="right"
                 other={basePrice + "€"} />
-
-            {/* Airline + base price */}
-            <br /><hr />
 
             {/* Seat */}
             <PrefereceDetailsItem className={className} name="Seat" type={seatType} fee={seatFee} />
@@ -102,6 +96,7 @@ function FlightDetailsItem(props) {
 
             {/* Other */}
             <div style={{color:otherColor}}>{props.other}</div>
+            <hr />
         </div>
     )
 }
@@ -116,8 +111,12 @@ function PrefereceDetailsItem(props) {
         <div className={className + "-container"}>
             <div className={className + "-center"}>{name}</div>
 
+            {/* Type */}
             <div className={className + "-left"}>{props.type}</div>
+
             {props.breaks}
+
+            {/* Fee */}
             <div className={className + "-right"} style={{color:"greenyellow"}}>{props.fee}</div>
             <br />
         </div>)
@@ -128,7 +127,7 @@ async function fetchFlightDetails(flightId, setFlightDetails) {
 
     // set flightDetails on resolve
     return await sendHttpRequest("http://localhost:4001/flight/details/" + flightId, "post", "application/json")
-                .then(jsonResponse => setFlightDetails(jsonResponse));
+        .then(jsonResponse => setFlightDetails(jsonResponse));
 }
 
 
@@ -138,14 +137,13 @@ function handleClickSeat(setSeatType, setSeatFee, setTotalPrice, totalPrice, sea
     
     // toggle seat fee and seat type
     addEventListenerForClass(radioButtons, "mousedown", (i: number, event) => {
-        // null check
         if (!event) return;
         
         const seatType = (event.target as HTMLInputElement).value;
         const randomSeatElement = radioButtons[0];
         const isRandomSeatChecked = (randomSeatElement as HTMLInputElement).checked;
 
-        // hide fee and type
+        // hide fee and type    
         if (event.target === randomSeatElement) {
             if (!isRandomSeatChecked) {
                 setSeatFee("");
@@ -170,15 +168,12 @@ function handleClickLuggage(setLuggageFee, setTotalPrice, setLuggageTypes, total
 
     const checkBoxes = document.getElementsByClassName("SelectLuggage-luggageType-checkBox");
     
-    // toggle luggage fee
     addEventListenerForClass(checkBoxes, "click", (i: number, event) => {
-        // null check
         if (!event) return;
 
-        const cabbinLuggageElement = checkBoxes[0];
-        
-        // hide fee 
-        if (event.target !== cabbinLuggageElement) {
+        // display fees
+        if (event.target !== checkBoxes[0]) {
+            // hide fee 
             if (!(event.target as HTMLInputElement).checked) {
                 setLuggageFee("");
                 setTotalPrice(totalPrice - luggagePrice);
@@ -189,11 +184,8 @@ function handleClickLuggage(setLuggageFee, setTotalPrice, setLuggageTypes, total
                 setTotalPrice(totalPrice + luggagePrice)
             }
         }
-    });
 
-    // toggle luggage type
-    addEventListenerForClass(checkBoxes, "click", (i: number) => {
-        // iterate luggage elements
+        // display type
         setLuggageTypes(Array.from(checkBoxes).map(box => {
             // parse
             const checkBox = (box as HTMLInputElement);
@@ -204,13 +196,23 @@ function handleClickLuggage(setLuggageFee, setTotalPrice, setLuggageTypes, total
                 <></>
         }));
 
-        // itarate luggage elements
-        setBreaks(Array.from(checkBoxes).map(checkBox => 
-                                            // add a break for every element 
-                                            (checkBox as HTMLInputElement).checked? <br/> : <></>)
-                                        // remove one break
-                                        .pop());
+        // set breaks
+        setBreaks(countBreaks(checkBoxes));
+    });
+}
+
+
+function countBreaks(checkBoxes): JSX.Element[] {
+
+    const breaks: JSX.Element[] = [];
+
+    Array.from(checkBoxes).forEach(checkBox => {
+        if((checkBox as HTMLInputElement).checked) 
+            breaks.push(<br />);
     })
+    breaks.pop();
+
+    return breaks;
 }
 
 
