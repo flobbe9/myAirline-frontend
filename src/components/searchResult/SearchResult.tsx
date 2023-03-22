@@ -7,6 +7,7 @@ import sendHttpRequest from "../../helperMethods/fetch/fetch.ts";
 export default function SearchResult (props) {
 
     const [flights, setFlights] = useState(null);
+    const className = "SearchResult";
     const params = useParams();
 
     useEffect(() => {
@@ -16,13 +17,13 @@ export default function SearchResult (props) {
     }, [])
 
     return (
-        <div className="SearchResult">
+        <div className={className}>
             <h1>Search results</h1>
 
-            <div className="SearchResult-container">
+            <div className={className + "-container"}>
                 {flights?
                     Array.from(flights).map(flight => (
-                        <Flight flight={flight} />
+                        <Flight className={className} flight={flight} />
                     )) : 
                         (<div style={{height:"fit-content"}}></div>)
                 }
@@ -34,7 +35,7 @@ export default function SearchResult (props) {
 
 function Flight(props) {
 
-    const className = "SearchResult";
+    const className = props.className;
     const flight = props.flight;
 
     return (
@@ -71,4 +72,7 @@ async function fetchFlight(setFlights, params) {
     // set flights state
     await sendHttpRequest("http://localhost:4001/flight/search", "post", params, "application/json")
         .then(jsonResponse => setFlights(jsonResponse));
+
+    // return height to normal
+    (document.getElementsByClassName("SearchResult")[0] as HTMLElement).style.height = "fit-content";
 }
