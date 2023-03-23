@@ -70,19 +70,21 @@ function TextInput(props) {
 
     const className = props.className;
     const id = props.id;
-    const inputElement = document.getElementById(id);
     
     function handleInvalid(event) {
+        
+        const inputElement = document.getElementById(id);
+        let message = "Please use only alphabetical characters.";  
 
-        const message = (id === "Mail") ?
-                        "Please enter a valid email." :
-                        "Please use only alphabetical characters.";  
+        // emtpy input message
+        if ((inputElement as HTMLInputElement).value === "") {
+            message = "Please fill out this field.";
+        
+        // mail input message
+        } else if (id === "Mail") 
+            message = "Please enter a valid email.";
 
-        ((inputElement as HTMLInputElement).value === "") ?
-            // emtpy input
-            event.target.setCustomValidity("Please fill out this field.") :
-            // any other case
-            event.target.setCustomValidity(message);
+        event.target.setCustomValidity(message);
     }
 
     return (
@@ -102,7 +104,7 @@ function TextInput(props) {
 }
 
 
-async function fetchRegister(url, setErrorMessage, navigate) {
+async function fetchRegister(url: string, setErrorMessage, navigate) {
     
     const emailInput = document.getElementById("Mail");
     const firstNameInput = document.getElementById("First name");

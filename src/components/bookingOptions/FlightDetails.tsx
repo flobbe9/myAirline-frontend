@@ -63,8 +63,7 @@ export function FlightDetails(props) {
 
             {/* Total */}
             <PrefereceDetailsItem className={className} name="Total" fee={totalPrice + "€"}/>
-        </div>
-    )
+        </div>)
 }
 
 
@@ -97,8 +96,7 @@ function FlightDetailsItem(props) {
             {/* Other */}
             <div style={{color:otherColor}}>{props.other}</div>
             <hr />
-        </div>
-    )
+        </div>)
 }
 
 
