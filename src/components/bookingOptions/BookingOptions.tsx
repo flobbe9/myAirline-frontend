@@ -4,37 +4,13 @@ import { SelectSeat, isSelectSeatValid } from "./SelectSeat";
 import { FlightDetails } from "./FlightDetails";
 import SelectLuggage, { isSecurityReferenceValid, isSelectLuggageValid } from "./SelectLuggage";
 import { toggleColorOnclick } from "../../helperMethods/events/events";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 export default function BookingOptions(props) {
 
-    return (
-        <div className="BookingOptions">
-            <h1>Booking options</h1>
-
-            <div className="BookingOptions-container">
-                <SelectSeat className="SelectSeat"/>
-
-                <SelectLuggage className="SelectLuggage"/> 
-
-                <FlightDetails className="FlightDetails"/>
-
-                <Submit className="Submit" /> 
-            </div>
-        </div>
-    )
-}
-
-
-// TODO: rename this shit
-function Submit(props) {
-    
-    const [isBookingValid, setIsBookingValid] = useState(false);
-    const [isSeatValid, setIsSeatValid] = useState(false);
-    const [isSecurityConsent, setIsSecurityConsent] = useState(false);
-    
-    const className = props.className;
+    const navigate = useNavigate();
+    const className = "BookingOptions";
     
     useEffect(() => {
         // toggle button color
@@ -42,51 +18,29 @@ function Submit(props) {
         toggleColorOnclick(submitButton, "gray");
     }, [])
 
-    const submitButton = <button id={className + "-button"} onMouseOver={() => handleMouseOver(setIsBookingValid, setIsSeatValid, setIsSecurityConsent)} onClick={() => showErrorMsg(isBookingValid, isSeatValid, isSecurityConsent)}>Continue</button>
+    function handleContinue() {
+
+        const securityCheckBox = document.getElementById("SelectLuggage-security-checkBox")
+        const securityErrorMessage = document.getElementById("SelectLuggage-error-message");
+
+        ((securityCheckBox as HTMLInputElement).checked) ?
+            navigate("/register") :
+            securityErrorMessage!.style.display = "block"
+    }
 
     return (
-        <div className={className + "-container"}>
-            {isBookingValid && isSecurityConsent && isSeatValid ?
-                <Link to="/register">
-                    {submitButton}
-                </Link> :
-                <>{submitButton}</>
-            }
+        <div className={className}>
+            <h1>Booking options</h1>
 
-            <div id={className + "-error-message"}>We're sorry, something went wrong. Please reload the page and try again.</div>
-        </div>)
-}
+            <div className={className + "-container"}>
+                <SelectSeat className="SelectSeat"/>
 
+                <SelectLuggage className="SelectLuggage"/> 
 
-function handleMouseOver(setIsBookingValid, setIsSeatValid, setIsSecurityConsent) {
+                <FlightDetails className="FlightDetails"/>
 
-    setIsBookingValid(isSelectLuggageValid());
-
-    setIsSeatValid(isSelectSeatValid());
-
-    setIsSecurityConsent(isSecurityReferenceValid());
-}
-
-
-function showErrorMsg(isBookingValid, isSeatValid, isSecurityConsent) {
-
-    const securityErrorMessage = document.getElementById("SelectLuggage-error-message");
-    const seatErrorMessge = document.getElementById("SelectSeat-errorMessage");
-    const generalErrorMessge = document.getElementById("Submit-error-message");
-
-    // null check
-    if (!securityErrorMessage || !seatErrorMessge || !generalErrorMessge) 
-        return;
-
-    // general error messge
-    if (!isBookingValid)
-        generalErrorMessge.style.display = "block";
-
-    // seat error messgae
-    if (!isSeatValid) 
-        seatErrorMessge.style.display = "block";
-
-    // security error message
-    if (!isSecurityConsent)
-        securityErrorMessage.style.display = "block";
+                <button id={className + "-button"} onClick={handleContinue}>Continue</button>
+            </div>
+        </div>
+    )
 }
