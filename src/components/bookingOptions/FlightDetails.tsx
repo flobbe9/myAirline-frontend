@@ -135,14 +135,12 @@ function handleClickSeat(setSeatType, setSeatFee, setTotalPrice, totalPrice, sea
     
     // toggle seat fee and seat type
     addEventListenerForClass(radioButtons, "mousedown", (i: number, event) => {
-        if (!event) return;
-        
-        const seatType = (event.target as HTMLInputElement).value;
+        const seatType = (event!.target as HTMLInputElement).value;
         const randomSeatElement = radioButtons[0];
         const isRandomSeatChecked = (randomSeatElement as HTMLInputElement).checked;
 
         // hide fee and type    
-        if (event.target === randomSeatElement) {
+        if (event!.target === randomSeatElement) {
             if (!isRandomSeatChecked) {
                 setSeatFee("");
                 setTotalPrice(totalPrice - seatPrice);
@@ -167,12 +165,10 @@ function handleClickLuggage(setLuggageFee, setTotalPrice, setLuggageTypes, total
     const checkBoxes = document.getElementsByClassName("SelectLuggage-luggageType-checkBox");
     
     addEventListenerForClass(checkBoxes, "click", (i: number, event) => {
-        if (!event) return;
-
         // display fees
-        if (event.target !== checkBoxes[0]) {
+        if (event!.target !== checkBoxes[0]) {
             // hide fee 
-            if (!(event.target as HTMLInputElement).checked) {
+            if (!(event!.target as HTMLInputElement).checked) {
                 setLuggageFee("");
                 setTotalPrice(totalPrice - luggagePrice);
             

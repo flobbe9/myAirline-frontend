@@ -5,7 +5,7 @@
 .Login-container {
     display: inline-block;
     font-size: 23px;
-    margin-top: 150px;
+    margin-top: 100px;
     text-align: left;
 }
 
@@ -35,4 +35,5 @@
     color: red;
     font-size: 23px;
     margin-top: 7px;
+    text-align: center;
 }

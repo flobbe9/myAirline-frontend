@@ -38,9 +38,9 @@ export default function Login(props) {
                 <InputElement id="Password" className={className} type="password" />
 
                 <button id={className + "-submit"} type="submit">Submit</button>                
-                <br />
             </form>
-
+            <br />
+            
             {/* Error message */}
             <div id={className + "-errorMessage"}>{errorMessage}</div>
         </div>)
@@ -97,5 +97,6 @@ async function fetchLogin(url: string, setErrorMessage, navigate) {
     
     const response = await sendHttpRequest(url, "post", body);
 
-    (response.status === 200)? navigate("/jobs") : setErrorMessage(response.message);
+    // TODO: redirect or start page
+    (response.status === 200)? navigate("/") : setErrorMessage(response.message);
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./BookingOptions.css";
 import { SelectSeat, isSelectSeatValid } from "./SelectSeat";
 import { FlightDetails } from "./FlightDetails";
