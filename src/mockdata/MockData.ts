@@ -53,7 +53,7 @@ export const mockAirports: Airport[] = [
         zipCode: 12345
     },
     {
-        name: "Münchener Flughafen",
+        name: "Münchner Flughafen",
         city: mockCities[0],
         zipCode: 12345
     },
