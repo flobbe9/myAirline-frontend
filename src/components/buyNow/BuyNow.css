@@ -1,0 +1,25 @@
+.BuyNow {
+    height: 1000px;
+}
+
+.BuyNow-container {
+    font-size: 23px;
+    margin-left: 60px;
+    text-align: left;
+}
+
+.BuyNow-flightDetails {
+    border: 1px solid white;
+}
+
+.BuyNow-userDetails {
+    border: 1px solid white;
+}
+
+#BuyNow-submit {
+    border: 0px;
+    border-radius: 5px;
+    font-size: 25px;
+    margin-top: 10px;
+    padding: 8px 15px;
+}
