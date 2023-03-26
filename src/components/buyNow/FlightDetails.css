@@ -1,0 +1,35 @@
+.BuyNow-flightDetails {
+    border: 1px solid white;
+    border-radius: 3px;
+    color: rgb(153, 153, 153);
+    display: inline-block;
+    font-size: 23px;
+    padding: 10px 10px;
+    text-align: center;
+}
+
+#BuyNow-flightDetails-heading {
+    color: black;
+    padding-bottom: 0px;
+}
+
+.BuyNow-flightDetails-arrow {
+    display: inline;
+    padding: 0px 30px;
+}
+
+.BuyNow-flightDetails-center{
+    font-size: 23px;
+}
+
+.BuyNow-flightDetails-right {
+    float: right;
+    font-size: 20px;
+    text-align: right;
+}
+
+.BuyNow-flightDetails-left {
+    float: left;
+    font-size: 20px;
+    text-align: left;
+}

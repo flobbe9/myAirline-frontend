@@ -5,7 +5,7 @@ import sendHttpRequest from "../../helperMethods/fetch/fetch";
 import { addEventListenerForClass } from "../../helperMethods/events/events";
 
 
-export function FlightDetails(props) {
+export default function FlightDetails(props) {
 
     const [flightDetails, setFlightDetails] = useState(initialFlightDetails);
 
@@ -210,7 +210,7 @@ function countBreaks(checkBoxes): JSX.Element[] {
 }
 
 
-interface FlightDetailsWrapper {
+export interface FlightDetailsWrapper {
     departureAirport;
     arrivalAirport;
     departureDate;
@@ -221,7 +221,7 @@ interface FlightDetailsWrapper {
 }
 
 
-const initialFlightDetails: FlightDetailsWrapper = {
+export const initialFlightDetails: FlightDetailsWrapper = {
     departureAirport: undefined,
     arrivalAirport: undefined,
     departureDate: undefined,

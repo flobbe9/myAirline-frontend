@@ -4,16 +4,11 @@
 
 .BuyNow-container {
     font-size: 23px;
-    margin-left: 60px;
-    text-align: left;
-}
-
-.BuyNow-flightDetails {
-    border: 1px solid white;
+    text-align: center;
 }
 
 .BuyNow-userDetails {
-    border: 1px solid white;
+    color: gray;
 }
 
 #BuyNow-submit {

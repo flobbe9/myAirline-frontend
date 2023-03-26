@@ -28,7 +28,7 @@ export default function App() {
 					<Route path="/searchResult/:from/:to/:date/:time" element={<SearchResult />} />
 					<Route path="/searchResult/bookingOptions/:id" element={<BookingOptions />} />
 					<Route path="/register/confirmEmail" element={<ConfirmEmail />} />
-					<Route path="/buyNow" element={<BuyNow />} />
+					<Route path="/buyNow/:id" element={<BuyNow />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/service" element={<Service />}/>

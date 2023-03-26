@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./BookingOptions.css";
 import { SelectSeat, isSelectSeatValid } from "./SelectSeat";
-import { FlightDetails } from "./FlightDetails";
+import FlightDetails from "./FlightDetails";
 import SelectLuggage, { isSecurityReferenceValid, isSelectLuggageValid } from "./SelectLuggage";
 import { toggleColorOnclick } from "../../helperMethods/events/events";
 import { Link, useNavigate } from "react-router-dom";
