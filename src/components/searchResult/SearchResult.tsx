@@ -43,23 +43,23 @@ function Flight(props) {
             <Link to={"/searchResult/bookingOptions/" + flight.id}>
                 <div className={className + "-departure"}>
                     <div>
-                        {flight.departureAirport}
+                        {flight.departureAirportName}
                         <div className={className + "-arrow"}>
                             {"->"}
                         </div>
                     </div>
                     <div>{flight.departureTime} </div >
-                    <div className={className + "-details"}>27.02.23</div>
+                    <div className={className + "-details"}>{flight.departureDate}</div>
                     <br />
-                    <div className={className + "-airline"}>RaynAir</div>
+                    <div className={className + "-airline"}>{flight.airlineName}</div>
                 </div>
 
                 <div className={className + "-destination"}>
-                    <div>{flight.arrivalAirport}</div>
+                    <div>{flight.arrivalAirportName}</div>
                     <div>{flight.arrivalTime}</div>
-                    <div className={className + "-details"}>27.02.23</div>
+                    <div className={className + "-details"}>{flight.arrivalDate}</div>
                     <br />
-                    <div className={className + "-price"}>34,00€</div>
+                    <div className={className + "-price"}>{flight.basePrice}€</div>
                 </div>
             </Link>
         </div>
@@ -69,8 +69,14 @@ function Flight(props) {
 
 async function fetchFlight(setFlights, params) {
 
+    const url = "http://localhost:4001/flight/search?" + 
+                "departureAirportName=" + params.from +
+                "&arrivalAirportName=" + params.to + 
+                "&departureDate=" + params.date + 
+                "&departureTime=" + params.time;
+
     // set flights state
-    await sendHttpRequest("http://localhost:4001/flight/search", "post", params, "application/json")
+    await sendHttpRequest(url, "get")
         .then(jsonResponse => setFlights(jsonResponse));
 
     // return height to normal

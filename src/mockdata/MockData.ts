@@ -31,51 +31,45 @@ const mockCities: City[] = [
 ];
 
 
-export const mockAirports: Airport[] = [
-    {
-        name: "Frankfurter Flughafen",
-        city: mockCities[0],
-        zipCode: 12345
-    },
-    {
-        name: "Dortmunder Flughafen",
-        city: mockCities[0],
-        zipCode: 12345
-    },
-    {
-        name: "Hamburger Flughafen",
-        city: mockCities[0],
-        zipCode: 12345
-    },
-    {
-        name: "Berliner Flughafen",
-        city: mockCities[0],
-        zipCode: 12345
-    },
-    {
-        name: "Münchner Flughafen",
-        city: mockCities[0],
-        zipCode: 12345
-    },
-    {
-        name: "Bremen Flughafen",
-        city: mockCities[0],
-        zipCode: 12345
-    }
-];
+// export const mockAirports: Airport[] = [
+//     {
+//         name: "Frankfurter Flughafen",
+//         city: mockCities[0],
+//         zipCode: 12345
+//     },
+//     {
+//         name: "Dortmunder Flughafen",
+//         city: mockCities[0],
+//         zipCode: 12345
+//     },
+//     {
+//         name: "Hamburger Flughafen",
+//         city: mockCities[0],
+//         zipCode: 12345
+//     },
+//     {
+//         name: "Berliner Flughafen",
+//         city: mockCities[0],
+//         zipCode: 12345
+//     },
+//     {
+//         name: "Münchner Flughafen",
+//         city: mockCities[0],
+//         zipCode: 12345
+//     },
+//     {
+//         name: "Bremen Flughafen",
+//         city: mockCities[0],
+//         zipCode: 12345
+//     }
+// ];
 
 
 export const mockFlights: Flight[] = [
     {
-        airline: "RayanAir",
-        departureCity: {
-            name: "Hamburg",
-            country: "Germany"
-        },
-        destinationCity: {
-            name: "München",
-            country: "Germany"
-        },
+        airlineName: "RayanAir",
+        departureAirportName: "Hamburg airport",
+        arrivalAirportName: "Munich airport",
         departureTime: "10:00",
         arrivalTime: "12:45",
         price: 34.00

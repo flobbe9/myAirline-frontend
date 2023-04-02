@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import "./SearchFlight.css";
 import moment from "moment";
 import { addEventListenerForClass, addEventListenerForDocumentExcludeClass, toggleColorOnclick } from "../../helperMethods/events/events.ts";
-import { mockAirports } from "../../mockdata/MockData.ts";
 import { useNavigate } from "react-router-dom";
+import { Airport } from "../../mockdata/Airport.ts";
+import sendHttpRequest from "../../helperMethods/fetch/fetch.ts";
 
 
 export default function SearchFlight(props) {
 
+    const [airports, setAirports]: [Airport[], (airports) => void] = useState([]);
     const navigate = useNavigate();
     const className = "SearchFlight";
     const todayFormatted = moment().format("YYYY-MM-DD");
@@ -17,13 +19,16 @@ export default function SearchFlight(props) {
         
         // submit button changes color
         toggleColorOnclick(submitButton, "rgb(177, 177, 177)");
+
+        // fetch airports
+        if (airports.length === 0)
+            fetchAirports("http://localhost:4001/airport/getAll", setAirports);
     })
 
     function handleSubmit(event) {
         
         event.preventDefault();
         
-        // redirect if valid
         const form = document.getElementById(className + "-container");
 
         if ((form as HTMLFormElement).checkValidity())
@@ -32,12 +37,12 @@ export default function SearchFlight(props) {
 
     return (
         <div className={className}>
-            <h1 id="heading">Find your flight</h1><br />
+            <h1 id="heading">Find your flight</h1>
 
             <form id={className + "-container"} onSubmit={handleSubmit}>
-                <TextInput id="From" className={className} />
+                <TextInput id="From" className={className} airports={airports} />
 
-                <TextInput id="To" className={className} />
+                <TextInput id="To" className={className} airports={airports} />
 
                 <OtherInput id="Date" 
                     className={className} 
@@ -82,20 +87,16 @@ function TextInput(props) {
             <div className={className + "-item"}>
                 {/* Text input */}
                 <input id={id + "-input"}
-                    data-testid={id + "-input"} 
                     className={className + "-input"}
                     type="text" 
-                    onKeyUp={() => handleKeyUp(id, setSearchFlightDropDown)}
+                    onKeyUp={() => handleKeyUp(id, setSearchFlightDropDown, props.airports)}
                     autoComplete="off" 
                     required 
                     onInvalid={event => handleInvalid(event, id + "-input")}
                     onInput={event => (event.target as HTMLSelectElement).setCustomValidity("")} />
 
                 {/* DropDown */}
-                <div id={id + "-dropDown"} 
-                    className={className + "-dropDown"}
-                    data-testid={id + "-dropDown"}>
-
+                <div id={id + "-dropDown"} className={className + "-dropDown"}>
                     {searchFlightDropDown}
                 </div>
             </div>
@@ -114,7 +115,6 @@ function OtherInput(props) {
             <div className={className + "-item"}>
                 <input id={id + "-input"}
                     className={className + "-input"}
-                    data-testid={id + "-input"} // TODO: remove tests since unneccessary
                     type={id} 
                     defaultValue={props.defaultValue}
                     onInvalid={event => handleInvalid(event, id + "-input", props.errorMessage)}
@@ -138,16 +138,16 @@ function handleInvalid(event, id, message?) {
 }
 
 
-function getAirportMatches(inputText: string): string[] {
+function getAirportMatches(inputText: string, airports): string[] {
 
     // filter airport names by first char
-    return  mockAirports.map(airport => airport.name)
+    return  airports.map(airport => airport.name)
                         .filter(airportName => airportName.toLowerCase()
                                                           .startsWith(inputText.charAt(0).toLowerCase()));
 }
 
 
-function getAirportMatchesAsDiv(inputElement: HTMLElement | null): JSX.Element[] {
+function getAirportMatchesAsDiv(inputElement: HTMLElement | null, airports): JSX.Element[] {
 
     if (!inputElement) 
         return [];
@@ -157,23 +157,23 @@ function getAirportMatchesAsDiv(inputElement: HTMLElement | null): JSX.Element[]
         return [];
 
     // wrap search results in div tags
-    return getAirportMatches(inputText).map(airport => (
-                                        <div className="SearchFlight-dropDown-item" 
-                                            onMouseDown={() => {(inputElement as HTMLInputElement).value = airport}}>
-                                            {airport}
-                                        </div>));
+    return getAirportMatches(inputText, airports).map(airport => (
+                                                <div className="SearchFlight-dropDown-item" 
+                                                    onMouseDown={() => {(inputElement as HTMLInputElement).value = airport}}>
+                                                    {airport}
+                                                </div>));
 }
 
 
-function handleKeyUp(name, setSearchFlightItemDropDown) {
+function handleKeyUp(name, setSearchFlightItemDropDown, airports) {
 
     const inputElement = document.getElementById(name + "-input");
     const dropDown = document.getElementById(name + "-dropDown");
 
     if (inputElement && dropDown) {
-        if (getAirportMatchesAsDiv(inputElement).length !== 0) {
+        if (getAirportMatchesAsDiv(inputElement, airports).length !== 0) {
             dropDown.style.display = "block";
-            setSearchFlightItemDropDown(getAirportMatchesAsDiv(inputElement));
+            setSearchFlightItemDropDown(getAirportMatchesAsDiv(inputElement, airports));
 
         } else 
             dropDown.style.display = "none";
@@ -209,4 +209,11 @@ function getTimeNowFormatted(): string {
     minutes = minutes.length === 1 ?"0" + minutes : minutes.toString();
 
     return hours + ":" + minutes;
+}
+
+
+async function fetchAirports(url: string, setAirports) {
+
+    return await sendHttpRequest(url, "get")
+        .then(jsonResponse => setAirports(jsonResponse));
 }
