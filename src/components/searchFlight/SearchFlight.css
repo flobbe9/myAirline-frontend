@@ -5,7 +5,19 @@
 .SearchFlight {
     display: inline-block;
     font-size: 20px;
-    height: 1000px;
+    height: 5000px;
+    padding: 20px 40px 30px 5px;
+}
+
+.SearchFlight-TextInput {
+    display: inline-block;
+    font-size: 20px;
+    padding: 20px 40px 30px 5px;
+}
+
+.SearchFlight-OtherInput {
+    display: inline-block;
+    font-size: 20px;
     padding: 20px 40px 30px 5px;
 }
 

@@ -10,9 +10,6 @@ import Jobs from "./components/jobs/Jobs.tsx";
 import Contact from "./components/contact/Contact.tsx";
 import About from "./components/about/About.tsx";
 import BookingOptions from './components/bookingOptions/BookingOptions.tsx';
-import Register from './components/userDetails/Register.tsx';
-import Login from './components/userDetails/Login.tsx';
-import ConfirmEmail from './components/userDetails/ConfirmEmail.tsx';
 import BuyNow from './components/buyNow/BuyNow.tsx';
 
 

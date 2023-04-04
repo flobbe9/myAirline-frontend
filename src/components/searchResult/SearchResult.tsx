@@ -19,7 +19,7 @@ export default function SearchResult (props) {
 
         // toggle button color
         toggleColorOnclick(document.getElementById(className + "-goBack"), "gray");
-    }, [])
+    }, [flights, params])
 
     return (
         <div className={className}>
@@ -86,22 +86,13 @@ async function fetchFlight(setFlights, params) {
                 "&departureDate=" + params.date + 
                 "&departureTime=" + params.time;
     const errorMessage = document.getElementById("SearchResult-noResults");
-    const searchResultContainer = document.getElementsByClassName("SearchResult")[0] as HTMLElement;
 
     // set flights state
     await sendHttpRequest(url, "get")
         .then(jsonResponse => {
             // alert(jsonResponse.length)
-            if (jsonResponse.length === 0 || jsonResponse.status) {
-                // show error message
-                errorMessage!.style.display = "block";
-
-            } else {
-                setFlights(jsonResponse)
-                
-                // return height to normal
-                searchResultContainer.style.height = "fit-content";
-            }
+            (jsonResponse.length === 0 || jsonResponse.status) ? 
+                errorMessage!.style.display = "block" : setFlights(jsonResponse)
         });
 
 }

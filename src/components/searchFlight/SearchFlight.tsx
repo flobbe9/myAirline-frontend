@@ -25,7 +25,7 @@ export default function SearchFlight(props) {
         // fetch airports
         if (airports.length === 0)
             fetchAirports("http://localhost:4001/airport/getAll", setAirports);
-    })
+    }, [airports.length])
 
     function handleSubmit(event) {
         
@@ -54,7 +54,7 @@ export default function SearchFlight(props) {
 
                 <OtherInput id="Time" className={className} defaultValue={getTimeNowFormatted()} />
 
-                <div className={className}>
+                <div style={{display: "inline-block"}}>
                     <button id="SearchFlight-submit" type="submit">Search</button>
                 </div>
             </form>
@@ -84,7 +84,7 @@ function TextInput(props) {
     });
 
     return (
-        <div className={className}>
+        <div className={className + "-TextInput"}>
             <label className={className + "-label"}>{id}</label>
             <div className={className + "-item"}>
                 {/* Text input */}
@@ -112,7 +112,7 @@ function OtherInput(props) {
     const id = props.id;
 
     return (
-        <div className={className}>
+        <div className={className + "-OtherInput"}>
             <label className={className + "-label"}>{id}</label>
             <div className={className + "-item"}>
                 <input id={id + "-input"}
