@@ -5,6 +5,7 @@
 .SearchFlight {
     display: inline-block;
     font-size: 20px;
+    height: 1000px;
     padding: 20px 40px 30px 5px;
 }
 

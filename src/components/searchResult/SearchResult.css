@@ -57,3 +57,17 @@
     color: rgba(22, 22, 252, 0.685);
     display: inline-block;
 }
+
+#SearchResult-noResults {
+    display: none;
+    font-size: 23px;
+}
+
+#SearchResult-goBack {
+    background-color: white;
+    border: 0;
+    border-radius: 3px;
+    font-size: 20px;
+    margin-top: 15px;
+    padding: 7.2px 10px;
+}

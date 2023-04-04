@@ -49,7 +49,11 @@ function SeatRadioButton(props) {
 
     return (
         <div className={className + "-item"}>
-            <input className={className + "-radioButton"} type="radio" value={props.type} name="seatType" defaultChecked={props.defaultChecked} />
+            <input className={className + "-radioButton"} 
+                type="radio" 
+                value={props.type} 
+                name="seatType" 
+                defaultChecked={props.defaultChecked} />
             <label htmlFor="seatType">{props.labelText}</label>
             <br />
             

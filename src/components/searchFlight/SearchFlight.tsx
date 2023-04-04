@@ -15,6 +15,8 @@ export default function SearchFlight(props) {
     const todayFormatted = moment().format("YYYY-MM-DD");
 
     useEffect(() => {
+        window.scroll(0, 0);
+
         const submitButton = document.getElementById("SearchFlight-submit");
         
         // submit button changes color

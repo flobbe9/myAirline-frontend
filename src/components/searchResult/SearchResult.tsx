@@ -1,24 +1,35 @@
 import React, { useEffect, useState } from "react";
 import "./SearchResult.css";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import sendHttpRequest from "../../helperMethods/fetch/fetch.ts";
+import { toggleColorOnclick } from "../../helperMethods/events/events.ts";
 
 
 export default function SearchResult (props) {
 
     const [flights, setFlights] = useState(null);
     const className = "SearchResult";
+    const navigate = useNavigate();
     const params = useParams();
 
     useEffect(() => {
         // fetch and set flight
         if (flights === null) 
             fetchFlight(setFlights, params);
+
+        // toggle button color
+        toggleColorOnclick(document.getElementById(className + "-goBack"), "gray");
     }, [])
 
     return (
         <div className={className}>
             <h1>Search results</h1>
+
+            <p id={className + "-noResults"}>We could not find flights by your specifications. <br />
+                Please check your input and make sure you only entered suggested airports. <br />
+
+                <button id={className + "-goBack"} onClick={() => navigate("/")}>Go back</button>
+            </p>
 
             <div className={className + "-container"}>
                 {flights?
@@ -74,11 +85,23 @@ async function fetchFlight(setFlights, params) {
                 "&arrivalAirportName=" + params.to + 
                 "&departureDate=" + params.date + 
                 "&departureTime=" + params.time;
+    const errorMessage = document.getElementById("SearchResult-noResults");
+    const searchResultContainer = document.getElementsByClassName("SearchResult")[0] as HTMLElement;
 
     // set flights state
     await sendHttpRequest(url, "get")
-        .then(jsonResponse => setFlights(jsonResponse));
+        .then(jsonResponse => {
+            // alert(jsonResponse.length)
+            if (jsonResponse.length === 0 || jsonResponse.status) {
+                // show error message
+                errorMessage!.style.display = "block";
 
-    // return height to normal
-    (document.getElementsByClassName("SearchResult")[0] as HTMLElement).style.height = "fit-content";
+            } else {
+                setFlights(jsonResponse)
+                
+                // return height to normal
+                searchResultContainer.style.height = "fit-content";
+            }
+        });
+
 }

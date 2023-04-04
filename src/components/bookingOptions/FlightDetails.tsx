@@ -7,11 +7,11 @@ import { luggagePrice, seatPrice } from "./BookingOptions";
 
 
 export default function FlightDetails(props) {
-
+    
     const [flightDetails, setFlightDetails]: [FlightDetailsWrapper, (flightDetailsWrapper) => void] = useState(initialFlightDetails);
+   
     const [seatFee, setSeatFee] = useState("");
     const [luggageFee, setLuggageFee] = useState("");
-    const [flightClassFee, setFlightClassFee] = useState("");
 
     const [totalPrice, setTotalPrice] = useState(0);
     
@@ -23,15 +23,15 @@ export default function FlightDetails(props) {
     const className = props.className;
 
     useEffect(() => {
-        if (flightDetails === initialFlightDetails) {
-            // fetch flight details
+        // fetch flight details
+        if (flightDetails === initialFlightDetails)
             fetchFlightDetails(flightId, setFlightDetails, setTotalPrice);
-        }
-
+        
         // toggle seat and luggage details
-        handleClickSeat(setSeatType, setSeatFee, setTotalPrice, totalPrice, seatPrice);
+        handleClickRadio(setSeatType, setSeatFee, setTotalPrice, totalPrice, seatPrice, "SelectSeat-radioButton");
         handleClickLuggage(setLuggageFee, setTotalPrice, setLuggageTypes, totalPrice, luggagePrice, className, setBreaks);
     }, [totalPrice]);
+
 
     return (
         <div className={className}>
@@ -59,6 +59,10 @@ export default function FlightDetails(props) {
             {/* Luggage */}
             <PrefereceDetailsItem className={className} name="Luggage" type={luggageTypes} fee={luggageFee} breaks={breaks} />
             <hr />
+
+            {/* FlightClass */}
+            {/* <PrefereceDetailsItem className={className} name="Flight class" type={flightClassType} fee={flightClassFee} breaks={breaks} /> */}
+            {/* <hr /> */}
 
             {/* Total */}
             <PrefereceDetailsItem className={className} name="Total" fee={totalPrice + "€"}/>
@@ -141,33 +145,38 @@ async function fetchFlightDetails(flightId, setFlightDetails, setTotalPrice) {
 }
 
 
-function handleClickSeat(setSeatType, setSeatFee, setTotalPrice, totalPrice, seatPrice) {
+export function handleClickRadio(setType, setFee, setTotalPrice, totalPrice, fee, buttonsClassName, secondFee?) {
         
-    const radioButtons = document.getElementsByClassName("SelectSeat-radioButton");
+    const radioButtons = document.getElementsByClassName(buttonsClassName);
 
     // toggle seat fee and seat type
     addEventListenerForClass(radioButtons, "mousedown", (i: number, event) => {
-        const seatType = (event!.target as HTMLInputElement).value;
-        const randomSeatElement = radioButtons[0];
-        const isRandomSeatChecked = (randomSeatElement as HTMLInputElement).checked;
+        const targetElement = (event!.target as HTMLInputElement);
+        const type = targetElement.value;
+        const firstElement = (radioButtons[0] as HTMLInputElement);
+
+        if (type === "First")
+            fee = secondFee;
 
         // hide fee and type    
-        if (event!.target === randomSeatElement) {
-            if (!isRandomSeatChecked) {
-                setSeatFee("");
-                setTotalPrice(totalPrice - seatPrice);
+        if (targetElement === firstElement) {
+            if (!(targetElement.checked)) {
+                setFee("");
+                setTotalPrice(totalPrice - fee);
             }
         
         // show fee and type
         } else {
-            if (isRandomSeatChecked) {
-                setSeatFee("+ " + seatPrice + "€");
-                setTotalPrice(totalPrice + seatPrice);
-            }
+            if (!targetElement.checked && firstElement.checked) {
+                setFee("+ " + fee + "€");
+                setTotalPrice(totalPrice + fee);
+            } 
         }
 
         // set type
-        setSeatType(seatType);
+        setType(type);
+
+        
     });
 }
 
@@ -177,10 +186,13 @@ function handleClickLuggage(setLuggageFee, setTotalPrice, setLuggageTypes, total
     const checkBoxes = document.getElementsByClassName("SelectLuggage-luggageType-checkBox");
     
     addEventListenerForClass(checkBoxes, "click", (i: number, event) => {
+        const targetElement = (event!.target as HTMLInputElement);
+        const firstElement = checkBoxes[0];
+
         // display fees
-        if (event!.target !== checkBoxes[0]) {
+        if (targetElement !== firstElement) {
             // hide fee 
-            if (!(event!.target as HTMLInputElement).checked) {
+            if (!targetElement.checked) {
                 setLuggageFee("");
                 setTotalPrice(totalPrice - luggagePrice);
             
@@ -206,6 +218,7 @@ function handleClickLuggage(setLuggageFee, setTotalPrice, setLuggageTypes, total
         setBreaks(countBreaks(checkBoxes));
     });
 }
+
 
 
 function countBreaks(checkBoxes): JSX.Element[] {
