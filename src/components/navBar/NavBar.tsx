@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import "./NavBar.css";
 import { Link } from "react-router-dom";
-import { addEventListenerForClass } from "../../helperMethods/events/events.ts"
-import DropDown from "./dropDown/DropDown.tsx";
+import { addEventListenerForClass } from "../../utils/events/events.ts"
 
 
 export default function NavBar(props) {
@@ -26,8 +25,8 @@ export default function NavBar(props) {
             </div>
             
             <div className={className + "-item"}>
-                <Link className={className + "-heading"} to="/service">
-                    Service
+                <Link className={className + "-heading"} to="/services">
+                    Services
                 </Link>
                 {/* <DropDown links="TestPage" className={className + "-dropDown"} /> */}
             </div>

@@ -5,7 +5,7 @@ import NavBar from "./components/navBar/NavBar.tsx";
 import Footer from "./components/footer/Footer.tsx";
 import SearchFlight from "./components/searchFlight/SearchFlight.tsx";
 import SearchResult from "./components/searchResult/SearchResult.tsx";
-import Service from "./components/service/Service.tsx";
+import Services from "./components/services/Services.tsx";
 import Jobs from "./components/jobs/Jobs.tsx";
 import Contact from "./components/contact/Contact.tsx";
 import About from "./components/about/About.tsx";
@@ -27,7 +27,7 @@ export default function App() {
 					<Route path="/buyNow/:id" element={<BuyNow />} />
 					{/* <Route path="/register" element={<Register />} /> */}
 					{/* <Route path="/login" element={<Login />} /> */}
-					<Route path="/service" element={<Service />}/>
+					<Route path="/services" element={<Services />}/>
 					<Route path="/jobs" element={<Jobs />} />
 					<Route path="/contact" element={<Contact />} />
 					<Route path="/about" element={<About />} />

@@ -16,8 +16,8 @@ export default function Footer(props) {
             <Link to="/contact" className={className + "-item"}>
                 Contact
             </Link>
-            <Link to="/service" className={className + "-item"}>
-                Service
+            <Link to="/services" className={className + "-item"}>
+                Services
             </Link>
             <Link to="/about" className={className + "-item"}>
                 About
