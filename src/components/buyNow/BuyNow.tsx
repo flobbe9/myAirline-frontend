@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./BuyNow.css";
 import "./FlightDetails.css";
-import { toggleColorOnclick } from "../../helperMethods/events/events";
-import sendHttpRequest from "../../helperMethods/fetch/fetch";
+import { toggleColorOnclick } from "../../utils/events/events";
+import sendHttpRequest from "../../utils/fetch/fetch";
 import { initialFlightDetails } from "../bookingOptions/FlightDetails";
 import { useParams } from "react-router-dom";
 

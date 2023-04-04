@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./SearchResult.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import sendHttpRequest from "../../helperMethods/fetch/fetch.ts";
-import { toggleColorOnclick } from "../../helperMethods/events/events.ts";
+import sendHttpRequest from "../../utils/fetch/fetch.ts";
+import { toggleColorOnclick } from "../../utils/events/events.ts";
 
 
 export default function SearchResult (props) {

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./Register.css";
-import { toggleColorOnclick } from "../../helperMethods/events/events";
+import { toggleColorOnclick } from "../../utils/events/events";
 import { Link, useNavigate } from "react-router-dom";
-import sendHttpRequest from "../../helperMethods/fetch/fetch";
+import sendHttpRequest from "../../utils/fetch/fetch";
 
 
 export default function Register(props) {

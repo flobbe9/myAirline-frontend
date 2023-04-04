@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./FlightDetails.css";
 import { useParams } from "react-router-dom";
-import sendHttpRequest from "../../helperMethods/fetch/fetch";
-import { addEventListenerForClass } from "../../helperMethods/events/events";
+import { addEventListenerForClass } from "../../utils/events/events";
 import { luggagePrice, seatPrice } from "./BookingOptions";
+import sendHttpRequest from "../../utils/fetch/fetch";
 
 
 export default function FlightDetails(props) {

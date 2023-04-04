@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./SearchFlight.css";
 import moment from "moment";
-import { addEventListenerForDocumentExcludeClass, toggleColorOnclick } from "../../helperMethods/events/events.ts";
+import { addEventListenerForDocumentExcludeClass, toggleColorOnclick } from "../../utils/events/events.ts";
 import { useNavigate } from "react-router-dom";
 import { Airport } from "../../mockdata/Airport.ts";
-import sendHttpRequest from "../../helperMethods/fetch/fetch.ts";
+import sendHttpRequest from "../../utils/fetch/fetch.ts";
 
 
 export default function SearchFlight(props) {

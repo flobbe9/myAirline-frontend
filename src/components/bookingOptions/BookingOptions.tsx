@@ -3,9 +3,9 @@ import "./BookingOptions.css";
 import { SelectSeat } from "./SelectSeat";
 import FlightDetails from "./FlightDetails";
 import SelectLuggage from "./SelectLuggage";
-import { toggleColorOnclick } from "../../helperMethods/events/events";
+import { toggleColorOnclick } from "../../utils/events/events";
 import { useNavigate, useParams } from "react-router-dom";
-import sendHttpRequest from "../../helperMethods/fetch/fetch";
+import sendHttpRequest from "../../utils/fetch/fetch";
 
 
 export default function BookingOptions(props) {

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
-import { toggleColorOnclick } from "../../helperMethods/events/events";
-import sendHttpRequest from "../../helperMethods/fetch/fetch";
+import { toggleColorOnclick } from "../../utils/events/events";
+import sendHttpRequest from "../../utils/fetch/fetch";
 
 
 export default function Login(props) {
