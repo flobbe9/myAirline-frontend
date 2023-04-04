@@ -11,6 +11,7 @@
     margin-bottom: 40px;
     padding: 10px;
     text-align: left;
+    transition: border-color 0.2s;
     width: fit-content;
 }
 
