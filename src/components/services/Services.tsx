@@ -2,6 +2,15 @@ import React from "react";
 import "./Services.css";
 
 
+/**
+ * Page giving general information about services offered by myAirline like help with the booking process, feedback etc.
+ 
+ * Currently no content.
+ * 
+ * @param props 
+ * @returns 
+ * @since 0.0.1
+ */
 export default function Services(pops) {
 
     const className = "Services";
@@ -13,9 +22,8 @@ export default function Services(pops) {
             <div className={className + "-container"}>
                 <p id={className + "-p1"}>
                     This is about the services we offer as airline in general: <br /><br />
-                    Booking <br />
+                    Feedback <br />
                     HelpCenter <br />
-                    Contact <br />
                     ...
                 </p>
             </div>

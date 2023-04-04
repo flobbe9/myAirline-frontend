@@ -5,6 +5,12 @@ import { toggleColorOnclick } from "../../utils/events/events";
 import sendHttpRequest from "../../utils/fetch/fetch";
 
 
+/**
+ * Currently not in use!!
+ * 
+ * @param props 
+ * @returns 
+ */
 export default function Login(props) {
 
     const [errorMessage, setErrorMessage] = useState("");

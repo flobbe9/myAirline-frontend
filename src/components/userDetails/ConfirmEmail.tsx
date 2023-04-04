@@ -1,6 +1,12 @@
 import React from "react";
 
 
+/**
+ * Currently not in use!!
+ * 
+ * @param props 
+ * @returns 
+ */
 export default function ConfirmEmail(props) {
     
     const className = "ConfirmEmail";

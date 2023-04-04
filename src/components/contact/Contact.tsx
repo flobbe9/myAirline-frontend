@@ -2,6 +2,15 @@ import React from "react";
 import "./Contact.css";
 
 
+/**
+ * Page giving contact information for myAirline like email, phone etc.
+ 
+ * Currently no content.
+ * 
+ * @param props 
+ * @returns 
+ * @since 0.0.1
+ */
 export default function Contact(props) {
 
     const className = "Contact";

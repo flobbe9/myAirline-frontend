@@ -2,6 +2,15 @@ import React from "react";
 import "./Jobs.css";
 
 
+/**
+ * Page giving information about current job offers and general career chances at myAirline.
+ 
+ * Currently no content.
+ * 
+ * @param props 
+ * @returns 
+ * @since 0.0.1
+ */
 export default function Jobs(props) {
 
     const className = "Jobs";

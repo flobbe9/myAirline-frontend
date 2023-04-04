@@ -2,6 +2,14 @@ import React from "react";
 import "./BookingOptions.css";
 import "./SelectFlightClass.css";
 
+
+/**
+ * Component for selecting the flight class. Currently not in use!!
+ * Part of component BookingOptions.
+ * 
+ * @param props 
+ * @returns 
+ */
 export function SelectFlightClass(props) {
     
     const className = props.className;

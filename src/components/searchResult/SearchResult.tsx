@@ -5,6 +5,14 @@ import sendHttpRequest from "../../utils/fetch/fetch.ts";
 import { toggleColorOnclick } from "../../utils/events/events.ts";
 
 
+/**
+ * Page displaying all flights matching the user input from FlightDetails.
+ * Fetches flights on load and displays error message if no flights match.
+ * 
+ * @param props 
+ * @returns 
+ * @since 0.0.1
+ */
 export default function SearchResult (props) {
 
     const [flights, setFlights] = useState(null);
@@ -78,6 +86,12 @@ function Flight(props) {
 }
 
 
+/**
+ * Request flights matching the given querys from backend.
+ * 
+ * @param setFlights setter for flight matches
+ * @param params current url params
+ */
 async function fetchFlight(setFlights, params) {
 
     const url = "http://localhost:4001/flight/search?" + 

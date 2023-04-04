@@ -99,7 +99,7 @@ const navBarItems = document.getElementsByClassName("NavBar-item");
 const navBarDropDowns = document.getElementsByClassName("NavBar-dropDown");
 
 
-function addEventListeners() {
+function addEventListeners(): void {
 
     // show NavBar-dropDown on hover
     addEventListenerForClass(navBarItems, "mouseover", (i: number) => {
@@ -107,6 +107,7 @@ function addEventListeners() {
         
     })
 
+    // hide NavBar-dropDown on mouse out
     addEventListenerForClass(navBarItems, "mouseout", (i: number) => {
         (navBarDropDowns[i] as HTMLElement).style.display = "none";
     })

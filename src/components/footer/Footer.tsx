@@ -3,6 +3,13 @@ import "./Footer.css";
 import { Link } from "react-router-dom";
 
 
+/**
+ * Footer with a few links displayed on the bottom of every page.
+ * 
+ * @param props 
+ * @returns 
+ * @since 0.0.1
+ */
 export default function Footer(props) {
 
     const className = "Footer";

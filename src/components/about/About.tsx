@@ -2,6 +2,14 @@ import React from "react";
 import "./About.css";
 
 
+/**
+ * Page giving general information about myAirline.
+ * Currently no content.
+ * 
+ * @param props 
+ * @returns 
+ * @since 0.0.1
+ */
 export default function About(props) {
 
     const className = "About";

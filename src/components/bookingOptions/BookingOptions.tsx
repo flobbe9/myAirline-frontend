@@ -8,6 +8,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import sendHttpRequest from "../../utils/fetch/fetch";
 
 
+/**
+ * Page presenting all available booking options like seat type, luggage etc. and sums up 
+ * all flight details.
+ * Final step of booking process.
+ * 
+ * @param props 
+ * @returns 
+ * @since 0.0.1
+ */
 export default function BookingOptions(props) {
 
     const navigate = useNavigate();
@@ -53,6 +62,16 @@ export default function BookingOptions(props) {
 }
 
 
+/**
+ * Send request with flight details for backend to book the flight.
+ * Navgates to start page if successful.
+ * Alerts error if booking invalid.
+ * 
+ * @param url endpoint of backend
+ * @param params of current url holding the flight id
+ * @param navigate hook useNavigate()
+ * @returns a promise with the jsonResponse
+ */
 async function fetchBook(url: string, params, navigate) {
 
     // get luggage choice
@@ -79,6 +98,12 @@ async function fetchBook(url: string, params, navigate) {
 }
 
 
+/**
+ * Determine seat type by given value of radio button. 
+ * Possibe values are NORMAL, WINDOW, CORRIDOR, FOOT_ROOM.
+ * 
+ * @returns seat type as enum string (uppercase). NORMAL is the default.
+ */
 function getSeatType(): string {
 
     const seatTypeRadioButtons = document.getElementsByClassName("SelectSeat-radioButton");
@@ -104,6 +129,7 @@ function getSeatType(): string {
 }
 
 
+// TODO: replace these with numbers from backend
 export const seatPrice = 5;
 export const luggagePrice = 35; 
 export const businessClassPrice = 30;

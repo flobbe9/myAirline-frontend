@@ -7,6 +7,13 @@ import { initialFlightDetails } from "../bookingOptions/FlightDetails";
 import { useParams } from "react-router-dom";
 
 
+/**
+ * Final page of booking process summarizing flight details, user data and paying method.
+ * Currently not in use!!
+ * 
+ * @param props 
+ * @returns 
+ */
 export default function BuyNow(props) {
 
     const [flightDetails, setFlightDetails] = useState(initialFlightDetails);
@@ -37,7 +44,7 @@ export default function BuyNow(props) {
     function handleSubmit() {
         alert("Booking complete") // TODO: remove later
 
-        book("http://localhost:4001/flight/book")
+        book("http://localhost:4001/flight/book");
     }
 
     return (

@@ -3,10 +3,17 @@ import "./SearchFlight.css";
 import moment from "moment";
 import { addEventListenerForDocumentExcludeClass, toggleColorOnclick } from "../../utils/events/events.ts";
 import { useNavigate } from "react-router-dom";
-import { Airport } from "../../mockdata/Airport.ts";
+import { Airport } from "../../interfaces/Airport.ts";
 import sendHttpRequest from "../../utils/fetch/fetch.ts";
 
 
+/**
+ * Root page to search flights. 
+ * 
+ * @param props 
+ * @returns 
+ * @since 0.0.1
+ */
 export default function SearchFlight(props) {
 
     const [airports, setAirports]: [Airport[], (airports) => void] = useState([]);
@@ -125,7 +132,7 @@ function OtherInput(props) {
 }
 
 
-function handleInvalid(event, id, message?) {
+function handleInvalid(event, id, message?): void {
 
     const inputElement = document.getElementById(id);
 
@@ -137,6 +144,13 @@ function handleInvalid(event, id, message?) {
 }
 
 
+/**
+ * Filters all airports that start with the same letter (to lowercase) as the user input.
+ * 
+ * @param inputText user input
+ * @param airports array of available airports
+ * @returns array of airports matching with the input
+ */
 function getAirportMatches(inputText: string, airports): string[] {
 
     // filter airport names by first char
@@ -146,6 +160,13 @@ function getAirportMatches(inputText: string, airports): string[] {
 }
 
 
+/**
+ * Wraps every airport match into a div tag.
+ * 
+ * @param inputElement below which the drop down should appear
+ * @param airports array of available airports
+ * @returns array of div tags containing all matching airports
+ */
 function getAirportMatchesAsDiv(inputElement: HTMLElement | null, airports): JSX.Element[] {
 
     if (!inputElement) 
@@ -164,7 +185,15 @@ function getAirportMatchesAsDiv(inputElement: HTMLElement | null, airports): JSX
 }
 
 
-function handleKeyUp(name, setSearchFlightItemDropDown, airports) {
+/**
+ * Event handler for typing in the text in puts. Displays the drop downs if airport 
+ * matches were found.
+ * 
+ * @param name of the input element
+ * @param setSearchFlightItemDropDown setter for dropDown content
+ * @param airports array with all available airports
+ */
+function handleKeyUp(name, setSearchFlightItemDropDown, airports): void {
 
     const inputElement = document.getElementById(name + "-input");
     const dropDown = document.getElementById(name + "-dropDown");
@@ -180,6 +209,12 @@ function handleKeyUp(name, setSearchFlightItemDropDown, airports) {
 }
 
 
+/**
+ * Takes in a value array and concatenates values to a url with each value beeing a param
+ * (e.g [Maria, Smith, 35] would becom Maria/Smith/35).
+ * 
+ * @returns url with given values as params
+ */
 function inputValuesToParams(): string {
 
     const searchFlightInputs = document.getElementsByClassName("SearchFlight-input");
@@ -211,6 +246,13 @@ function getTimeNowFormatted(): string {
 }
 
 
+/**
+ * Fetches all airports available in db.
+ * 
+ * @param url endpoint of backend
+ * @param setAirports setter for airport array
+ * @returns promise with jsonResponse
+ */
 async function fetchAirports(url: string, setAirports) {
 
     return await sendHttpRequest(url, "get")

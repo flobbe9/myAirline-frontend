@@ -1,11 +1,19 @@
 import React from "react";
 import "./SelectLuggage.css";
+import { luggagePrice } from "./BookingOptions";
 
 
+/**
+ * Component to select luggage types.
+ * Part of component BookingOptions.
+ * 
+ * @param props 
+ * @returns 
+ * @since 0.0.1
+ */
 export default function SelectLuggage(props) {
 
     const className = props.className;
-    const price = 35;
     
     return (
         <div className={className}>
@@ -21,7 +29,7 @@ export default function SelectLuggage(props) {
                 <LuggageCheckBox
                     className={className}
                     type="Additional luggage"
-                    labelText={"Additional luggage (+ " + price + "€)"}
+                    labelText={"Additional luggage (+ " + luggagePrice + "€)"}
                     infoText="A single trunk weighing not more than 32kg and not beeing larger than 149 x 119 x 171 cm." />
 
                 <SecurityReference className={className} />
@@ -65,14 +73,6 @@ function SecurityReference(props) {
 
             <div id={className + "-error-message"}>Please consent to the security reference in order to continue.</div>
         </div>)
-}
-
-
-export function isSelectLuggageValid(): boolean {
-
-    // has fee been added to flight details?
-
-    return true;
 }
 
 

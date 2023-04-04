@@ -5,6 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 import sendHttpRequest from "../../utils/fetch/fetch";
 
 
+/**
+ * Currently not in use!!
+ * 
+ * @param props 
+ * @returns 
+ */
 export default function Register(props) {
 
     const [errorMessage, setErrorMessage] = useState(<br />);

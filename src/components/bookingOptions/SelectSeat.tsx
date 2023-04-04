@@ -2,6 +2,15 @@ import React from "react";
 import "./BookingOptions.css";
 import "./SelectSeat.css";
 
+
+/**
+ * Component to select the seat type.
+ * Part of component BookingOptions.
+ * 
+ * @param props 
+ * @returns 
+ * @since 0.0.1
+ */
 export function SelectSeat(props) {
     
     const className = props.className;
@@ -60,14 +69,4 @@ function SeatRadioButton(props) {
             <section className={className + "-infoText"}>{props.infoText}</section>
         </div>
     )
-}
-
-
-export function isSelectSeatValid(): boolean {
-
-    // is seat type available?
-
-    // has fee been added to flight details?
-
-    return true;
 }

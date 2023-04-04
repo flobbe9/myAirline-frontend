@@ -6,6 +6,15 @@ import { luggagePrice, seatPrice } from "./BookingOptions";
 import sendHttpRequest from "../../utils/fetch/fetch";
 
 
+/**
+ * Sums up all flight details including fetched data and user choices.
+ * Calcuates total price dynamically.
+ * Part of component BookingOptions.
+ * 
+ * @param props 
+ * @returns 
+ * @since 0.0.1
+ */
 export default function FlightDetails(props) {
     
     const [flightDetails, setFlightDetails]: [FlightDetailsWrapper, (flightDetailsWrapper) => void] = useState(initialFlightDetails);
@@ -75,7 +84,7 @@ function FlightDetailsItem(props) {
     const className = props.className;
     const flightDetails = props.flightDetails;
     const name = props.name;
-    const otherColor = name === "departure" ? "pink" : "rgba(22, 22, 252, 0.685)";
+    const otherColor = name === "departure" ? "black" : "rgba(22, 22, 252, 0.685)";
 
     return (
         <div className={className + "-" + props.textAlign}>
@@ -124,6 +133,15 @@ function PrefereceDetailsItem(props) {
 }
 
 
+/**
+ * Send request to get flight with given id.
+ * Sets state "flightDetails" and totalPrice if request successful.
+ * 
+ * @param flightId id of flight
+ * @param setFlightDetails setter for state flightDetails
+ * @param setTotalPrice setter for state totalPrice
+ * @returns promise with jsonResponse
+ */
 async function fetchFlightDetails(flightId, setFlightDetails, setTotalPrice) {
 
     // set flightDetails on resolve
@@ -145,7 +163,18 @@ async function fetchFlightDetails(flightId, setFlightDetails, setTotalPrice) {
 }
 
 
-export function handleClickRadio(setType, setFee, setTotalPrice, totalPrice, fee, buttonsClassName, secondFee?) {
+/**
+ * Update flight details section for given flight option.
+ * 
+ * @param setType setter for flight option type
+ * @param setFee setter for flight option fee
+ * @param setTotalPrice setter for total price
+ * @param totalPrice current total price
+ * @param fee fee of flight option
+ * @param buttonsClassName user input radio buttons
+ * @param secondFee additional fee
+ */
+export function handleClickRadio(setType, setFee, setTotalPrice, totalPrice, fee, buttonsClassName, secondFee?): void {
         
     const radioButtons = document.getElementsByClassName(buttonsClassName);
 
@@ -181,7 +210,18 @@ export function handleClickRadio(setType, setFee, setTotalPrice, totalPrice, fee
 }
 
 
-function handleClickLuggage(setLuggageFee, setTotalPrice, setLuggageTypes, totalPrice, luggagePrice, className, setBreaks) {
+/**
+ * Update flight details for luggage.
+ * 
+ * @param setLuggageFee setter for luggage fee
+ * @param setTotalPrice setter for total price
+ * @param setLuggageTypes setter for luggage types
+ * @param totalPrice current total price
+ * @param luggagePrice price for additional luggage
+ * @param className of parent component
+ * @param setBreaks setter for break array
+ */
+function handleClickLuggage(setLuggageFee, setTotalPrice, setLuggageTypes, totalPrice, luggagePrice, className, setBreaks): void {
 
     const checkBoxes = document.getElementsByClassName("SelectLuggage-luggageType-checkBox");
     
@@ -220,7 +260,12 @@ function handleClickLuggage(setLuggageFee, setTotalPrice, setLuggageTypes, total
 }
 
 
-
+/**
+ * Sets number of breaks to format flight details sections properly.
+ * 
+ * @param checkBoxes with flight options
+ * @returns array of <br /> elements
+ */
 function countBreaks(checkBoxes): JSX.Element[] {
 
     const breaks: JSX.Element[] = [];
