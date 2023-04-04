@@ -18,7 +18,7 @@ export default function SearchResult (props) {
             fetchFlight(setFlights, params);
 
         // toggle button color
-        toggleColorOnclick(document.getElementById(className + "-goBack"), "gray");
+        toggleColorOnclick(document.getElementById(className + "-goBack"), "rgb(230, 230, 230)");
     }, [flights, params])
 
     return (

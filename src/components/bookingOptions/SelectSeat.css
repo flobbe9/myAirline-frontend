@@ -1,5 +1,5 @@
 .SelectSeat {
-    border: 1px solid white;
+    border-left: 1px solid rgb(70, 132, 212);
     display: inline-block;
     margin-bottom: 30px;
     margin-left: 200px;

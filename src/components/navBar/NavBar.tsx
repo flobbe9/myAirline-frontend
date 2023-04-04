@@ -22,35 +22,35 @@ export default function NavBar(props) {
                 <Link className={className + "-heading"} to="/">
                     Search
                 </Link>
-                <DropDown links="TestPage" className={className + "-dropDown"} />
+                {/* <DropDown links="TestPage" className={className + "-dropDown"} /> */}
             </div>
             
             <div className={className + "-item"}>
                 <Link className={className + "-heading"} to="/service">
                     Service
                 </Link>
-                <DropDown links="TestPage" className={className + "-dropDown"} />
+                {/* <DropDown links="TestPage" className={className + "-dropDown"} /> */}
             </div>
             
             <div className={className + "-item"}>
                 <Link className={className + "-heading"} to="/jobs">
                     Jobs
                 </Link>
-                <DropDown links="TestPage" className={className + "-dropDown"} />
+                {/* <DropDown links="TestPage" className={className + "-dropDown"} /> */}
             </div>
 
             <div className={className + "-item"}>
                 <Link className={className + "-heading"} to="/contact">
                     Contact
                 </Link>
-                <DropDown links="TestPage" className={className + "-dropDown"} />
+                {/* <DropDown links="TestPage" className={className + "-dropDown"} /> */}
             </div>
 
             <div className={className + "-item"}>
                 <Link className={className + "-heading"} to="/about">
                     About
                 </Link>
-                <DropDown links="TestPage" className={className + "-dropDown"} />
+                {/* <DropDown links="TestPage" className={className + "-dropDown"} /> */}
             </div>
 
             {/* <div style={{float:"right"}} className={className + "-item"}>

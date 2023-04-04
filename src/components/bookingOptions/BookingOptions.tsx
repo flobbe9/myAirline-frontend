@@ -16,8 +16,8 @@ export default function BookingOptions(props) {
     
     useEffect(() => {
         // toggle button color
-        const submitButton = document.getElementById("Submit-button");
-        toggleColorOnclick(submitButton, "gray");
+        const submitButton = document.getElementById(className + "-submit");
+        toggleColorOnclick(submitButton, "rgb(230, 230, 230)");
     }, [])
 
     function handleBook() {
@@ -46,7 +46,7 @@ export default function BookingOptions(props) {
 
                 <FlightDetails className="FlightDetails"/>
 
-                <button id={className + "-button"} onClick={handleBook}>Book now</button>
+                <button id={className + "-submit"} onClick={handleBook}>Book now</button>
             </div>
         </div>
     )

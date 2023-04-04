@@ -13,7 +13,7 @@ export default function Login(props) {
     
     useEffect(() => {
         const submitButton = document.getElementById(className + "-submit");
-        toggleColorOnclick((submitButton as HTMLElement), "gray");
+        toggleColorOnclick((submitButton as HTMLElement), "rgb(230, 230, 230)");
 
         window.scroll(0, 0);
     }, [])

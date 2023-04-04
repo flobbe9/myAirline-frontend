@@ -15,7 +15,7 @@ export default function Register(props) {
     useEffect(() => {
         // toggle color of buttons
         const submitButtons = document.getElementsByClassName("Register-submit");
-        Array.from(submitButtons).forEach(submitButton => toggleColorOnclick((submitButton as HTMLElement), "gray"));
+        Array.from(submitButtons).forEach(submitButton => toggleColorOnclick((submitButton as HTMLElement), "rgb(230, 230, 230)"));
 
         window.scrollTo(0, 0);
     }, []);

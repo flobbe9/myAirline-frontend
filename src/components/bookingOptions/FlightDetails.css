@@ -1,9 +1,8 @@
 .FlightDetails {
-    border: 1px solid white;
     border-radius: 3px;
     color: rgb(153, 153, 153);
     font-size: 23px;
-    margin: 0px 10px;
+    margin: 0px 30px;
     padding: 10px 10px;
     position: fixed;
     top: 147px;

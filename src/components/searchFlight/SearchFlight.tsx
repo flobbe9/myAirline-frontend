@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./SearchFlight.css";
 import moment from "moment";
-import { addEventListenerForClass, addEventListenerForDocumentExcludeClass, toggleColorOnclick } from "../../helperMethods/events/events.ts";
+import { addEventListenerForDocumentExcludeClass, toggleColorOnclick } from "../../helperMethods/events/events.ts";
 import { useNavigate } from "react-router-dom";
 import { Airport } from "../../mockdata/Airport.ts";
 import sendHttpRequest from "../../helperMethods/fetch/fetch.ts";
@@ -20,7 +20,7 @@ export default function SearchFlight(props) {
         const submitButton = document.getElementById("SearchFlight-submit");
         
         // submit button changes color
-        toggleColorOnclick(submitButton, "rgb(177, 177, 177)");
+        toggleColorOnclick(submitButton, "rgb(230, 230, 230)");
 
         // fetch airports
         if (airports.length === 0)
@@ -40,6 +40,7 @@ export default function SearchFlight(props) {
     return (
         <div className={className}>
             <h1 id="heading">Find your flight</h1>
+            <br /><br /><br /><br />
 
             <form id={className + "-container"} onSubmit={handleSubmit}>
                 <TextInput id="From" className={className} airports={airports} />
@@ -71,15 +72,11 @@ function TextInput(props) {
     const id = props.id;
 
     useEffect(() => {
-        const searchFlightItems = document.getElementsByClassName("SearchFlight");
+        const searchFlightItems = document.getElementsByClassName("SearchFlight-input");
         const searchFlightDropDowns = document.getElementsByClassName("SearchFlight-dropDown");
 
         // hide dropDown onclick outside
         addEventListenerForDocumentExcludeClass(searchFlightItems, "mousedown", (i: number) => {
-            (searchFlightDropDowns[i] as HTMLElement).style.display = "none";});
-
-        // hide dropDown onclick on search result also
-        addEventListenerForClass(searchFlightDropDowns, "click", (i: number) => {
             (searchFlightDropDowns[i] as HTMLElement).style.display = "none";});
     });
 

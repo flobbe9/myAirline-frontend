@@ -4,7 +4,7 @@
 
 .SearchResult-item {
     background-color: white;
-    border: 5px solid white;
+    border: 2px solid rgb(70, 132, 212);
     border-radius: 10px;
     font-size: 25px;
     margin-left: 200px;
@@ -16,7 +16,7 @@
 
 .SearchResult-item:hover {
     cursor: pointer;
-    border: 5px solid bisque;
+    border: 2px solid bisque;
     transition: border 0.1s;
 }
 
@@ -65,9 +65,16 @@
 
 #SearchResult-goBack {
     background-color: white;
-    border: 0;
+    border: 2px solid rgb(70, 132, 212);
     border-radius: 3px;
     font-size: 20px;
     margin-top: 15px;
+    outline: none;
     padding: 7.2px 10px;
+    transition: border-color 0.2s;
+}
+
+#SearchResult-goBack:hover {
+    border-color: bisque;
+    cursor: pointer;
 }

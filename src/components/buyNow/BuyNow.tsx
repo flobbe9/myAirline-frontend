@@ -31,7 +31,7 @@ export default function BuyNow(props) {
 
         // toggle button color
         const submitButton = document.getElementById(className + "-submit");
-        toggleColorOnclick(submitButton, "gray");
+        toggleColorOnclick(submitButton, "rgb(230, 230, 230)");
     })
 
     function handleSubmit() {
@@ -94,7 +94,7 @@ function FlightDetailsItem(props) {
     const className = props.className;
     const flightDetails = props.flightDetails;
     const name = props.name;
-    const otherColor = name === "departure" ? "pink" : "greenyellow";
+    const otherColor = name === "departure" ? "pink" : "rgba(22, 22, 252, 0.685)";
 
     return (
         <div className={className + "-" + props.textAlign}>
@@ -137,7 +137,7 @@ function PrefereceDetailsItem(props) {
             {props.breaks}
 
             {/* Fee */}
-            <div className={className + "-right"} style={{color:"greenyellow"}}>{props.fee}</div>
+            <div className={className + "-right"} style={{color:"rgba(22, 22, 252, 0.685)"}}>{props.fee}</div>
             <br />
         </div>)
 }

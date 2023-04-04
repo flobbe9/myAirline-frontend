@@ -9,7 +9,7 @@ export default function SelectLuggage(props) {
     
     return (
         <div className={className}>
-           <h2>Luggage*</h2> 
+           <h2>Luggage</h2> 
 
            <div className={className + "-container"}>
                 <LuggageCheckBox
@@ -51,7 +51,7 @@ function SecurityReference(props) {
 
     return (
         <div className={className + "-item"}>
-            <h4>Security reference*</h4>
+            <h4>*Security reference</h4>
 
             <p>
                 You may not pack more than 1l of fluid in total and not more than 200ml per bottle. <br />

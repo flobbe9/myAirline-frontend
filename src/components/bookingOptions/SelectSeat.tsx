@@ -8,7 +8,7 @@ export function SelectSeat(props) {
     
     return (
         <div className={className} >
-            <h2 style={{textAlign:"left"}}>Seat preference*</h2>
+            <h2 style={{textAlign:"left"}}>Seat preference</h2>
 
             <div className={className + "-container"}>
                 <SeatRadioButton 
