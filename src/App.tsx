@@ -26,10 +26,10 @@ export default function App() {
 					<Route path="/" element={<SearchFlight />} />
 					<Route path="/searchResult/:from/:to/:date/:time" element={<SearchResult />} />
 					<Route path="/searchResult/bookingOptions/:id" element={<BookingOptions />} />
-					<Route path="/register/confirmEmail" element={<ConfirmEmail />} />
+					{/* <Route path="/register/confirmEmail" element={<ConfirmEmail />} /> */}
 					<Route path="/buyNow/:id" element={<BuyNow />} />
-					<Route path="/register" element={<Register />} />
-					<Route path="/login" element={<Login />} />
+					{/* <Route path="/register" element={<Register />} /> */}
+					{/* <Route path="/login" element={<Login />} /> */}
 					<Route path="/service" element={<Service />}/>
 					<Route path="/jobs" element={<Jobs />} />
 					<Route path="/contact" element={<Contact />} />
