@@ -3,7 +3,7 @@ import "./BuyNow.css";
 import "./FlightDetails.css";
 import { toggleColorOnclick } from "../../helperMethods/events/events";
 import sendHttpRequest from "../../helperMethods/fetch/fetch";
-import FlightDetails, { initialFlightDetails } from "../bookingOptions/FlightDetails";
+import { initialFlightDetails } from "../bookingOptions/FlightDetails";
 import { useParams } from "react-router-dom";
 
 
@@ -18,6 +18,12 @@ export default function BuyNow(props) {
     const surName = "Schikarksi";
     const email = "florin735@live.com";
 
+    // TODO: remove these later
+    const seatFee = 5;
+    const luggageFee = 35;
+    const totalPrice = 80;
+    const breaks = [<br />, <br />];
+
     useEffect(() => {
         // fetch flight details
         if (flightDetails === initialFlightDetails) 
@@ -30,6 +36,8 @@ export default function BuyNow(props) {
 
     function handleSubmit() {
         alert("Booking complete") // TODO: remove later
+
+        book("http://localhost:4001/flight/book")
     }
 
     return (
@@ -38,7 +46,7 @@ export default function BuyNow(props) {
 
             <div className={className + "-container"}>
 
-                {/* flightdetails */}
+                {/* User details */}
                 <div className={className + "-userDetails"}>
                     <div style={{listStyle:"none"}}>
                         {firstName + " " + surName}
@@ -47,7 +55,32 @@ export default function BuyNow(props) {
                     </div>
                 </div>
 
-                <FlightDetails className={className + "-flightDetails"} />
+                <div className={className + "-flightDetails"}>
+                    {/* Departure */}
+                    <FlightDetailsItem className={className + "-flightDetails"}
+                        flightDetails={flightDetails} 
+                        name="departure" 
+                        textAlign="left"
+                        other="WizzAir"/>
+
+                    {/* Arrival */} 
+                    <FlightDetailsItem className={className + "-flightDetails"}
+                        flightDetails={flightDetails} 
+                        name="arrival" 
+                        textAlign="right"
+                        other={flightDetails.basePrice + "€"} />
+
+                    {/* Seat */}
+                    <PrefereceDetailsItem className={className} name="Seat" type={"seatType"} fee={seatFee} />
+                    <hr />
+
+                    {/* Luggage */}
+                    <PrefereceDetailsItem className={className} name="Luggage" type={"luggageTypes"} fee={luggageFee} breaks={breaks} />
+                    <hr />
+
+                    {/* Total */}
+                    <PrefereceDetailsItem className={className} name="Total" fee={totalPrice + "€"}/>
+                </div>
                 <br />
 
                 <button id={className + "-submit"} onClick={handleSubmit}>Buy now</button>
@@ -56,9 +89,68 @@ export default function BuyNow(props) {
 }
 
 
+function FlightDetailsItem(props) {
+
+    const className = props.className;
+    const flightDetails = props.flightDetails;
+    const name = props.name;
+    const otherColor = name === "departure" ? "pink" : "greenyellow";
+
+    return (
+        <div className={className + "-" + props.textAlign}>
+            {/* City */}
+            <div style={{fontSize:"23px"}}>
+                {flightDetails[name + "AirportName"]}
+
+                {(name === "departure") ? 
+                    <div className={className + "-arrow"}>{" -> "}</div> : 
+                    <></>}
+            </div>
+            <br /><br />
+
+            {/* Time */}
+            <div>{flightDetails[name + "Time"]}</div>
+            
+            {/* Date */}
+            <div>{flightDetails[name + "Date"]}</div>
+            <br />
+
+            {/* Other */}
+            <div style={{color:otherColor}}>{props.other}</div>
+            <hr />
+        </div>)
+}
+
+
+function PrefereceDetailsItem(props) {
+
+    const className = props.className;
+    const name = props.name;
+
+    return (
+        <div className={className + "-container"}>
+            <div className={className + "-center"}>{name}</div>
+
+            {/* Type */}
+            <div className={className + "-left"}>{props.type}</div>
+
+            {props.breaks}
+
+            {/* Fee */}
+            <div className={className + "-right"} style={{color:"greenyellow"}}>{props.fee}</div>
+            <br />
+        </div>)
+}
+
+
 async function fetchFlightDetails(flightId, setFlightDetails) {
 
     // set flightDetails on resolve
-    return await sendHttpRequest("http://localhost:4001/flight/details/" + flightId, "post", "application/json")
+    return await sendHttpRequest("http://localhost:4001/flight/getById/" + flightId, "get")
         .then(jsonResponse => setFlightDetails(jsonResponse));
+}
+
+
+async function book(url) {
+
 }
