@@ -1,0 +1,9 @@
+version: "3.9"
+
+services: 
+  frontend:
+    build: .
+    image: myairline-frontend:0.0.1
+    container_name: myairline-frontend
+    ports:
+      - 3000:3000
