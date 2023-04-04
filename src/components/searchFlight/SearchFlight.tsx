@@ -30,8 +30,8 @@ export default function SearchFlight(props) {
         toggleColorOnclick(submitButton, "rgb(230, 230, 230)");
 
         // fetch airports
-        if (airports.length === 0)
-            fetchAirports("http://localhost:4001/airport/getAll", setAirports);
+        // if (airports.length === 0)
+        //     fetchAirports("http://localhost:4001/airport/getAll", setAirports);
     }, [airports.length])
 
     function handleSubmit(event) {
@@ -61,6 +61,8 @@ export default function SearchFlight(props) {
                     errorMessage="Date cannot be in the past." />
 
                 <OtherInput id="Time" className={className} defaultValue={getTimeNowFormatted()} />
+                <br />
+                <br />
 
                 <div style={{display: "inline-block"}}>
                     <button id="SearchFlight-submit" type="submit">Search</button>
