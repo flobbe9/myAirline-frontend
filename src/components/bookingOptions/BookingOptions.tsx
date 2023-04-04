@@ -4,12 +4,14 @@ import { SelectSeat } from "./SelectSeat";
 import FlightDetails from "./FlightDetails";
 import SelectLuggage from "./SelectLuggage";
 import { toggleColorOnclick } from "../../helperMethods/events/events";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import sendHttpRequest from "../../helperMethods/fetch/fetch";
 
 
 export default function BookingOptions(props) {
 
     const navigate = useNavigate();
+    const params = useParams();
     const className = "BookingOptions";
     
     useEffect(() => {
@@ -18,14 +20,17 @@ export default function BookingOptions(props) {
         toggleColorOnclick(submitButton, "gray");
     }, [])
 
-    function handleContinue() {
+    function handleBook() {
 
         const securityCheckBox = document.getElementById("SelectLuggage-security-checkBox")
         const securityErrorMessage = document.getElementById("SelectLuggage-error-message");
 
-        ((securityCheckBox as HTMLInputElement).checked) ?
-            navigate("/register") :
-            securityErrorMessage!.style.display = "block"
+        if ((securityCheckBox as HTMLInputElement).checked) {
+            // send booking request
+            fetchBook("http://localhost:4001/flight/book", params, navigate);
+
+        } else
+            securityErrorMessage!.style.display = "block";
     }
 
     return (
@@ -35,17 +40,71 @@ export default function BookingOptions(props) {
             <div className={className + "-container"}>
                 <SelectSeat className="SelectSeat"/>
 
+                {/* <SelectFlightClass className="SelectFlightClass" /> */}
+
                 <SelectLuggage className="SelectLuggage"/> 
 
                 <FlightDetails className="FlightDetails"/>
 
-                <button id={className + "-button"} onClick={handleContinue}>Continue</button>
+                <button id={className + "-button"} onClick={handleBook}>Book now</button>
             </div>
         </div>
     )
 }
 
 
+async function fetchBook(url: string, params, navigate) {
+
+    // get luggage choice
+    const luggageCheckBoxes = document.getElementsByClassName("SelectLuggage-luggageType-checkBox");
+    const luggageFee = ((luggageCheckBoxes[0] as HTMLInputElement).checked) ? 0 : luggagePrice;
+
+    const body = {
+        id: params.id,
+        seatType: getSeatType(),
+        luggageFee: luggageFee,
+        flightClass: "ECONOMY"
+    }
+
+    // book
+    return await sendHttpRequest(url, "post", body)
+        .then(jsonResponse => {
+            if (jsonResponse.id == params.id) {
+                alert("Booking complete.")
+                navigate("/");
+
+            } else 
+                alert(jsonResponse.message);
+        });
+}
+
+
+function getSeatType(): string {
+
+    const seatTypeRadioButtons = document.getElementsByClassName("SelectSeat-radioButton");
+    let seatType = "";
+
+    Array.from(seatTypeRadioButtons).forEach(button => {
+        const radioButton = (button as HTMLInputElement);
+
+        if (radioButton.checked)
+            seatType = radioButton.value;
+    });
+    
+    if (seatType === "Window seat")
+        return "WINDOW";
+
+    if (seatType === "Corridor seat")
+        return "CORRIDOR";
+
+    if (seatType === "Foot room")
+        return "FOOT_ROOM"; 
+
+    return "NORMAL"
+}
+
+
 export const seatPrice = 5;
 export const luggagePrice = 35; 
-export const flightClassPrice = 30;
+export const businessClassPrice = 30;
+export const firstClassPrice = 50;
