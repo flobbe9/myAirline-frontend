@@ -4,6 +4,13 @@ import { Link } from "react-router-dom";
 import { addEventListenerForClass } from "../../utils/events/events.ts"
 
 
+/**
+ * Bar with navigation elements displayed (sticky) on top of every page.
+ * 
+ * @param props 
+ * @returns 
+ * @since 0.0.1
+ */
 export default function NavBar(props) {
 
     // add eventListeners
@@ -21,35 +28,55 @@ export default function NavBar(props) {
                 <Link className={className + "-heading"} to="/">
                     Search
                 </Link>
-                {/* <DropDown links="TestPage" className={className + "-dropDown"} /> */}
+
+                {/* DropDown */}
+                {/* <div className={className + "-dropDown"}>
+                    <Link to="/test" className={className + "-dropDown-item"}>TestPage</Link>
+                </div> */}
             </div>
             
             <div className={className + "-item"}>
                 <Link className={className + "-heading"} to="/services">
                     Services
                 </Link>
-                {/* <DropDown links="TestPage" className={className + "-dropDown"} /> */}
+
+                {/* DropDown */}
+                {/* <div className={className + "-dropDown"}>
+                    <Link to="/test" className={className + "-dropDown-item"}>TestPage</Link>
+                </div> */}
             </div>
             
             <div className={className + "-item"}>
                 <Link className={className + "-heading"} to="/jobs">
                     Jobs
                 </Link>
-                {/* <DropDown links="TestPage" className={className + "-dropDown"} /> */}
+
+                {/* DropDown */}
+                {/* <div className={className + "-dropDown"}>
+                    <Link to="/test" className={className + "-dropDown-item"}>TestPage</Link>
+                </div> */}
             </div>
 
             <div className={className + "-item"}>
                 <Link className={className + "-heading"} to="/contact">
                     Contact
                 </Link>
-                {/* <DropDown links="TestPage" className={className + "-dropDown"} /> */}
+
+                {/* DropDown */}
+                {/* <div className={className + "-dropDown"}>
+                    <Link to="/test" className={className + "-dropDown-item"}>TestPage</Link>
+                </div> */}
             </div>
 
             <div className={className + "-item"}>
                 <Link className={className + "-heading"} to="/about">
                     About
                 </Link>
-                {/* <DropDown links="TestPage" className={className + "-dropDown"} /> */}
+
+                {/* DropDown */}
+                {/* <div className={className + "-dropDown"}>
+                    <Link to="/test" className={className + "-dropDown-item"}>TestPage</Link>
+                </div> */}
             </div>
 
             {/* <div style={{float:"right"}} className={className + "-item"}>
