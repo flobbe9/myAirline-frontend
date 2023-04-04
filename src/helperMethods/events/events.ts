@@ -32,7 +32,7 @@ export function toggleColorOnclick(eventTarget: HTMLElement | null, color: strin
         eventTarget.style.backgroundColor = color;
     });
 
-    eventTarget.addEventListener("mouseup", () => {
+    document.addEventListener("mouseup", () => {
         eventTarget.style.backgroundColor = baseColor;
     });
 }
