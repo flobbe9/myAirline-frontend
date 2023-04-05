@@ -1,0 +1,31 @@
+name: myAirline-frontend
+run-name: ${{ github.event.head_commit.message }}
+on: [push]
+jobs:
+  Push_to_main:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Tests
+      - name: Checkout repository 
+        uses: actions/checkout@v3
+      - run: npm run build
+
+      # Push to DockerHub
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: flobbe10/myairline-frontend:0.0.1

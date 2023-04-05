@@ -1,9 +1,9 @@
 FROM node:latest
 
-ADD / .
+WORKDIR /app/frontend
 
-RUN npm install
+COPY . /app/frontend/
 
-COPY . .
+RUN npm ci
 
-ENTRYPOINT npm start
+CMD npm start
