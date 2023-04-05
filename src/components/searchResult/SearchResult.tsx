@@ -35,7 +35,16 @@ export default function SearchResult (props) {
             <h1>Search results</h1>
 
             <p id={className + "-noResults"}>We could not find flights by your specifications. <br />
-                Please check your input and make sure you only entered suggested airports. <br />
+                Please check your input and make sure you only entered suggested airports. <br /><br /><br /><br />
+                Try some mock flights:
+                <ul>
+                    <li>Berlin airport {"->"} Dortmund airport</li>
+                    <li>Muenchner airport {" -> "} Hamburg airport</li>
+                    <li>Dresden airport {" -> "} Muenchner airport</li>
+                    <li>Hannover airport {" -> "} Nuernberg airport</li>
+                    <li>Erfurt airport {" -> "} Koeln airport</li>
+                    <li>Friedrichshaven airport {" -> "} Mannheim airport</li>
+                </ul> 
 
                 <button id={className + "-goBack"} onClick={() => navigate("/")}>Go back</button>
             </p>

@@ -79,3 +79,7 @@
     border-color: bisque;
     cursor: pointer;
 }
+
+li {
+    list-style-type: none;
+}
