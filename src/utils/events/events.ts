@@ -59,3 +59,11 @@ export function toggleColorOnclick(eventTarget: HTMLElement | null, color: strin
         eventTarget.style.backgroundColor = baseColor;
     });
 }
+
+
+export function setTitle(title: string): void {
+    
+    const titleElement = document.getElementById("title");
+
+    titleElement!.innerHTML = title;
+}
