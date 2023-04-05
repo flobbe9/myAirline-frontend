@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./SearchFlight.css";
 import moment from "moment";
-import { addEventListenerForDocumentExcludeClass, toggleColorOnclick } from "../../utils/events/events.ts";
+import { addEventListenerForDocumentExcludeClass, setTitle, toggleColorOnclick } from "../../utils/events/events.ts";
 import { useNavigate } from "react-router-dom";
 import { Airport } from "../../interfaces/Airport.ts";
 import sendHttpRequest from "../../utils/fetch/fetch.ts";
@@ -23,6 +23,7 @@ export default function SearchFlight(props) {
 
     useEffect(() => {
         window.scroll(0, 0);
+        setTitle("myAirline | Find your flight");
 
         const submitButton = document.getElementById("SearchFlight-submit");
         
@@ -30,8 +31,8 @@ export default function SearchFlight(props) {
         toggleColorOnclick(submitButton, "rgb(230, 230, 230)");
 
         // fetch airports
-        // if (airports.length === 0)
-        //     fetchAirports("http://localhost:4001/airport/getAll", setAirports);
+        if (airports.length === 0)
+            fetchAirports("http://localhost:4001/airport/getAll", setAirports);
     }, [airports.length])
 
     function handleSubmit(event) {
