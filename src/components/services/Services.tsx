@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Services.css";
+import { setTitle } from "../../utils/events/events";
 
 
 /**
@@ -12,6 +13,8 @@ import "./Services.css";
  * @since 0.0.1
  */
 export default function Services(pops) {
+
+    useEffect(() => setTitle("myAirline | Services"))
 
     const className = "Services";
 

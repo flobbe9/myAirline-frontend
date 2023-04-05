@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Contact.css";
+import { setTitle } from "../../utils/events/events";
 
 
 /**
@@ -12,6 +13,8 @@ import "./Contact.css";
  * @since 0.0.1
  */
 export default function Contact(props) {
+
+    useEffect(() => setTitle("myAirline | Contact"))
 
     const className = "Contact";
 

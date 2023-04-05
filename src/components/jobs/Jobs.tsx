@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Jobs.css";
+import { setTitle } from "../../utils/events/events";
 
 
 /**
@@ -12,6 +13,8 @@ import "./Jobs.css";
  * @since 0.0.1
  */
 export default function Jobs(props) {
+
+    useEffect(() => setTitle("myAirline | Jobs"))
 
     const className = "Jobs";
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./BuyNow.css";
 import "./FlightDetails.css";
-import { toggleColorOnclick } from "../../utils/events/events";
+import { setTitle, toggleColorOnclick } from "../../utils/events/events";
 import sendHttpRequest from "../../utils/fetch/fetch";
 import { initialFlightDetails } from "../bookingOptions/FlightDetails";
 import { useParams } from "react-router-dom";
@@ -32,6 +32,7 @@ export default function BuyNow(props) {
     const breaks = [<br />, <br />];
 
     useEffect(() => {
+        setTitle("myAirline | Buy now")
         // fetch flight details
         if (flightDetails === initialFlightDetails) 
             fetchFlightDetails(flightId, setFlightDetails);

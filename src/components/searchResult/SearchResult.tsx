@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./SearchResult.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import sendHttpRequest from "../../utils/fetch/fetch.ts";
-import { toggleColorOnclick } from "../../utils/events/events.ts";
+import { setTitle, toggleColorOnclick } from "../../utils/events/events.ts";
 
 
 /**
@@ -21,6 +21,7 @@ export default function SearchResult (props) {
     const params = useParams();
 
     useEffect(() => {
+        setTitle("myAirline | Search result")
         // fetch and set flight
         if (flights === null) 
             fetchFlight(setFlights, params);
