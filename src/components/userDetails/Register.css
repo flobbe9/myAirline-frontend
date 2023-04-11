@@ -3,7 +3,6 @@
 }
 
 .Register-container {
-    /* border: 1px solid red; */
     display: inline-block;
     font-size: 23px;
     margin-top: 60px;
@@ -15,36 +14,39 @@
 }
 
 .Register-input {
-    border: 0;
+    border: 1px solid rgb(70, 132, 212);    
     border-radius: 3px;
     font-size: 23px;
     margin-top: 3px;
+    margin-bottom: 2px;
     padding: 5px 10px;
 }
 
 .Register-input:focus {
-    border: 0;
-    box-shadow: 1px 1px 10px gray inset;
+    border: 2px solid rgb(70, 132, 212);
     outline: none;
+    margin-bottom: 0px;
 }
 
 .Register-container-submit {
-    /* border: 1px solid red; */
     display: inline-block;
     font-size: 23px;
     text-align: center;
 }
 
 .Register-submit {
-    border: 0;
+    background-color: white;
+    border: 3px solid rgb(70, 132, 212);
     border-radius: 3px;
-    font-size: 23px;
-    padding: 5px 15px;
+    font-size: 20px;
+    margin-top: 30px;
+    outline: none;
+    padding: 7.2px 40px;
+    transition: border-color 0.2s;
     text-align: center;
 }
 
 #Register-errorMessage {
-    /* border: 1px solid white; */
     color: red;
     font-size: 20px;
 }

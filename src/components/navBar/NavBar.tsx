@@ -79,7 +79,7 @@ export default function NavBar(props) {
                 </div> */}
             </div>
 
-            {/* <div style={{float:"right"}} className={className + "-item"}>
+            <div style={{float:"right"}} className={className + "-item"}>
                 <Link className={className + "-heading"} to="/register">
                     Register
                 </Link>
@@ -89,7 +89,7 @@ export default function NavBar(props) {
                 <Link className={className + "-heading"} to="/login">
                     Login
                 </Link>
-            </div> */}
+            </div>
         </div>
     )
 }
