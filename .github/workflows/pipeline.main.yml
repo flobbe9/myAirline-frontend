@@ -1,12 +1,16 @@
-name: myAirline-frontend
+name: myAirline-frontend CI
+
 run-name: ${{ github.event.head_commit.message }}
-on: [push]
+on: 
+  push: 
+    branches: 
+      - main
+
 jobs:
-  Push_to_main:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      # Tests
       - name: Checkout repository 
         uses: actions/checkout@v3
 
@@ -16,7 +20,11 @@ jobs:
         env: 
           CI: ""
 
-      # Push to DockerHub
+  push_to_DockerHub:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       
