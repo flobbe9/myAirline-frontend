@@ -32,17 +32,12 @@ export default function Register(props) {
         event.preventDefault();
 
         // fetch validation
-        fetchRegister("http://localhost:4001/register", setErrorMessage, navigate);
+        fetchRegister("http://localhost:4002/user/register", setErrorMessage, navigate);
     }
 
     return (
         <div className={className}>
-            <h1 onClick={event => {
-                const inputElement = document.getElementById("Mail");
-
-                alert((inputElement as HTMLSelectElement).checkValidity())
-
-            }}>Register</h1>
+            <h1>Register</h1>
 
             <form id={className + "-container"} onSubmit={handleSubmit}>
                 {/* Input fields */}
@@ -51,11 +46,19 @@ export default function Register(props) {
 
                     <TextInput id="Surname" className={className} pattern="[A-ZÄÖÜa-zäöü]{1,100}"/>
 
-                    <TextInput id="Mail" className={className} pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"/>
+                    <TextInput id="Mail" 
+                        className={className} 
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"/>
 
-                    <TextInput id="Password" className={className} type="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-.,;]).{7,16}$"/>
+                    <TextInput id="Password" 
+                        className={className} 
+                        type="password" 
+                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-.,;]).{7,16}$"/>
 
-                    <TextInput id="Repeat password" className={className} type="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-.,;]).{7,16}$"/>
+                    <TextInput id="Repeat password" 
+                        className={className} 
+                        type="password" 
+                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-.,;]).{7,16}$"/>
                 </div>
                 <br />
 
@@ -140,21 +143,23 @@ async function fetchRegister(url: string, setErrorMessage, navigate) {
     const passwordInput = document.getElementById("Password");
     
     const body: UserDetailsWrapper = {
-        email: (emailInput as HTMLInputElement).value,
         firstName: (firstNameInput as HTMLInputElement).value,
         surName: (surNameInput as HTMLInputElement).value,
+        email: (emailInput as HTMLInputElement).value,
         password: (passwordInput as HTMLInputElement).value
     };
-    
-    const response = await sendHttpRequest(url, "post", body);
 
-    (response.status === 200)? navigate("/register/confirmEmail") : setErrorMessage(response.message);
+    // TODO: while pending, display some kind of loading symbol
+    await sendHttpRequest(url, "post", body)
+        .then(jsonResponse => {
+            (jsonResponse.status === 200)? navigate("/register/confirmEmail") : setErrorMessage(jsonResponse.message);
+        });
 }
 
 
 interface UserDetailsWrapper {
-    email: string,
     firstName: string,
     surName: string,
+    email: string,
     password: string
 }
