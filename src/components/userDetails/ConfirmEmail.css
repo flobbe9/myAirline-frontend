@@ -1,0 +1,20 @@
+.ConfirmEmail {
+    height: 5000px;
+}
+
+#ConfirmEmail-home {
+    background-color: white;
+    border: 3px solid rgb(70, 132, 212);
+    border-radius: 3px;
+    font-size: 20px;
+    margin-top: 30px;
+    outline: none;
+    padding: 7.2px 40px;
+    transition: border-color 0.2s;
+    text-align: center;
+}
+
+#ConfirmEmail-home:hover {
+    border-color: bisque;
+    cursor: pointer;
+}

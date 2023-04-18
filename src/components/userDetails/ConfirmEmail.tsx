@@ -1,4 +1,6 @@
 import React from "react";
+import "./ConfirmEmail.css"
+import { Link } from "react-router-dom";
 
 
 /**
@@ -6,6 +8,7 @@ import React from "react";
  * 
  * @param props 
  * @returns 
+ * @since 0.0.2
  */
 export default function ConfirmEmail(props) {
     
@@ -13,8 +16,12 @@ export default function ConfirmEmail(props) {
 
     return (
         <div className={className}>
-            <h1>Confirm your email</h1>
+            <h1>Please check your mails</h1>
 
-            <div>...</div>
+            <div>We've sent you an email to confirm your new account.</div><br />
+
+            <Link to="/">
+                <button id={className + "-home"}>Home</button>
+            </Link>
         </div>)
 }
