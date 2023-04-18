@@ -46,6 +46,11 @@
     text-align: center;
 }
 
+.Register-submit:hover {
+    border-color: bisque;
+    cursor: pointer;
+}
+
 #Register-errorMessage {
     color: red;
     font-size: 20px;

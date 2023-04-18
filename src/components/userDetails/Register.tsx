@@ -54,6 +54,8 @@ export default function Register(props) {
                     <TextInput id="Mail" className={className} pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"/>
 
                     <TextInput id="Password" className={className} type="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-.,;]).{7,16}$"/>
+
+                    <TextInput id="Repeat password" className={className} type="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-.,;]).{7,16}$"/>
                 </div>
                 <br />
 
@@ -94,8 +96,12 @@ function TextInput(props) {
             message = "Please enter a valid email.";
 
         // password input message
-        } else if (id === "Password") 
+        } else if (id === "Password" && id === "Repeat password") {
             message = "Include uppercase, lowercase, numeric and special(!@#$%^&*_=+-.,;) characters.\n Password should be 7-16 characters long."
+        
+        // passwords should match
+        } else if (id === "Repeat password" && !passwordsDoMatch())
+            message = "Passwords do not match!";
         
         event.target.setCustomValidity(message);
     }
@@ -114,6 +120,15 @@ function TextInput(props) {
                 onInput={event => (event.target as HTMLSelectElement).setCustomValidity("")}
                 required />
         </div>)
+}
+
+
+function passwordsDoMatch(): boolean {
+
+    const password1 = document.getElementById("Password");
+    const password2 = document.getElementById("Repeat password");
+
+    return password1 === password2;
 }
 
 
